@@ -1,0 +1,16 @@
+services:
+  app:
+    extends:
+      file: compose.common.yaml
+      service: app
+    build:
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./src:/app/src
+    container_name: bank-rest-api-dev
+
+  db:
+    extends:
+      file: compose.common.yaml
+      service: db
+    container_name: bank-rest-api-db-dev

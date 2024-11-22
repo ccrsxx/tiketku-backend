@@ -1,0 +1,71 @@
+name: Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ci:
+    uses: ./.github/workflows/ci.yaml
+
+  deploy:
+    name: Build and deploy to Cloud Run
+    runs-on: ubuntu-latest
+
+    # TODO: Enable this later when ready to deploy
+    if: false
+
+    needs: ci
+
+    permissions:
+      id-token: write
+      contents: read
+
+    env:
+      DOCKER_IMAGE_TAG: '${{ VARS.REGION }}-docker.pkg.dev/${{ VARS.PROJECT_ID }}/${{ VARS.ARTIFACT_REPO }}/${{ VARS.SERVICE }}:${{ github.sha }}'
+      ARTIFACT_REGISTRY: '${{ VARS.REGION }}-docker.pkg.dev'
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - id: auth
+        name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          service_account: '${{ secrets.WIF_SERVICE_ACCOUNT }}'
+          workload_identity_provider: '${{ secrets.WIF_PROVIDER }}'
+
+      - name: Configure Google Cloud to use specific region for the artifact registry
+        run: gcloud auth configure-docker ${{ env.ARTIFACT_REGISTRY }} -q
+
+      - name: Authenticate to Docker registry
+        uses: docker/login-action@v3
+        with:
+          username: 'oauth2accesstoken'
+          password: '${{ steps.auth.outputs.auth_token }}'
+          registry: '${{ env.ARTIFACT_REGISTRY }}'
+
+      - name: Build and push Docker image
+        run: |
+          docker build -t ${{ env.DOCKER_IMAGE_TAG }} .
+          docker push ${{ env.DOCKER_IMAGE_TAG }}
+
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          image: '${{ env.DOCKER_IMAGE_TAG }}'
+          region: '${{ vars.REGION }}'
+          service: '${{ vars.SERVICE }}'
+          env_vars: |
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            FRONTEND_URL=${{ secrets.FRONTEND_URL }}
+            EMAIL_ADDRESS=${{ secrets.EMAIL_ADDRESS }}
+            EMAIL_API_KEY=${{ secrets.EMAIL_API_KEY }}
+            IMAGEKIT_PUBLIC_KEY=${{ secrets.IMAGEKIT_PUBLIC_KEY }} 
+            IMAGEKIT_PRIVATE_KEY=${{ secrets.IMAGEKIT_PRIVATE_KEY }} 
+            IMAGEKIT_URL_ENDPOINT=${{ secrets.IMAGEKIT_URL_ENDPOINT }}
+          env_vars_update_strategy: 'overwrite'

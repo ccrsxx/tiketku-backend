@@ -1,0 +1,15 @@
+model Notification {
+    id          String  @id @default(uuid(7)) @db.Uuid
+    name        String
+    viewed      Boolean @default(false)
+    description String
+
+    userId String @map("user_id") @db.Uuid
+
+    user User @relation(fields: [userId], references: [id])
+
+    createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+    updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+    @@map("notification")
+}

@@ -1,0 +1,13 @@
+{
+  "hosting": {
+    "rewrites": [
+      {
+        "source": "**",
+        "run": {
+          "serviceId": "plant-ticket-production",
+          "region": "asia-southeast2"
+        }
+      }
+    ]
+  }
+}

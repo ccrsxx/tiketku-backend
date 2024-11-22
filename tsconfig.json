@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "checkJs": true,
+    "module": "NodeNext",
+    "target": "ESNext",
+    "outDir": "build",
+    "resolveJsonModule": true
+  },
+  "exclude": ["coverage", "build", "**/*.test.js"]
+}
