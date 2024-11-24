@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   ci:
@@ -12,9 +15,6 @@ jobs:
   deploy:
     name: Build and deploy to Cloud Run
     runs-on: ubuntu-latest
-
-    # TODO: Enable this later when ready to deploy
-    if: false
 
     needs: ci
 
