@@ -5,7 +5,7 @@ services:
       service: app
     build:
       dockerfile: Dockerfile
-    container_name: bank-rest-api
+    container_name: plane-ticket
     environment:
       - DEPLOY_DATABASE=${DEPLOY_DATABASE:-false}
 
@@ -13,7 +13,7 @@ services:
     extends:
       file: compose.common.yaml
       service: db
-    container_name: bank-rest-api-db
+    container_name: plane-ticket-db
     volumes:
       - db-data:/var/lib/postgresql/data
 

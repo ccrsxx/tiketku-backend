@@ -47,6 +47,7 @@ describe('Environment configuration', () => {
     process.env.NODE_ENV = nodeEnv;
     process.env.SENTRY_DSN = 'dsn';
     process.env.JWT_SECRET = 'secret';
+    process.env.DIRECT_URL = 'postgresql://user:ss@localhost:5432';
     process.env.DATABASE_URL = 'postgresql://user:ss@localhost:5432';
     process.env.FRONTEND_URL = 'http://localhost:3000';
     process.env.EMAIL_ADDRESS = 'test@email.com';

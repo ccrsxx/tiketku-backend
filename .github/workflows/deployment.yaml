@@ -9,14 +9,16 @@ jobs:
   ci:
     uses: ./.github/workflows/ci.yaml
 
+  migration:
+    uses: ./.github/workflows/migration.yaml
+
   deploy:
     name: Build and deploy to Cloud Run
     runs-on: ubuntu-latest
 
-    # TODO: Enable this later when ready to deploy
-    if: false
-
-    needs: ci
+    needs:
+      - ci
+      - migration
 
     permissions:
       id-token: write
@@ -61,6 +63,7 @@ jobs:
           env_vars: |
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+            DIRECT_URL=${{ secrets.DIRECT_URL }}
             DATABASE_URL=${{ secrets.DATABASE_URL }}
             FRONTEND_URL=${{ secrets.FRONTEND_URL }}
             EMAIL_ADDRESS=${{ secrets.EMAIL_ADDRESS }}
