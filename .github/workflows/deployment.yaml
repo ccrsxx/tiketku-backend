@@ -11,6 +11,7 @@ jobs:
 
   migration:
     uses: ./.github/workflows/migration.yaml
+    secrets: inherit
 
     needs: ci
 
