@@ -88,7 +88,7 @@
     "typescript": "^5.6.3"
   },
   "prisma": {
-    "seed": "src/utils/prisma/seed.js",
+    "seed": "node src/utils/prisma/seed.js",
     "schema": "src/utils/prisma/schema"
   },
   "volta": {

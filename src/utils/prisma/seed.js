@@ -4,6 +4,9 @@ import { logger } from '../../loaders/pino.js';
 async function main() {
   try {
     // TODO: Add your seed data here
+    const oneUser = await prisma.user.findFirst();
+
+    logger.info(oneUser);
 
     await prisma.$disconnect();
   } catch (err) {
