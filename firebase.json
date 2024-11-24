@@ -4,7 +4,7 @@
       {
         "source": "**",
         "run": {
-          "serviceId": "plant-ticket-production",
+          "serviceId": "plane-ticket-production",
           "region": "asia-southeast2"
         }
       }
