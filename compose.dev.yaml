@@ -7,10 +7,10 @@ services:
       dockerfile: Dockerfile.dev
     volumes:
       - ./src:/app/src
-    container_name: bank-rest-api-dev
+    container_name: plane-ticket-dev
 
   db:
     extends:
       file: compose.common.yaml
       service: db
-    container_name: bank-rest-api-db-dev
+    container_name: plane-ticket-db-dev
