@@ -5,7 +5,7 @@ on:
 
 jobs:
   migration:
-    name: Migrate database
+    name: Migrate and seed database
     runs-on: ubuntu-latest
 
     env:
