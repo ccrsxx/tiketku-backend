@@ -9,11 +9,17 @@ jobs:
   ci:
     uses: ./.github/workflows/ci.yaml
 
+  codecov:
+    uses: ./.github/workflows/codecov.yaml
+    secrets: inherit
+
   migration:
     uses: ./.github/workflows/migration.yaml
     secrets: inherit
 
-    needs: ci
+    needs:
+      - ci
+      - codecov
 
   deploy:
     name: Build and deploy to Cloud Run
