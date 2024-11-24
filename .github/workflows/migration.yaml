@@ -1,0 +1,26 @@
+name: Migration
+
+on:
+  workflow_call:
+
+jobs:
+  migration:
+    name: Migrate database
+    runs-on: ubuntu-latest
+
+    env:
+      DIRECT_URL: ${{ secrets.DIRECT_URL }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Download deps
+        run: npm ci
+
+      - name: Migrate database
+        run: npm run db:deploy
+
+      - name: Seed database
+        run: npm run db:seed
