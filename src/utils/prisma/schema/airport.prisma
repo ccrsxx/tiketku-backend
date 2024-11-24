@@ -1,0 +1,15 @@
+model Airport {
+    id       String @id @default(uuid(7)) @db.Uuid
+    name     String
+    code     String
+    image    String
+    location String
+
+    createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+    updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+    DepartureFlights   Flight[] @relation("DepartureAirport")
+    DestinationFlights Flight[] @relation("DestinationAirport")
+
+    @@map("airport")
+}
