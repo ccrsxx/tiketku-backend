@@ -1,5 +1,5 @@
 {
-  "name": "challenge-04",
+  "name": "plane-ticket-be",
   "version": "1.0.0",
   "main": "./src/index.js",
   "type": "module",
