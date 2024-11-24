@@ -32,13 +32,13 @@ export function notFound(req, _res, next) {
  */
 export function errorHandler(err, _req, res, _next) {
   if (err instanceof HttpError) {
-    logger.info(err, 'Expected error handler');
+    logger.info(err, `Expected error handler - ${err.message}`);
     res.status(err.statusCode).json({ error: { message: err.message } });
     return;
   }
 
   if (err instanceof Error) {
-    logger.error(err, 'Unexpected error handler');
+    logger.error(err, `Unexpected error handler - ${err.message}`);
     res.status(500).json({ error: { message: err.message } });
     return;
   }
