@@ -7,8 +7,8 @@ on:
       - main
 
 jobs:
-  test:
-    name: Test coverage
+  coverage:
+    name: Coverage
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
