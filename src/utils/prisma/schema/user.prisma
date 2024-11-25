@@ -8,10 +8,10 @@ model User {
     password    String
     phoneNumber String  @unique @map("phone_number")
 
-    otp           Otp[]
-    transactions  Transaction[]
-    notifications Notification[]
-    passwordReset PasswordReset[]
+    otps           Otp[]
+    transactions   Transaction[]
+    notifications  Notification[]
+    passwordResets PasswordReset[]
 
     createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
