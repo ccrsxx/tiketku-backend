@@ -1,44 +1,53 @@
-import Joi from 'joi';
+import { z } from 'zod';
 import { HttpError } from '../../utils/error.js';
+import { formatZodError } from '../../utils/validation.js';
 
 /** @import {Request,Response,NextFunction} from 'express' */
 
-/** @typedef {{ email: string }} ValidEmailPayload */
+/**
+ * @param {Request<{ id: string }>} req
+ * @param {Response} _res
+ * @param {NextFunction} next
+ */
+function isValidParamsIdUuid(req, _res, next) {
+  const validUuidSchema = z.string().uuid();
 
-export class CommonValidationMiddleware {
-  /**
-   * @param {Request<{ id: string }>} req
-   * @param {Response} _res
-   * @param {NextFunction} next
-   */
-  static isValidParamsIdUuid(req, _res, next) {
-    const validUserId = Joi.string().uuid().required();
+  const { error } = validUuidSchema.safeParse(req.params.id);
 
-    const { error } = validUserId.validate(req.params.id);
-
-    if (error) {
-      throw new HttpError(400, error.message);
-    }
-
-    next();
+  if (error) {
+    throw new HttpError(
+      400,
+      formatZodError(error, {
+        preferSingleError: true
+      })
+    );
   }
 
-  /**
-   * @param {Request<unknown, unknown, ValidEmailPayload>} req
-   * @param {Response} _res
-   * @param {NextFunction} next
-   */
-  static isValidEmail(req, _res, next) {
-    const validEmailSchema = Joi.object({
-      email: Joi.string().email().required()
-    }).required();
-
-    const { error } = validEmailSchema.validate(req.body);
-
-    if (error) {
-      throw new HttpError(400, error.message);
-    }
-
-    next();
-  }
+  next();
 }
+
+const validEmailSchema = z.object({
+  email: z.string().email()
+});
+
+/** @typedef {z.infer<typeof validEmailSchema>} ValidEmailPayload */
+
+/**
+ * @param {Request<unknown, unknown, ValidEmailPayload>} req
+ * @param {Response} _res
+ * @param {NextFunction} next
+ */
+function isValidEmailPayload(req, _res, next) {
+  const { error } = validEmailSchema.safeParse(req.body);
+
+  if (error) {
+    throw new HttpError(400, formatZodError(error));
+  }
+
+  next();
+}
+
+export const CommonValidationMiddleware = {
+  isValidParamsIdUuid,
+  isValidEmailPayload
+};

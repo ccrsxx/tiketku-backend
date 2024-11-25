@@ -1,77 +1,73 @@
-import Joi from 'joi';
+import { z } from 'zod';
 import { HttpError } from '../../utils/error.js';
+import { formatZodError, validStringSchema } from '../../utils/validation.js';
 
 /** @import {Request,Response,NextFunction} from 'express' */
 
-/**
- * @typedef {Object} ValidLoginPayload
- * @property {string} email
- * @property {string} password
- */
+const validLoginPayload = z.object({
+  email: z.string().email(),
+  password: z.string().min(8)
+});
+
+/** @typedef {z.infer<typeof validLoginPayload>} ValidLoginPayload */
 
 /**
- * @typedef {Object} ValidResetPasswordPayload
- * @property {string} token
- * @property {string} password
+ * @param {Request<{ id: string }>} req
+ * @param {Response} _res
+ * @param {NextFunction} next
  */
+function isValidLoginPayload(req, _res, next) {
+  const { error } = validLoginPayload.safeParse(req.body);
 
-export class AuthValidationMiddleware {
-  /**
-   * @param {Request<{ id: string }>} req
-   * @param {Response} _res
-   * @param {NextFunction} next
-   */
-  static isValidLoginPayload(req, _res, next) {
-    /** @type {Joi.ObjectSchema<ValidLoginPayload>} */
-    const validLoginPayload = Joi.object({
-      email: Joi.string().email().required(),
-      password: Joi.string().min(8).required()
-    }).required();
-
-    const { error } = validLoginPayload.validate(req.body);
-
-    if (error) {
-      throw new HttpError(400, error.message);
-    }
-
-    next();
+  if (error) {
+    throw new HttpError(400, formatZodError(error));
   }
 
-  /**
-   * @param {Request<unknown, unknown, ValidResetPasswordPayload>} req
-   * @param {Response} _res
-   * @param {NextFunction} next
-   */
-  static isValidResetPasswordPayload(req, _res, next) {
-    /** @type {Joi.ObjectSchema<ValidResetPasswordPayload>} */
-    const validResetPasswordPayload = Joi.object({
-      token: Joi.string().required(),
-      password: Joi.string().min(8).required()
-    }).required();
-
-    const { error } = validResetPasswordPayload.validate(req.body);
-
-    if (error) {
-      throw new HttpError(400, error.message);
-    }
-
-    next();
-  }
-
-  /**
-   * @param {Request<{ token: string }>} req
-   * @param {Response} _res
-   * @param {NextFunction} next
-   */
-  static isValidTokenParams(req, _res, next) {
-    const validTokenSchema = Joi.string().required();
-
-    const { error } = validTokenSchema.validate(req.params.token);
-
-    if (error) {
-      throw new HttpError(400, error.message);
-    }
-
-    next();
-  }
+  next();
 }
+
+const validResetPasswordPayload = z.object({
+  token: z.string(),
+  password: z.string().min(8)
+});
+
+/** @typedef {z.infer<typeof validResetPasswordPayload>} ValidResetPasswordPayload */
+
+/**
+ * @param {Request<unknown, unknown, ValidResetPasswordPayload>} req
+ * @param {Response} _res
+ * @param {NextFunction} next
+ */
+function isValidResetPasswordPayload(req, _res, next) {
+  const { error } = validResetPasswordPayload.safeParse(req.body);
+
+  if (error) {
+    throw new HttpError(400, formatZodError(error));
+  }
+
+  next();
+}
+
+/**
+ * @param {Request<{ token: string }>} req
+ * @param {Response} _res
+ * @param {NextFunction} next
+ */
+function isValidTokenParams(req, _res, next) {
+  const { error } = validStringSchema.safeParse(req.params.token);
+
+  if (error) {
+    throw new HttpError(
+      400,
+      formatZodError(error, { preferSingleError: true })
+    );
+  }
+
+  next();
+}
+
+export const AuthValidationMiddleware = {
+  isValidLoginPayload,
+  isValidResetPasswordPayload,
+  isValidTokenParams
+};

@@ -26,7 +26,7 @@ describe('Get function thrown error', () => {
 
   it('should return the custom error thrown by the function', async () => {
     const fn = () => {
-      throw new HttpError(400, 'Test error');
+      throw new HttpError(400, { message: 'Test error' });
     };
 
     const error = await getFunctionThrownError(fn);

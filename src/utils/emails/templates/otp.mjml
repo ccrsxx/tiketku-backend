@@ -1,0 +1,30 @@
+<mjml>
+  <mj-body background-color="white">
+    <mj-include path="./common/header.mjml" />
+    <mj-section>
+      <mj-column>
+        <mj-text font-size="16px" font-family="helvetica" color="violet">
+          <p>Hi {{name}}.</p>
+          <p>
+            Thank you for registering with us! To verify your email address and
+            activate your account, please use the One-Time Password (OTP) below.
+          </p>
+          <p>
+            This OTP is valid for the next 5 minutes. If you didn’t create an
+            account with us, please ignore this email.
+          </p>
+        </mj-text>
+        <mj-text
+          font-size="24px"
+          font-family="helvetica"
+          font-weight="bold"
+          align="center"
+          color="violet"
+        >
+          {{otp}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-include path="./common/footer.mjml" />
+  </mj-body>
+</mjml>

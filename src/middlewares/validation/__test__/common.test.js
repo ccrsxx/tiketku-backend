@@ -50,7 +50,7 @@ describe('Common validation middleware', () => {
       expect(error).toBeInstanceOf(HttpError);
 
       expect(error).toHaveProperty('statusCode', 400);
-      expect(error).toHaveProperty('message', '"value" must be a valid GUID');
+      expect(error).toHaveProperty('message', 'Invalid uuid');
     });
   });
 });

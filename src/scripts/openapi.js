@@ -1,23 +1,15 @@
-import Joi from 'joi';
+import { z } from 'zod';
 import { transpile } from 'postman2openapi';
 import { writeFile } from 'fs/promises';
+import { validStringSchema } from '../utils/validation.js';
 
 async function main() {
-  /**
-   * @typedef {Object} PostmanEnv
-   * @property {string} POSTMAN_API_KEY
-   * @property {string} POSTMAN_COLLECTION_ID
-   */
+  const postmanEnvSchema = z.object({
+    POSTMAN_API_KEY: validStringSchema,
+    POSTMAN_COLLECTION_ID: validStringSchema
+  });
 
-  /** @type {Joi.ObjectSchema<PostmanEnv>} */
-  const postmanEnvSchema = Joi.object({
-    POSTMAN_API_KEY: Joi.string().required(),
-    POSTMAN_COLLECTION_ID: Joi.string().required()
-  })
-    .options({ stripUnknown: true })
-    .required();
-
-  const { value: postmanEnv, error } = postmanEnvSchema.validate(process.env);
+  const { data: postmanEnv, error } = postmanEnvSchema.safeParse(process.env);
 
   if (error) {
     throw new Error(`Invalid environment variables: ${error.message}`);

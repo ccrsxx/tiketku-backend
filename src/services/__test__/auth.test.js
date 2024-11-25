@@ -75,8 +75,10 @@ describe('Auth service', () => {
 
       const result = await AuthService.login(user);
 
+      const { password: _, ...userWithoutPassword } = user;
+
       const userWithToken = {
-        ...user,
+        ...userWithoutPassword,
         token
       };
 

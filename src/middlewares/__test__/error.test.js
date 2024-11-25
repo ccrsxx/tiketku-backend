@@ -42,7 +42,7 @@ describe('Error middleware', () => {
   });
 
   it('should call next with an HttpError', () => {
-    const err = new HttpError(400, 'Test error');
+    const err = new HttpError(400, { message: 'Test error' });
 
     const { req, res, next } = setupExpressMock();
 

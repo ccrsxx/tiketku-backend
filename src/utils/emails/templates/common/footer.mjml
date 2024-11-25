@@ -1,0 +1,8 @@
+<mj-section>
+  <mj-column>
+    <mj-divider border-color="violet" />
+    <mj-text color="violet" align="center">
+      <p>&copy; 2024 Emilia. All rights reserved.</p>
+    </mj-text>
+  </mj-column>
+</mj-section>

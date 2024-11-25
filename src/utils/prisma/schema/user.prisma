@@ -1,15 +1,12 @@
 model User {
-    id           String  @id @default(uuid(7)) @db.Uuid
-    name         String
-    email        String  @unique
-    password     String
-    phone_number String
-    image        String?
-    admin        Boolean @default(false)
-    verified     Boolean @default(false)
-
-    createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
-    updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+    id          String  @id @default(uuid(7)) @db.Uuid
+    name        String
+    email       String  @unique
+    image       String?
+    admin       Boolean @default(false)
+    verified    Boolean @default(false)
+    password    String
+    phoneNumber String  @unique
 
     Otp           Otp[]
     notifications Notification[]

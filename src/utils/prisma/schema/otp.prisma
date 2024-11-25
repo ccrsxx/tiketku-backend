@@ -1,6 +1,6 @@
 model Otp {
     id        String   @id @default(uuid(7)) @db.Uuid
-    code      String
+    otp       String
     used      Boolean  @default(false)
     expiredAt DateTime @map("expired_at") @db.Timestamptz()
 

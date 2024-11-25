@@ -1,0 +1,9 @@
+<mj-section>
+  <mj-column>
+    <mj-image
+      width="120px"
+      src="https://raw.githubusercontent.com/ccrsxx/f-bee24001186-km7-ra-bank_rest_api-ch4/refs/heads/main/src/utils/emails/assets/emilia.jpg"
+    />
+    <mj-divider border-color="violet" />
+  </mj-column>
+</mj-section>

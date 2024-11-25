@@ -2,7 +2,6 @@ import { Router } from 'express';
 import { UserController } from '../controllers/user.js';
 import { CommonValidationMiddleware } from '../middlewares/validation/common.js';
 import { AuthMiddleware } from '../middlewares/auth.js';
-import { UserValidationMiddleware } from '../middlewares/validation/user.js';
 
 /** @param {Router} app */
 export default (app) => {
@@ -18,12 +17,5 @@ export default (app) => {
     '/:id',
     CommonValidationMiddleware.isValidParamsIdUuid,
     UserController.getUser
-  );
-
-  router.put(
-    '/me/profile',
-    AuthMiddleware.isAuthorized,
-    UserValidationMiddleware.isValidUserUpdatePayload,
-    UserController.updateCurrentUserProfile
   );
 };
