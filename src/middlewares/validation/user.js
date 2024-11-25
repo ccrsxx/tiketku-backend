@@ -1,11 +1,24 @@
-import Joi from 'joi';
-import { validStringSchema } from '../../utils/validation.js';
+import { z } from 'zod';
+import {
+  formatZodError,
+  phoneNumberSchema,
+  validStringSchema
+} from '../../utils/validation.js';
+import { prisma } from '../../utils/db.js';
 import { HttpError } from '../../utils/error.js';
 
 /** @import {Request,Response,NextFunction} from 'express' */
-/** @import {Prisma} from '@prisma/client' */
+/** @import {User} from '@prisma/client' */
+/** @import {ValidEmailPayload} from './common.js' */
 
-/** @typedef {Prisma.UserCreateInput} ValidUserPayload */
+const validUserPayload = z.object({
+  name: validStringSchema,
+  email: z.string().email(),
+  password: z.string().trim().min(8),
+  phoneNumber: phoneNumberSchema
+});
+
+/** @typedef {z.infer<typeof validUserPayload>} ValidUserPayload */
 
 /**
  * @param {Request<unknown, ValidUserPayload>} req
@@ -13,24 +26,23 @@ import { HttpError } from '../../utils/error.js';
  * @param {NextFunction} next
  */
 function isValidUserCreatePayload(req, _res, next) {
-  /** @type {Joi.ObjectSchema<ValidUserPayload>} */
-  const validUserPayload = Joi.object({
-    name: validStringSchema.required(),
-    email: Joi.string().email().required(),
-    address: validStringSchema.required(),
-    password: validStringSchema.min(8).required(),
-    identityType: validStringSchema.required(),
-    identityNumber: validStringSchema.required()
-  }).required();
-
-  const { error } = validUserPayload.validate(req.body);
+  const { error } = validUserPayload.safeParse(req.body);
 
   if (error) {
-    throw new HttpError(400, error.message);
+    throw new HttpError(400, { message: error.message });
   }
 
   next();
 }
+
+const validUserUpdatePayload = z.object({
+  name: validStringSchema,
+  email: z.string().email(),
+  image: z.string().url().optional(),
+  phoneNumber: phoneNumberSchema
+});
+
+/** @typedef {z.infer<typeof validUserUpdatePayload>} ValidUserUpdatePayload */
 
 /**
  * @param {Request<unknown, ValidUserPayload>} req
@@ -38,44 +50,32 @@ function isValidUserCreatePayload(req, _res, next) {
  * @param {NextFunction} next
  */
 function isValidUserUpdatePayload(req, _res, next) {
-  /** @type {Joi.ObjectSchema<ValidUserPayload>} */
-  const validProfilePayload = Joi.object({
-    image: Joi.string().uri(),
-    address: validStringSchema,
-    identityType: validStringSchema,
-    identityNumber: validStringSchema
-  }).required();
-
-  const body = req.body;
-
-  const validPayload = body && Object.keys(body).length;
-
-  if (!validPayload) {
-    throw new HttpError(400, 'Profile payload is required');
-  }
-
-  const { error } = validProfilePayload.validate(req.body);
+  const { error } = validUserUpdatePayload.safeParse(req.body);
 
   if (error) {
-    throw new HttpError(400, error.message);
+    throw new HttpError(400, formatZodError(error));
   }
 
   next();
 }
 
 /**
- * @param {Request<{ id: string }>} req
- * @param {Response} _res
+ * @param {Request<unknown, ValidEmailPayload>} req
+ * @param {Response<unknown, { user: User }>} res
  * @param {NextFunction} next
  */
-function isValidParamsUserId(req, _res, next) {
-  const validUserId = Joi.string().uuid().required();
+export async function isUnverifiedUserExistsPayload(req, res, next) {
+  const { email } = req.body;
 
-  const { error } = validUserId.validate(req.params.id);
+  const user = await prisma.user.findUnique({
+    where: { email, verified: false }
+  });
 
-  if (error) {
-    throw new HttpError(400, error.message);
+  if (!user) {
+    throw new HttpError(404, { message: 'User not found' });
   }
+
+  res.locals.user = user;
 
   next();
 }
@@ -83,5 +83,5 @@ function isValidParamsUserId(req, _res, next) {
 export const UserValidationMiddleware = {
   isValidUserCreatePayload,
   isValidUserUpdatePayload,
-  isValidParamsUserId
+  isUnverifiedUserExistsPayload
 };

@@ -1,9 +1,8 @@
-import Joi from 'joi';
+import { z } from 'zod';
 import { HttpError } from '../../utils/error.js';
+import { formatZodError } from '../../utils/validation.js';
 
 /** @import {Request,Response,NextFunction} from 'express' */
-
-/** @typedef {{ email: string }} ValidEmailPayload */
 
 /**
  * @param {Request<{ id: string }>} req
@@ -11,31 +10,38 @@ import { HttpError } from '../../utils/error.js';
  * @param {NextFunction} next
  */
 function isValidParamsIdUuid(req, _res, next) {
-  const validUserId = Joi.string().uuid().required();
+  const validUuidSchema = z.string().uuid();
 
-  const { error } = validUserId.validate(req.params.id);
+  const { error } = validUuidSchema.safeParse(req.params.id);
 
   if (error) {
-    throw new HttpError(400, error.message);
+    throw new HttpError(
+      400,
+      formatZodError(error, {
+        preferSingleError: true
+      })
+    );
   }
 
   next();
 }
+
+const validEmailSchema = z.object({
+  email: z.string().email()
+});
+
+/** @typedef {z.infer<typeof validEmailSchema>} ValidEmailPayload */
 
 /**
  * @param {Request<unknown, unknown, ValidEmailPayload>} req
  * @param {Response} _res
  * @param {NextFunction} next
  */
-function isValidEmail(req, _res, next) {
-  const validEmailSchema = Joi.object({
-    email: Joi.string().email().required()
-  }).required();
-
-  const { error } = validEmailSchema.validate(req.body);
+function isValidEmailPayload(req, _res, next) {
+  const { error } = validEmailSchema.safeParse(req.body);
 
   if (error) {
-    throw new HttpError(400, error.message);
+    throw new HttpError(400, formatZodError(error));
   }
 
   next();
@@ -43,5 +49,5 @@ function isValidEmail(req, _res, next) {
 
 export const CommonValidationMiddleware = {
   isValidParamsIdUuid,
-  isValidEmail
+  isValidEmailPayload
 };
