@@ -16,7 +16,7 @@
     }
   ],
   "paths": {
-    "/api/v1/auth/login": {
+    "/auth/login": {
       "post": {
         "tags": ["Auth", "Login"],
         "summary": "Login user",
@@ -34,7 +34,7 @@
                   },
                   "password": {
                     "type": "string",
-                    "example": "Test12345"
+                    "example": "Test123445"
                   }
                 }
               },
@@ -42,7 +42,7 @@
                 "Login user": {
                   "value": {
                     "email": "aminrisal@gmail.com",
-                    "password": "Test12345"
+                    "password": "Test123445"
                   }
                 }
               }
@@ -116,9 +116,9 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "createdAt": {
-                          "type": "string",
-                          "example": "2024-10-25T12:51:28.774Z"
+                        "admin": {
+                          "type": "boolean",
+                          "example": false
                         },
                         "email": {
                           "type": "string",
@@ -126,70 +126,27 @@
                         },
                         "id": {
                           "type": "string",
-                          "example": "5ec59a42-64f4-437d-8477-3b3db84c60aa"
+                          "example": "019361ac-5bce-7cc0-bc63-a31244aeaa92"
+                        },
+                        "image": {
+                          "nullable": true,
+                          "example": null
                         },
                         "name": {
                           "type": "string",
                           "example": "Risal Amin"
                         },
-                        "password": {
+                        "phoneNumber": {
                           "type": "string",
-                          "example": "$2b$10$NQZCR6olPgVJXaqceA8s.eL9zFGyR5SCR/0z1pTDvcbiqcLcQaIFq"
-                        },
-                        "profile": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "address": {
-                                "type": "string",
-                                "example": "Jakarta"
-                              },
-                              "createdAt": {
-                                "type": "string",
-                                "example": "2024-10-25T12:51:28.774Z"
-                              },
-                              "id": {
-                                "type": "string",
-                                "example": "e400db97-300b-4e1b-aead-15cc7fc89882"
-                              },
-                              "identityNumber": {
-                                "type": "string",
-                                "example": "123456"
-                              },
-                              "identityType": {
-                                "type": "string",
-                                "example": "KTP"
-                              },
-                              "updatedAt": {
-                                "type": "string",
-                                "example": "2024-10-25T12:51:28.774Z"
-                              },
-                              "userId": {
-                                "type": "string",
-                                "example": "5ec59a42-64f4-437d-8477-3b3db84c60aa"
-                              }
-                            }
-                          },
-                          "example": [
-                            {
-                              "address": "Jakarta",
-                              "createdAt": "2024-10-25T12:51:28.774Z",
-                              "id": "e400db97-300b-4e1b-aead-15cc7fc89882",
-                              "identityNumber": "123456",
-                              "identityType": "KTP",
-                              "updatedAt": "2024-10-25T12:51:28.774Z",
-                              "userId": "5ec59a42-64f4-437d-8477-3b3db84c60aa"
-                            }
-                          ]
+                          "example": "+628234234223"
                         },
                         "token": {
                           "type": "string",
-                          "example": "{{vault:json-web-token}}"
+                          "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM2MWFjLTViY2UtN2NjMC1iYzYzLWEzMTI0NGFlYWE5MiIsImlhdCI6MTczMjUxNDAzOSwiZXhwIjoxNzMyNjAwNDM5fQ.xVsSy4MIpEkia8Ina4ZcZAfzpxuKSX23FYSVQNRlmyk"
                         },
-                        "updatedAt": {
-                          "type": "string",
-                          "example": "2024-10-25T12:51:28.774Z"
+                        "verified": {
+                          "type": "boolean",
+                          "example": true
                         }
                       }
                     }
@@ -199,24 +156,14 @@
                   "200 - Login user": {
                     "value": {
                       "data": {
-                        "createdAt": "2024-10-25T12:51:28.774Z",
+                        "admin": false,
                         "email": "aminrisal@gmail.com",
-                        "id": "5ec59a42-64f4-437d-8477-3b3db84c60aa",
+                        "id": "019361ac-5bce-7cc0-bc63-a31244aeaa92",
+                        "image": null,
                         "name": "Risal Amin",
-                        "password": "$2b$10$NQZCR6olPgVJXaqceA8s.eL9zFGyR5SCR/0z1pTDvcbiqcLcQaIFq",
-                        "profile": [
-                          {
-                            "address": "Jakarta",
-                            "createdAt": "2024-10-25T12:51:28.774Z",
-                            "id": "e400db97-300b-4e1b-aead-15cc7fc89882",
-                            "identityNumber": "123456",
-                            "identityType": "KTP",
-                            "updatedAt": "2024-10-25T12:51:28.774Z",
-                            "userId": "5ec59a42-64f4-437d-8477-3b3db84c60aa"
-                          }
-                        ],
-                        "token": "{{vault:json-web-token}}",
-                        "updatedAt": "2024-10-25T12:51:28.774Z"
+                        "phoneNumber": "+628234234223",
+                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAxOTM2MWFjLTViY2UtN2NjMC1iYzYzLWEzMTI0NGFlYWE5MiIsImlhdCI6MTczMjUxNDAzOSwiZXhwIjoxNzMyNjAwNDM5fQ.xVsSy4MIpEkia8Ina4ZcZAfzpxuKSX23FYSVQNRlmyk",
+                        "verified": true
                       }
                     }
                   }
@@ -290,9 +237,20 @@
                     "error": {
                       "type": "object",
                       "properties": {
+                        "errors": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "email Invalid email"
+                          },
+                          "example": [
+                            "email Invalid email",
+                            "password String must contain at least 8 character(s)"
+                          ]
+                        },
                         "message": {
                           "type": "string",
-                          "example": "\"email\" must be a valid email"
+                          "example": "Invalid body"
                         }
                       }
                     }
@@ -302,7 +260,11 @@
                   "400 - Invalid body": {
                     "value": {
                       "error": {
-                        "message": "\"email\" must be a valid email"
+                        "errors": [
+                          "email Invalid email",
+                          "password String must contain at least 8 character(s)"
+                        ],
+                        "message": "Invalid body"
                       }
                     }
                   }
@@ -399,7 +361,7 @@
         }
       }
     },
-    "/api/v1/auth/register": {
+    "/auth/register": {
       "post": {
         "tags": ["Auth", "Register"],
         "summary": "Register user",
@@ -453,8 +415,8 @@
           }
         },
         "responses": {
-          "201": {
-            "description": "201 - Create user",
+          "200": {
+            "description": "200 - Register success",
             "headers": {
               "Access-Control-Allow-Credentials": {
                 "schema": {
@@ -477,19 +439,19 @@
               "Content-Length": {
                 "schema": {
                   "type": "string",
-                  "example": "507"
+                  "example": "69"
                 }
               },
               "Date": {
                 "schema": {
                   "type": "string",
-                  "example": "Fri, 25 Oct 2024 12:20:22 GMT"
+                  "example": "Mon, 25 Nov 2024 05:12:19 GMT"
                 }
               },
               "ETag": {
                 "schema": {
                   "type": "string",
-                  "example": "W/\"1fb-gjCEqIqoArJXSjA4mubODF4Qq1o\""
+                  "example": "W/\"45-RdQjrc+ICoWB2Jytu2E9+hiXLVg\""
                 }
               },
               "Keep-Alive": {
@@ -519,102 +481,19 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "createdAt": {
+                        "message": {
                           "type": "string",
-                          "example": "2024-10-25T12:20:22.496Z"
-                        },
-                        "email": {
-                          "type": "string",
-                          "example": "aminrisal@gmail.com"
-                        },
-                        "id": {
-                          "type": "string",
-                          "example": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7db"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Risal Amin"
-                        },
-                        "password": {
-                          "type": "string",
-                          "example": "$2b$10$9Vc3.KEUS00eLNmFMwmYnOoUpKp/cYpDc8oUg0qOwZJ7JaAYRcxma"
-                        },
-                        "profile": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "address": {
-                                "type": "string",
-                                "example": "Jakarta"
-                              },
-                              "createdAt": {
-                                "type": "string",
-                                "example": "2024-10-25T12:20:22.496Z"
-                              },
-                              "id": {
-                                "type": "string",
-                                "example": "874fec04-b364-473b-8030-53b439dc3f56"
-                              },
-                              "identityNumber": {
-                                "type": "string",
-                                "example": "123456"
-                              },
-                              "identityType": {
-                                "type": "string",
-                                "example": "KTP"
-                              },
-                              "updatedAt": {
-                                "type": "string",
-                                "example": "2024-10-25T12:20:22.496Z"
-                              },
-                              "userId": {
-                                "type": "string",
-                                "example": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7db"
-                              }
-                            }
-                          },
-                          "example": [
-                            {
-                              "address": "Jakarta",
-                              "createdAt": "2024-10-25T12:20:22.496Z",
-                              "id": "874fec04-b364-473b-8030-53b439dc3f56",
-                              "identityNumber": "123456",
-                              "identityType": "KTP",
-                              "updatedAt": "2024-10-25T12:20:22.496Z",
-                              "userId": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7db"
-                            }
-                          ]
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "example": "2024-10-25T12:20:22.496Z"
+                          "example": "Register success, waiting for OTP verification"
                         }
                       }
                     }
                   }
                 },
                 "examples": {
-                  "201 - Create user": {
+                  "200 - Register success": {
                     "value": {
                       "data": {
-                        "createdAt": "2024-10-25T12:20:22.496Z",
-                        "email": "aminrisal@gmail.com",
-                        "id": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7db",
-                        "name": "Risal Amin",
-                        "password": "$2b$10$9Vc3.KEUS00eLNmFMwmYnOoUpKp/cYpDc8oUg0qOwZJ7JaAYRcxma",
-                        "profile": [
-                          {
-                            "address": "Jakarta",
-                            "createdAt": "2024-10-25T12:20:22.496Z",
-                            "id": "874fec04-b364-473b-8030-53b439dc3f56",
-                            "identityNumber": "123456",
-                            "identityType": "KTP",
-                            "updatedAt": "2024-10-25T12:20:22.496Z",
-                            "userId": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7db"
-                          }
-                        ],
-                        "updatedAt": "2024-10-25T12:20:22.496Z"
+                        "message": "Register success, waiting for OTP verification"
                       }
                     }
                   }
@@ -688,9 +567,20 @@
                     "error": {
                       "type": "object",
                       "properties": {
+                        "errors": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "email Invalid email"
+                          },
+                          "example": [
+                            "email Invalid email",
+                            "password String must contain at least 8 character(s)"
+                          ]
+                        },
                         "message": {
                           "type": "string",
-                          "example": "\"identityType\" is not allowed to be empty"
+                          "example": "Invalid body"
                         }
                       }
                     }
@@ -700,7 +590,11 @@
                   "400 - Invalid body": {
                     "value": {
                       "error": {
-                        "message": "\"identityType\" is not allowed to be empty"
+                        "errors": [
+                          "email Invalid email",
+                          "password String must contain at least 8 character(s)"
+                        ],
+                        "message": "Invalid body"
                       }
                     }
                   }
@@ -776,7 +670,7 @@
                       "properties": {
                         "message": {
                           "type": "string",
-                          "example": "User already registered"
+                          "example": "Email already exists"
                         }
                       }
                     }
@@ -786,7 +680,7 @@
                   "409 - User already registered": {
                     "value": {
                       "error": {
-                        "message": "User already registered"
+                        "message": "Email already exists"
                       }
                     }
                   }
@@ -797,7 +691,591 @@
         }
       }
     },
-    "/api/v1/auth/password-reset/{token}": {
+    "/auth/otp": {
+      "post": {
+        "tags": ["Auth", "Register"],
+        "summary": "Re create OTP user verification",
+        "description": "Re create OTP user verification",
+        "operationId": "reCreateOtpUserVerification",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "random@gmail"
+                  }
+                }
+              },
+              "examples": {
+                "Re create OTP user verification": {
+                  "value": {
+                    "email": "random@gmail"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "201 - OTP sent successfully",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "http://localhost:3000"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "35"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 25 Nov 2024 05:01:13 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"23-YsSrbfhPBo5PNRhpOhArqd7KnMQ\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "OTP sent successfully"
+                    }
+                  }
+                },
+                "examples": {
+                  "201 - OTP sent successfully": {
+                    "value": {
+                      "message": "OTP sent successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400 - Invalid body",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "http://localhost:3000"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "69"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 25 Nov 2024 05:03:02 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"45-dlIHAevRfAqIjoRyraaECe/YkPc\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "errors": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "email Invalid email"
+                          },
+                          "example": ["email Invalid email"]
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Invalid body"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "400 - Invalid body": {
+                    "value": {
+                      "error": {
+                        "errors": ["email Invalid email"],
+                        "message": "Invalid body"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "404 - User not found",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "http://localhost:3000"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "38"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 25 Nov 2024 05:02:35 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"26-BsgGbTj6n3ZmvCCse0wan/1YC1c\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "User not found"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "404 - User not found": {
+                    "value": {
+                      "error": {
+                        "message": "User not found"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/otp/verify": {
+      "post": {
+        "tags": ["Auth", "Register"],
+        "summary": "Verify OTP validity",
+        "description": "Verify OTP validity",
+        "operationId": "verifyOtpValidity",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "example": "random@gmail.com"
+                  }
+                }
+              },
+              "examples": {
+                "Verify OTP validity": {
+                  "value": {
+                    "email": "random@gmail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 - OTP verified successfully",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "http://localhost:3000"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 25 Nov 2024 05:48:33 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"27-gmemsCpNdXZC5ApWNn/ZciPyh/8\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "OTP verified successfully"
+                    }
+                  }
+                },
+                "examples": {
+                  "200 - OTP verified successfully": {
+                    "value": {
+                      "message": "OTP verified successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400 - Invalid body",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "http://localhost:3000"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "69"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 25 Nov 2024 05:03:02 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"45-dlIHAevRfAqIjoRyraaECe/YkPc\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "errors": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "email Invalid email"
+                          },
+                          "example": ["email Invalid email"]
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "Invalid body"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "400 - Invalid body": {
+                    "value": {
+                      "error": {
+                        "errors": ["email Invalid email"],
+                        "message": "Invalid body"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "404 - User not found",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "http://localhost:3000"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "38"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 25 Nov 2024 05:02:35 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"26-BsgGbTj6n3ZmvCCse0wan/1YC1c\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "User not found"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "404 - User not found": {
+                    "value": {
+                      "error": {
+                        "message": "User not found"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/password-reset/{token}": {
       "get": {
         "tags": ["Auth", "Password reset"],
         "summary": "Check validity of password reset by token",
@@ -983,7 +1461,7 @@
         }
       ]
     },
-    "/api/v1/auth/password-reset": {
+    "/auth/password-reset": {
       "put": {
         "tags": ["Auth", "Password reset"],
         "summary": "Change password with token and password",
@@ -1380,7 +1858,7 @@
         }
       }
     },
-    "/api/v1/users": {
+    "/users": {
       "get": {
         "tags": ["User"],
         "summary": "Get users",
@@ -1592,7 +2070,7 @@
         }
       }
     },
-    "/api/v1/users/{id}": {
+    "/users/{id}": {
       "get": {
         "tags": ["User"],
         "summary": "Get user by id",
@@ -1864,7 +2342,7 @@
                       "properties": {
                         "message": {
                           "type": "string",
-                          "example": "\"value\" must be a valid GUID"
+                          "example": "Invalid uuid"
                         }
                       }
                     }
@@ -1874,7 +2352,7 @@
                   "400 - Invalid ID": {
                     "value": {
                       "error": {
-                        "message": "\"value\" must be a valid GUID"
+                        "message": "Invalid uuid"
                       }
                     }
                   }
@@ -1977,12 +2455,12 @@
           "required": true,
           "schema": {
             "type": "string",
-            "example": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7da"
+            "example": ""
           }
         }
       ]
     },
-    "/api/v1/users/me": {
+    "/users/me": {
       "get": {
         "tags": ["User"],
         "summary": "Get current user",
@@ -2185,406 +2663,9 @@
             "bearerAuth": []
           }
         ]
-      },
-      "put": {
-        "tags": ["User"],
-        "summary": "Update current user",
-        "description": "Update current user",
-        "operationId": "updateCurrentUser",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "address": {
-                    "type": "string",
-                    "example": "Jakarta"
-                  },
-                  "identityNumber": {
-                    "type": "string",
-                    "example": "123456789"
-                  },
-                  "identityType": {
-                    "type": "string",
-                    "example": "PASSPORT"
-                  },
-                  "image": {
-                    "type": "string",
-                    "example": "https://ik.imagekit.io/ccrsxx/c093c949-6dc5-40cd-88a8-e6824e78730a_ysBQ8_ikR.jpg"
-                  }
-                }
-              },
-              "examples": {
-                "Update current user": {
-                  "value": {
-                    "address": "Jakarta",
-                    "identityNumber": "123456789",
-                    "identityType": "PASSPORT",
-                    "image": "https://ik.imagekit.io/ccrsxx/c093c949-6dc5-40cd-88a8-e6824e78730a_ysBQ8_ikR.jpg"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "200 - Update current user profile",
-            "headers": {
-              "Access-Control-Allow-Credentials": {
-                "schema": {
-                  "type": "string",
-                  "example": "true"
-                }
-              },
-              "Access-Control-Allow-Origin": {
-                "schema": {
-                  "type": "string",
-                  "example": "http://localhost:3000"
-                }
-              },
-              "Connection": {
-                "schema": {
-                  "type": "string",
-                  "example": "keep-alive"
-                }
-              },
-              "Content-Length": {
-                "schema": {
-                  "type": "string",
-                  "example": "606"
-                }
-              },
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Thu, 07 Nov 2024 14:53:40 GMT"
-                }
-              },
-              "ETag": {
-                "schema": {
-                  "type": "string",
-                  "example": "W/\"25e-yItjkROA75/0xqLVKBf1suCwycY\""
-                }
-              },
-              "Keep-Alive": {
-                "schema": {
-                  "type": "string",
-                  "example": "timeout=5"
-                }
-              },
-              "Vary": {
-                "schema": {
-                  "type": "string",
-                  "example": "Origin"
-                }
-              },
-              "X-Powered-By": {
-                "schema": {
-                  "type": "string",
-                  "example": "Express"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "createdAt": {
-                          "type": "string",
-                          "example": "2024-10-25T12:51:28.774Z"
-                        },
-                        "email": {
-                          "type": "string",
-                          "example": "aminrisal@gmail.com"
-                        },
-                        "id": {
-                          "type": "string",
-                          "example": "5ec59a42-64f4-437d-8477-3b3db84c60aa"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Risal Amin"
-                        },
-                        "password": {
-                          "type": "string",
-                          "example": "$2b$10$NQZCR6olPgVJXaqceA8s.eL9zFGyR5SCR/0z1pTDvcbiqcLcQaIFq"
-                        },
-                        "profile": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "address": {
-                                "type": "string",
-                                "example": "Jakarta"
-                              },
-                              "createdAt": {
-                                "type": "string",
-                                "example": "2024-10-25T12:51:28.774Z"
-                              },
-                              "id": {
-                                "type": "string",
-                                "example": "e400db97-300b-4e1b-aead-15cc7fc89882"
-                              },
-                              "identityNumber": {
-                                "type": "string",
-                                "example": "123456789"
-                              },
-                              "identityType": {
-                                "type": "string",
-                                "example": "PASSPORT"
-                              },
-                              "image": {
-                                "type": "string",
-                                "example": "https://ik.imagekit.io/ccrsxx/c093c949-6dc5-40cd-88a8-e6824e78730a_ysBQ8_ikR.jpg"
-                              },
-                              "updatedAt": {
-                                "type": "string",
-                                "example": "2024-11-07T14:53:40.825Z"
-                              },
-                              "userId": {
-                                "type": "string",
-                                "example": "5ec59a42-64f4-437d-8477-3b3db84c60aa"
-                              }
-                            }
-                          },
-                          "example": [
-                            {
-                              "address": "Jakarta",
-                              "createdAt": "2024-10-25T12:51:28.774Z",
-                              "id": "e400db97-300b-4e1b-aead-15cc7fc89882",
-                              "identityNumber": "123456789",
-                              "identityType": "PASSPORT",
-                              "image": "https://ik.imagekit.io/ccrsxx/c093c949-6dc5-40cd-88a8-e6824e78730a_ysBQ8_ikR.jpg",
-                              "updatedAt": "2024-11-07T14:53:40.825Z",
-                              "userId": "5ec59a42-64f4-437d-8477-3b3db84c60aa"
-                            }
-                          ]
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "example": "2024-10-25T12:51:28.774Z"
-                        }
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "200 - Update current user profile": {
-                    "value": {
-                      "data": {
-                        "createdAt": "2024-10-25T12:51:28.774Z",
-                        "email": "aminrisal@gmail.com",
-                        "id": "5ec59a42-64f4-437d-8477-3b3db84c60aa",
-                        "name": "Risal Amin",
-                        "password": "$2b$10$NQZCR6olPgVJXaqceA8s.eL9zFGyR5SCR/0z1pTDvcbiqcLcQaIFq",
-                        "profile": [
-                          {
-                            "address": "Jakarta",
-                            "createdAt": "2024-10-25T12:51:28.774Z",
-                            "id": "e400db97-300b-4e1b-aead-15cc7fc89882",
-                            "identityNumber": "123456789",
-                            "identityType": "PASSPORT",
-                            "image": "https://ik.imagekit.io/ccrsxx/c093c949-6dc5-40cd-88a8-e6824e78730a_ysBQ8_ikR.jpg",
-                            "updatedAt": "2024-11-07T14:53:40.825Z",
-                            "userId": "5ec59a42-64f4-437d-8477-3b3db84c60aa"
-                          }
-                        ],
-                        "updatedAt": "2024-10-25T12:51:28.774Z"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "400 - Invalid body",
-            "headers": {
-              "Access-Control-Allow-Credentials": {
-                "schema": {
-                  "type": "string",
-                  "example": "true"
-                }
-              },
-              "Access-Control-Allow-Origin": {
-                "schema": {
-                  "type": "string",
-                  "example": "http://localhost:3000"
-                }
-              },
-              "Connection": {
-                "schema": {
-                  "type": "string",
-                  "example": "keep-alive"
-                }
-              },
-              "Content-Length": {
-                "schema": {
-                  "type": "string",
-                  "example": "53"
-                }
-              },
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Thu, 07 Nov 2024 14:50:54 GMT"
-                }
-              },
-              "ETag": {
-                "schema": {
-                  "type": "string",
-                  "example": "W/\"35-0mpTvn5Q36KIu6TSSR4OnXahZ+A\""
-                }
-              },
-              "Keep-Alive": {
-                "schema": {
-                  "type": "string",
-                  "example": "timeout=5"
-                }
-              },
-              "Vary": {
-                "schema": {
-                  "type": "string",
-                  "example": "Origin"
-                }
-              },
-              "X-Powered-By": {
-                "schema": {
-                  "type": "string",
-                  "example": "Express"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "\"image\" must be a valid uri"
-                        }
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "400 - Invalid body": {
-                    "value": {
-                      "error": {
-                        "message": "\"image\" must be a valid uri"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "401 - Invalid token",
-            "headers": {
-              "Access-Control-Allow-Credentials": {
-                "schema": {
-                  "type": "string",
-                  "example": "true"
-                }
-              },
-              "Access-Control-Allow-Origin": {
-                "schema": {
-                  "type": "string",
-                  "example": "http://localhost:3000"
-                }
-              },
-              "Connection": {
-                "schema": {
-                  "type": "string",
-                  "example": "keep-alive"
-                }
-              },
-              "Content-Length": {
-                "schema": {
-                  "type": "string",
-                  "example": "37"
-                }
-              },
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Thu, 07 Nov 2024 14:52:15 GMT"
-                }
-              },
-              "ETag": {
-                "schema": {
-                  "type": "string",
-                  "example": "W/\"25-FIV/ZCaZ465tIhBUa/pSs9dwkFc\""
-                }
-              },
-              "Keep-Alive": {
-                "schema": {
-                  "type": "string",
-                  "example": "timeout=5"
-                }
-              },
-              "Vary": {
-                "schema": {
-                  "type": "string",
-                  "example": "Origin"
-                }
-              },
-              "X-Powered-By": {
-                "schema": {
-                  "type": "string",
-                  "example": "Express"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "Invalid token"
-                        }
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "401 - Invalid token": {
-                    "value": {
-                      "error": {
-                        "message": "Invalid token"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
       }
     },
-    "/api/v1": {
+    "/": {
       "get": {
         "tags": ["Misc"],
         "summary": "Ping server",
@@ -2673,7 +2754,7 @@
         }
       }
     },
-    "/api/v1/docs": {
+    "/docs": {
       "get": {
         "tags": ["Misc"],
         "summary": "Get documentation",
@@ -2751,7 +2832,7 @@
         }
       }
     },
-    "/api/v1/upload/image": {
+    "/upload/image": {
       "post": {
         "tags": ["Upload"],
         "summary": "Upload image",
