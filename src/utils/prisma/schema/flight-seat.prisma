@@ -1,0 +1,23 @@
+model FlightSeat {
+    id       String           @id @default(uuid(7)) @db.Uuid
+    row      Int
+    column   Int
+    status   FlightSeatStatus @default(AVAILABLE)
+    flightId String           @map("flight_id") @db.Uuid
+
+    flights Flight @relation(fields: [flightId], references: [id])
+
+    returnBookings    Booking[] @relation("ReturnBookings")
+    departureBookings Booking[] @relation("DepartureBookings")
+
+    createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+    updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+    @@map("flight_seat")
+}
+
+enum FlightSeatStatus {
+    AVAILABLE
+    BOOKED
+    HELD
+}

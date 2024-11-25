@@ -1,0 +1,25 @@
+model Payment {
+    id     String        @id @default(uuid(7)) @db.Uuid
+    amount Int
+    status PaymentStatus
+    method PaymentMethod
+
+    transaction Transaction?
+
+    createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+    updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+    @@map("payment")
+}
+
+enum PaymentStatus {
+    PENDING
+    COMPLETED
+    FAILED
+    CANCELLED
+}
+
+enum PaymentMethod {
+    CREDIT_CARD
+    BANK_TRANSFER
+}
