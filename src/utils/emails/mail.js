@@ -34,7 +34,7 @@ export async function sendResetPasswordEmail({ name, email, token }) {
 
   const parsedEmailTemplate = emailTemplate({
     name,
-    url: `${appEnv.FRONTEND_URL}/reset-password?token=${token}`
+    url: `${appEnv.FRONTEND_URL}/auth/password-reset/${token}`
   });
 
   await client.sendMail({
