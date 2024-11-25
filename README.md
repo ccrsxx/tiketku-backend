@@ -1,4 +1,4 @@
-# Simple Bank Rest API &middot; [![codecov](https://codecov.io/github/ccrsxx/f-bee24001186-km7-ra-bank_rest_api-ch4/graph/badge.svg?token=TG1Z09FP8O)](https://codecov.io/github/ccrsxx/f-bee24001186-km7-ra-bank_rest_api-ch4)
+# Plane Ticket &middot; [![codecov](https://codecov.io/gh/ccrsxx/plane-ticket-be/graph/badge.svg?token=v47qEryz4z)](https://codecov.io/gh/ccrsxx/plane-ticket-be)
 
 ## Rest API Documentation
 
@@ -11,13 +11,13 @@ Here are the steps to run the project locally.
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/ccrsxx/f-bee24001186-km7-ra-bank_rest_api-ch4.git
+   git clone https://github.com/ccrsxx/plane-ticket-be.git
    ```
 
 1. Change directory to the project
 
    ```bash
-   cd f-bee24001186-km7-ra-bank_rest_api-ch4
+   cd plane-ticket-be
    ```
 
 1. Install dependencies

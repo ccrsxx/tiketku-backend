@@ -9,14 +9,23 @@ jobs:
   ci:
     uses: ./.github/workflows/ci.yaml
 
+  codecov:
+    uses: ./.github/workflows/codecov.yaml
+    secrets: inherit
+
+  migration:
+    uses: ./.github/workflows/migration.yaml
+    secrets: inherit
+
+    needs:
+      - ci
+      - codecov
+
   deploy:
     name: Build and deploy to Cloud Run
     runs-on: ubuntu-latest
 
-    # TODO: Enable this later when ready to deploy
-    if: false
-
-    needs: ci
+    needs: migration
 
     permissions:
       id-token: write
@@ -61,6 +70,7 @@ jobs:
           env_vars: |
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             SENTRY_DSN=${{ secrets.SENTRY_DSN }}
+            DIRECT_URL=${{ secrets.DIRECT_URL }}
             DATABASE_URL=${{ secrets.DATABASE_URL }}
             FRONTEND_URL=${{ secrets.FRONTEND_URL }}
             EMAIL_ADDRESS=${{ secrets.EMAIL_ADDRESS }}

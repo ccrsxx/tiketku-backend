@@ -1,16 +1,14 @@
 name: Codecov
 
 on:
-  push:
-    branches:
-      - main
+  workflow_call:
   pull_request:
     branches:
       - main
 
 jobs:
-  test:
-    name: Run tests and collect coverage
+  coverage:
+    name: Coverage
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
