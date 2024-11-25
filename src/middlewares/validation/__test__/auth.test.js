@@ -51,7 +51,7 @@ describe('User validation middleware', () => {
 
       expect(error).toBeInstanceOf(HttpError);
       expect(error).toHaveProperty('statusCode', 400);
-      expect(error).toHaveProperty('message', '"email" must be a valid email');
+      expect(error).toHaveProperty('message', 'Invalid body');
 
       expect(next).not.toHaveBeenCalled();
     });

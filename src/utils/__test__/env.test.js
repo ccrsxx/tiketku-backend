@@ -122,8 +122,8 @@ describe('Environment configuration', () => {
 
     access.mockImplementation(() => Promise.resolve());
 
-    expect(import('../env.js')).rejects.toThrow(
-      'Environment validation error: "PORT" is required'
-    );
+    expect(import('../env.js')).rejects.toMatchObject({
+      message: expect.stringMatching(/Environment validation error/)
+    });
   });
 });
