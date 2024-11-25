@@ -29,9 +29,15 @@ function validateEnv() {
     PORT
   };
 
-  const { data, error } = envSchema.safeParse(mergedEnv);
+  let { data, error } = envSchema.safeParse(mergedEnv);
 
-  const shouldThrowError = error && process.env.CI !== 'true';
+  const runningOnCi = process.env.CI === 'true';
+
+  if (runningOnCi) {
+    data = /** @type {EnvSchema} */ (process.env);
+  }
+
+  const shouldThrowError = error && !runningOnCi;
 
   if (shouldThrowError) {
     throw new Error(`Environment validation error: ${error.message}`);

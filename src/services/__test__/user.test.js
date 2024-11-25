@@ -6,10 +6,6 @@ import { generatePrismaMock } from '../../utils/jest.js';
 /** @import {GeneratedPrismaMock} from '../../utils/jest.js' */
 /** @typedef {Record<keyof import('../../loaders/socket.js'), jest.Mock>} SocketMock */
 
-jest.unstable_mockModule('../../utils/env.js', () => ({
-  appEnv: {}
-}));
-
 jest.unstable_mockModule('../../utils/db.js', generatePrismaMock);
 
 jest.unstable_mockModule('../../loaders/socket.js', () => ({
