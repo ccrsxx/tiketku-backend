@@ -25,19 +25,6 @@ async function getCurrentUser(_req, res) {
 }
 
 /**
- * @param {Request<{ id: string }, ValidUserPayload>} req
- * @param {Response<unknown, { user: User }>} res
- */
-async function updateCurrentUserProfile(req, res) {
-  const user = await UserService.updateUserProfile(
-    res.locals.user.id,
-    req.body
-  );
-
-  res.status(200).json({ data: user });
-}
-
-/**
  * @param {Request} _req
  * @param {Response} res
  */
@@ -58,9 +45,8 @@ async function createUser(req, res) {
 }
 
 export const UserController = {
-  getUser,
   getCurrentUser,
-  updateCurrentUserProfile,
+  getUser,
   getUsers,
   createUser
 };

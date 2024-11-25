@@ -88,8 +88,10 @@ describe('User controller', () => {
       await AuthController.register(req, res);
 
       expect(UserService.createUser).toHaveBeenCalled();
-      expect(res.status).toHaveBeenCalledWith(201);
-      expect(res.json).toHaveBeenCalledWith({ data: user });
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        data: { message: 'Register success, waiting for OTP verification' }
+      });
     });
   });
 });

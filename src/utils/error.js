@@ -1,10 +1,17 @@
+/**
+ * @typedef {Object} HttpErrorOptions
+ * @property {string} message
+ * @property {string[]} [errors]
+ */
+
 export class HttpError extends Error {
   /**
    * @param {number} statusCode
-   * @param {string} message
+   * @param {HttpErrorOptions} options
    */
-  constructor(statusCode, message) {
+  constructor(statusCode, { message, errors }) {
     super(message);
+    this.errors = errors;
     this.statusCode = statusCode;
   }
 }

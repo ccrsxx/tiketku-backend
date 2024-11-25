@@ -1,9 +1,8 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import { io } from '../loaders/socket.js';
 import { appEnv } from '../utils/env.js';
-import { HttpError } from '../utils/error.js';
 import { prisma } from '../utils/db.js';
+import { HttpError } from '../utils/error.js';
 import { generateRandomToken } from '../utils/helper.js';
 import { sendResetPasswordEmail } from '../utils/emails/mail.js';
 
@@ -15,30 +14,34 @@ async function login(payload) {
 
   const user = await prisma.user.findUnique({
     where: {
-      email
+      email,
+      verified: true
+    },
+    omit: {
+      password: false
     }
   });
 
   if (!user) {
-    throw new HttpError(
-      401,
-      'Email or password is incorrect, please try again'
-    );
+    throw new HttpError(401, {
+      message: 'Email or password is incorrect, please try again'
+    });
   }
 
   const isMatch = await isPasswordMatch(password, user.password);
 
   if (!isMatch) {
-    throw new HttpError(
-      401,
-      'Email or password is incorrect, please try again'
-    );
+    throw new HttpError(401, {
+      message: 'Email or password is incorrect, please try again'
+    });
   }
 
   const token = await generateToken(user.id);
 
+  const { password: _, ...userWithoutPassword } = user;
+
   const userWithToken = {
-    ...user,
+    ...userWithoutPassword,
     token
   };
 
@@ -80,7 +83,7 @@ async function verifyToken(token) {
     const validToken = typeof decodedToken === 'object' && decodedToken.id;
 
     if (!validToken) {
-      throw new HttpError(401, 'Invalid token');
+      throw new HttpError(401, { message: 'Invalid token' });
     }
 
     const user = await prisma.user.findUnique({
@@ -90,13 +93,13 @@ async function verifyToken(token) {
     });
 
     if (!user) {
-      throw new HttpError(401, 'Invalid token');
+      throw new HttpError(401, { message: 'Invalid token' });
     }
 
     return user;
   } catch (err) {
     if (err instanceof jwt.JsonWebTokenError) {
-      throw new HttpError(401, 'Invalid token');
+      throw new HttpError(401, { message: 'Invalid token' });
     }
 
     throw err;
@@ -164,7 +167,7 @@ async function resetPassword({ token, password }) {
   });
 
   if (!resetPasswordData) {
-    throw new HttpError(400, 'Invalid or expired token');
+    throw new HttpError(400, { message: 'Invalid or expired token' });
   }
 
   const hashedPassword = await hashPassword(password);
@@ -187,11 +190,6 @@ async function resetPassword({ token, password }) {
         password: hashedPassword
       }
     });
-
-    io.emit(
-      'notifications:password-reset',
-      `A user has reset their password with email ${resetPasswordData.user.email}`
-    );
   });
 }
 
@@ -208,7 +206,7 @@ async function verifyPasswordResetToken(token) {
   });
 
   if (!resetPasswordData) {
-    throw new HttpError(400, 'Invalid or expired token');
+    throw new HttpError(400, { message: 'Invalid or expired token' });
   }
 }
 

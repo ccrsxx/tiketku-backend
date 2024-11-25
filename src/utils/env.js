@@ -1,40 +1,24 @@
-import Joi from 'joi';
+import { z } from 'zod';
 import dotenv from 'dotenv';
 import { logger } from '../loaders/pino.js';
 import { access } from 'fs/promises';
 import { validStringSchema } from './validation.js';
 
-/**
- * @typedef {Object} EnvSchema
- * @property {string} PORT - The port for the application.
- * @property {string} JWT_SECRET - The secret for the JWT token.
- * @property {string} SENTRY_DSN - The DSN for the Sentry service.
- * @property {string} DIRECT_URL - The URL for database migrations and seeds.
- * @property {string} DATABASE_URL - The URL for the database connection.
- * @property {string} FRONTEND_URL - The URL for the frontend application.
- * @property {string} EMAIL_ADDRESS - The email address for the email service.
- * @property {string} EMAIL_API_KEY - The API key for the email service.
- * @property {string} IMAGEKIT_PUBLIC_KEY - The public key for the ImageKit.
- * @property {string} IMAGEKIT_PRIVATE_KEY - The private key for the ImageKit.
- * @property {string} IMAGEKIT_URL_ENDPOINT - The URL endpoint for the ImageKit.
- */
+const envSchema = z.object({
+  PORT: validStringSchema,
+  SENTRY_DSN: validStringSchema,
+  JWT_SECRET: validStringSchema,
+  DIRECT_URL: validStringSchema,
+  DATABASE_URL: validStringSchema,
+  FRONTEND_URL: validStringSchema,
+  EMAIL_ADDRESS: validStringSchema,
+  EMAIL_API_KEY: validStringSchema,
+  IMAGEKIT_PUBLIC_KEY: validStringSchema,
+  IMAGEKIT_PRIVATE_KEY: validStringSchema,
+  IMAGEKIT_URL_ENDPOINT: validStringSchema
+});
 
-/** @type {Joi.ObjectSchema<EnvSchema>} */
-export const envSchema = Joi.object({
-  PORT: validStringSchema.required(),
-  SENTRY_DSN: validStringSchema.required(),
-  JWT_SECRET: validStringSchema.required(),
-  DIRECT_URL: validStringSchema.required(),
-  DATABASE_URL: validStringSchema.required(),
-  FRONTEND_URL: validStringSchema.required(),
-  EMAIL_ADDRESS: validStringSchema.required(),
-  EMAIL_API_KEY: validStringSchema.required(),
-  IMAGEKIT_PUBLIC_KEY: validStringSchema.required(),
-  IMAGEKIT_PRIVATE_KEY: validStringSchema.required(),
-  IMAGEKIT_URL_ENDPOINT: validStringSchema.required()
-})
-  .options({ stripUnknown: true })
-  .required();
+/** @typedef {z.infer<typeof envSchema>} EnvSchema */
 
 /** @returns {EnvSchema} */
 function validateEnv() {
@@ -45,7 +29,7 @@ function validateEnv() {
     PORT
   };
 
-  const { value, error } = envSchema.validate(mergedEnv);
+  const { data, error } = envSchema.safeParse(mergedEnv);
 
   const shouldThrowError = error && process.env.CI !== 'true';
 
@@ -53,7 +37,7 @@ function validateEnv() {
     throw new Error(`Environment validation error: ${error.message}`);
   }
 
-  return value;
+  return /** @type {EnvSchema} */ (data);
 }
 
 async function loadEnv() {

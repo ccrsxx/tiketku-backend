@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import { AuthController } from '../controllers/auth.js';
+import { OtpController } from '../controllers/otp.js';
+import { OtpValidationMiddleware } from '../middlewares/validation/otp.js';
 import { UserValidationMiddleware } from '../middlewares/validation/user.js';
 import { AuthValidationMiddleware } from '../middlewares/validation/auth.js';
 import { CommonValidationMiddleware } from '../middlewares/validation/common.js';
@@ -24,7 +26,7 @@ export default (app) => {
 
   router.post(
     '/password-reset',
-    CommonValidationMiddleware.isValidEmail,
+    CommonValidationMiddleware.isValidEmailPayload,
     AuthController.sendPasswordResetEmail
   );
 
@@ -38,5 +40,19 @@ export default (app) => {
     '/password-reset/:token',
     AuthValidationMiddleware.isValidTokenParams,
     AuthController.verifyPasswordResetToken
+  );
+
+  router.post(
+    '/otp',
+    CommonValidationMiddleware.isValidEmailPayload,
+    UserValidationMiddleware.isUnverifiedUserExistsPayload,
+    OtpController.sendUserVerificationOtp
+  );
+
+  router.post(
+    '/otp/verify',
+    OtpValidationMiddleware.isValidOtpPayload,
+    UserValidationMiddleware.isUnverifiedUserExistsPayload,
+    OtpController.verifyUserVerificationOtp
   );
 };

@@ -29,7 +29,7 @@ function isValidUserCreatePayload(req, _res, next) {
   const { error } = validUserPayload.safeParse(req.body);
 
   if (error) {
-    throw new HttpError(400, { message: error.message });
+    throw new HttpError(400, formatZodError(error));
   }
 
   next();

@@ -15,7 +15,7 @@ function parseImage(req, res, next) {
   uploadToMemory(req, res, (err) => {
     if (err) {
       if (err instanceof MulterError) {
-        return next(new HttpError(400, err.message));
+        return next(new HttpError(400, { message: err.message }));
       }
 
       return next(err);
@@ -34,7 +34,7 @@ function uploadToImageKit(req, res, next) {
   const file = req.file;
 
   if (!file) {
-    throw new HttpError(400, 'Image file is required');
+    throw new HttpError(400, { message: 'Image file is required' });
   }
 
   const fileExtension = file.originalname.split('.').pop();
