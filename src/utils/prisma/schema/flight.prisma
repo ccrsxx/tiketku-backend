@@ -18,6 +18,10 @@ model Flight {
     DepartureAirport   Airport? @relation("DepartureAirport", fields: [departureAirportId], references: [id])
     DestinationAirport Airport? @relation("DestinationAirport", fields: [destinationAirportId], references: [id])
 
+    DepartureFlight Transaction[] @relation("DepartureFlight")
+    ReturnFlight    Transaction[] @relation("ReturnFlight")
+    FlightSeat      FlightSeat[]
+
     @@map("flight")
 }
 

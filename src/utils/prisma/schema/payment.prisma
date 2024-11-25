@@ -1,8 +1,8 @@
 model Payment {
-    id        String       @id @default(uuid()) @db.Uuid
-    amount    Int
-    status    paymentStatus @db.Enum
-    method    paymentMethod @db.Enum
+    id     String        @id @default(uuid()) @db.Uuid
+    amount Int
+    status paymentStatus
+    method paymentMethod
 
     createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
