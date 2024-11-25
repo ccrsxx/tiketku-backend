@@ -1,12 +1,12 @@
 model User {
-    id           String  @id @default(uuid(7)) @db.Uuid
-    name         String
-    email        String  @unique
-    image        String?
-    admin        Boolean @default(false)
-    verified     Boolean @default(false)
-    password     String
-    phone_number String
+    id          String  @id @default(uuid(7)) @db.Uuid
+    name        String
+    email       String  @unique
+    image       String?
+    admin       Boolean @default(false)
+    verified    Boolean @default(false)
+    password    String
+    phoneNumber String  @unique
 
     Otp           Otp[]
     notifications Notification[]

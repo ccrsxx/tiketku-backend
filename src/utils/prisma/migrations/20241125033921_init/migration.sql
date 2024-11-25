@@ -14,7 +14,7 @@ CREATE TABLE "notification" (
 -- CreateTable
 CREATE TABLE "otp" (
     "id" UUID NOT NULL,
-    "code" TEXT NOT NULL,
+    "otp" TEXT NOT NULL,
     "used" BOOLEAN NOT NULL DEFAULT false,
     "expired_at" TIMESTAMPTZ NOT NULL,
     "user_id" UUID NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE "users" (
     "admin" BOOLEAN NOT NULL DEFAULT false,
     "verified" BOOLEAN NOT NULL DEFAULT false,
     "password" TEXT NOT NULL,
-    "phone_number" TEXT NOT NULL,
+    "phoneNumber" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ NOT NULL,
 
@@ -55,6 +55,9 @@ CREATE TABLE "users" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "users_phoneNumber_key" ON "users"("phoneNumber");
 
 -- AddForeignKey
 ALTER TABLE "notification" ADD CONSTRAINT "notification_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
