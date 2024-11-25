@@ -6,10 +6,10 @@ model Notification {
 
     userId String @map("user_id") @db.Uuid
 
+    user User @relation(fields: [userId], references: [id])
+
     createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
-
-    user User @relation(fields: [userId], references: [id])
 
     @@map("notification")
 }

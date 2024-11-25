@@ -1,19 +1,22 @@
 model Transaction {
-    id                String  @id @default(uuid()) @db.Uuid
-    code              String  @unique
+    id   String @id @default(uuid(7)) @db.Uuid
+    code String @unique
+
     userId            String  @map("user_id") @db.Uuid
-    departureFlightId String  @map("departure_flight_id") @db.Uuid
-    returnFlightId    String? @map("return_flight_id") @db.Uuid
     paymentId         String  @unique @map("payment_id") @db.Uuid
+    returnFlightId    String? @map("return_flight_id") @db.Uuid
+    departureFlightId String  @map("departure_flight_id") @db.Uuid
+
+    user    User    @relation(fields: [userId], references: [id])
+    payment Payment @relation(fields: [paymentId], references: [id])
+
+    bookings Booking[]
+
+    returnFlight    Flight? @relation("ReturnFlightTransactions", fields: [returnFlightId], references: [id])
+    departureFlight Flight  @relation("DepartureFlightTransactions", fields: [departureFlightId], references: [id])
 
     createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
-
-    User            User      @relation(fields: [userId], references: [id])
-    DepartureFlight Flight    @relation("DepartureFlight", fields: [departureFlightId], references: [id])
-    ReturnFlight    Flight?   @relation("ReturnFlight", fields: [returnFlightId], references: [id])
-    Payment         Payment   @relation(fields: [paymentId], references: [id])
-    Bookings        Booking[]
 
     @@map("transaction")
 }

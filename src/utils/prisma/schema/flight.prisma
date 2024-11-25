@@ -1,31 +1,33 @@
 model Flight {
     id                 String          @id @default(uuid(7)) @db.Uuid
     price              Int
-    type               flightClassType
-    departureTimestamp DateTime        @map("departure_timestamp") @db.Timestamptz()
+    type               FlightClassType
     arrivalTimestamp   DateTime        @map("arrival_timestamp") @db.Timestamptz()
+    departureTimestamp DateTime        @map("departure_timestamp") @db.Timestamptz()
 
-    airlineId            String  @map("airline_id") @db.Uuid
-    airplaneId           String  @map("airplane_id") @db.Uuid
-    departureAirportId   String? @map("departure_airport_id") @db.Uuid
-    destinationAirportId String? @map("destination_airport_id") @db.Uuid
+    airlineId            String @map("airline_id") @db.Uuid
+    airplaneId           String @map("airplane_id") @db.Uuid
+    departureAirportId   String @map("departure_airport_id") @db.Uuid
+    destinationAirportId String @map("destination_airport_id") @db.Uuid
+
+    airline  Airline  @relation(fields: [airlineId], references: [id])
+    airplane Airplane @relation(fields: [airplaneId], references: [id])
+
+    departureAirport   Airport @relation("DepartureFlights", fields: [departureAirportId], references: [id])
+    destinationAirport Airport @relation("DestinationFlights", fields: [destinationAirportId], references: [id])
+
+    flightSeats FlightSeat[]
+
+    returnFlightTransactions    Transaction[] @relation("ReturnFlightTransactions")
+    departureFlightTransactions Transaction[] @relation("DepartureFlightTransactions")
 
     createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
 
-    Airline            Airline  @relation(fields: [airlineId], references: [id])
-    Airplane           Airplane @relation(fields: [airplaneId], references: [id])
-    DepartureAirport   Airport? @relation("DepartureAirport", fields: [departureAirportId], references: [id])
-    DestinationAirport Airport? @relation("DestinationAirport", fields: [destinationAirportId], references: [id])
-
-    DepartureFlight Transaction[] @relation("DepartureFlight")
-    ReturnFlight    Transaction[] @relation("ReturnFlight")
-    FlightSeat      FlightSeat[]
-
     @@map("flight")
 }
 
-enum flightClassType {
+enum FlightClassType {
     ECONOMY
     PREMIUM
     BUSINESS

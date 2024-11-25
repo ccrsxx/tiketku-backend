@@ -6,15 +6,15 @@ model User {
     admin       Boolean @default(false)
     verified    Boolean @default(false)
     password    String
-    phoneNumber String  @unique
+    phoneNumber String  @unique @map("phone_number")
+
+    otp           Otp[]
+    transactions  Transaction[]
+    notifications Notification[]
+    passwordReset PasswordReset[]
 
     createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
-
-    Otp           Otp[]
-    notifications Notification[]
-    passwordReset PasswordReset[]
-    Transaction   Transaction[]
 
     @@map("users")
 }

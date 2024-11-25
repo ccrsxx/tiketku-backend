@@ -4,10 +4,10 @@ model Airplane {
     maxRow    Int    @map("max_row")
     maxColumn Int    @map("max_column")
 
+    flights Flight[]
+
     createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
-
-    Flight Flight[]
 
     @@map("airplane")
 }

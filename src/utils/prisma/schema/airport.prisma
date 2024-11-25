@@ -1,15 +1,21 @@
 model Airport {
-    id       String @id @default(uuid(7)) @db.Uuid
+    id       String      @id @default(uuid(7)) @db.Uuid
+    type     AirportType
     name     String
     code     String
     image    String
     location String
 
+    departureFlights   Flight[] @relation("DepartureFlights")
+    destinationFlights Flight[] @relation("DestinationFlights")
+
     createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
 
-    DepartureFlights   Flight[] @relation("DepartureAirport")
-    DestinationFlights Flight[] @relation("DestinationAirport")
-
     @@map("airport")
+}
+
+enum AirportType {
+    DOMESTIC
+    INTERNATIONAL
 }
