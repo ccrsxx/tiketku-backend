@@ -2,7 +2,7 @@
 
 ## Rest API Documentation
 
-The API documentation can be found [here](https://www.postman.com/soratan/workspace/challenge-4) on Postman.
+The API documentation can be found [here](https://postman.com/plane-ticket-be/workspace/team-workspace/collection/39975601-eb96ba17-3da2-4c9d-910e-598bb809f1a5) on Postman.
 
 ## Development
 
