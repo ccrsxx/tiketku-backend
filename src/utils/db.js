@@ -14,12 +14,16 @@ export const prisma = new PrismaClient({
       ...omittedTimestampFields
     },
     otp: omittedTimestampFields,
+    flight: omittedTimestampFields,
+    airline: omittedTimestampFields,
+    airport: omittedTimestampFields,
+    booking: omittedTimestampFields,
+    payment: omittedTimestampFields,
+    airplane: omittedTimestampFields,
+    passenger: omittedTimestampFields,
+    flightSeat: omittedTimestampFields,
+    transaction: omittedTimestampFields,
     notification: omittedTimestampFields,
     passwordReset: omittedTimestampFields
   }
 });
-
-// @ts-expect-error
-BigInt.prototype.toJSON = function () {
-  return this.toString();
-};
