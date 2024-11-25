@@ -1,0 +1,32 @@
+model Passenger {
+    id                   String           @id @default(uuid()) @db.Uuid
+    type                 passengerType    @db.Enum
+    name                 String
+    familyName           String?          @map("family_name")
+    email                String?
+    birthDate            DateTime?        @map("birth_date")
+    phoneNumber          String?          @map("phone_number")
+    identityType         identityType     @map("identity_type") @db.Enum
+    identityNumber       String           @map("identity_number")
+    identityNationality  String?          @map("identity_nationality")
+    identityExpiryDate   DateTime?        @map("identity_expiry_date")
+
+    createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+    updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+    Bookings Booking[]
+    
+    @@map("passenger")
+}
+
+enum passengerType {
+    USER
+    ADULT
+    CHILD
+    INFANT
+}
+
+enum identityType {
+    KTP
+    PASSPORT
+}

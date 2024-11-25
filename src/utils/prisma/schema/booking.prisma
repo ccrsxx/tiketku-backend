@@ -1,0 +1,17 @@
+model Booking {
+    id                     String       @id @default(uuid()) @db.Uuid
+    transactionId          String       @map("transaction_id") @db.Uuid
+    departureFlightSeatId  String       @map("departure_flight_seat_id") @db.Uuid
+    returnFlightSeatId     String?      @map("return_flight_seat_id") @db.Uuid
+    passengerId            String       @map("passenger_id") @db.Uuid
+
+    createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+    updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+    Transaction Transaction @relation(fields: [transactionId], references: [id])
+    DepartureSeat FlightSeat @relation("DepartureSeat", fields: [departureFlightSeatId], references: [id])
+    ReturnSeat    FlightSeat? @relation("ReturnSeat", fields: [returnFlightSeatId], references: [id])
+    Passenger     Passenger   @relation(fields: [passengerId], references: [id])
+
+    @@map("booking")
+}
