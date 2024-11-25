@@ -17,6 +17,10 @@ import { generatePrismaMock } from '../../utils/jest.js';
  * }} AuthServiceMock
  */
 
+jest.unstable_mockModule('../../utils/env.js', () => ({
+  appEnv: {}
+}));
+
 jest.unstable_mockModule('../../utils/db.js', generatePrismaMock);
 
 jest.unstable_mockModule(

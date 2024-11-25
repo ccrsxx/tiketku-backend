@@ -23,11 +23,9 @@ async function login(req, res) {
 async function register(req, res) {
   await UserService.createUser(req.body);
 
-  res
-    .status(200)
-    .json({
-      data: { message: 'Register success, waiting for OTP verification' }
-    });
+  res.status(200).json({
+    data: { message: 'Register success, waiting for OTP verification' }
+  });
 }
 
 /**
