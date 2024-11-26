@@ -1,10 +1,11 @@
 model Airport {
-    id       String      @id @default(uuid(7)) @db.Uuid
-    type     AirportType
-    name     String
-    code     String
-    image    String
-    location String
+    id        String      @id @default(uuid(7)) @db.Uuid
+    type      AirportType
+    name      String
+    code      String      @unique
+    image     String
+    location  String
+    continent Continent
 
     departureFlights   Flight[] @relation("DepartureFlights")
     destinationFlights Flight[] @relation("DestinationFlights")
@@ -18,4 +19,12 @@ model Airport {
 enum AirportType {
     DOMESTIC
     INTERNATIONAL
+}
+
+enum Continent {
+    ASIA
+    EUROPE
+    AFRICA
+    AMERICA
+    AUSTRALIA
 }
