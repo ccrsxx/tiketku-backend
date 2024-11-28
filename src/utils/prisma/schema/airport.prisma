@@ -3,8 +3,8 @@ model Airport {
     type      AirportType
     name      String
     code      String      @unique
+    city      String
     image     String
-    location  String
     continent Continent
 
     departureFlights   Flight[] @relation("DepartureFlights")

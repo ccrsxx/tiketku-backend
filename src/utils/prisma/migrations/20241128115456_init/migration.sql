@@ -2,6 +2,9 @@
 CREATE TYPE "AirportType" AS ENUM ('DOMESTIC', 'INTERNATIONAL');
 
 -- CreateEnum
+CREATE TYPE "Continent" AS ENUM ('ASIA', 'EUROPE', 'AFRICA', 'AMERICA', 'AUSTRALIA');
+
+-- CreateEnum
 CREATE TYPE "FlightSeatStatus" AS ENUM ('AVAILABLE', 'BOOKED', 'HELD');
 
 -- CreateEnum
@@ -24,6 +27,7 @@ CREATE TABLE "airline" (
     "id" UUID NOT NULL,
     "name" TEXT NOT NULL,
     "code" TEXT NOT NULL,
+    "image" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ NOT NULL,
 
@@ -48,8 +52,9 @@ CREATE TABLE "airport" (
     "type" "AirportType" NOT NULL,
     "name" TEXT NOT NULL,
     "code" TEXT NOT NULL,
+    "city" TEXT NOT NULL,
     "image" TEXT NOT NULL,
-    "location" TEXT NOT NULL,
+    "continent" "Continent" NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ NOT NULL,
 
@@ -85,8 +90,9 @@ CREATE TABLE "flight_seat" (
 -- CreateTable
 CREATE TABLE "flight" (
     "id" UUID NOT NULL,
-    "price" INTEGER NOT NULL,
     "type" "FlightClassType" NOT NULL,
+    "price" INTEGER NOT NULL,
+    "discount" INTEGER,
     "arrival_timestamp" TIMESTAMPTZ NOT NULL,
     "departure_timestamp" TIMESTAMPTZ NOT NULL,
     "airline_id" UUID NOT NULL,
@@ -200,6 +206,9 @@ CREATE TABLE "users" (
 );
 
 -- CreateIndex
+CREATE UNIQUE INDEX "airport_code_key" ON "airport"("code");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "transaction_code_key" ON "transaction"("code");
 
 -- CreateIndex
@@ -218,10 +227,10 @@ ALTER TABLE "booking" ADD CONSTRAINT "booking_passenger_id_fkey" FOREIGN KEY ("p
 ALTER TABLE "booking" ADD CONSTRAINT "booking_transaction_id_fkey" FOREIGN KEY ("transaction_id") REFERENCES "transaction"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "booking" ADD CONSTRAINT "booking_departure_flight_seat_id_fkey" FOREIGN KEY ("departure_flight_seat_id") REFERENCES "flight_seat"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "booking" ADD CONSTRAINT "booking_return_flight_seat_id_fkey" FOREIGN KEY ("return_flight_seat_id") REFERENCES "flight_seat"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "booking" ADD CONSTRAINT "booking_return_flight_seat_id_fkey" FOREIGN KEY ("return_flight_seat_id") REFERENCES "flight_seat"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "booking" ADD CONSTRAINT "booking_departure_flight_seat_id_fkey" FOREIGN KEY ("departure_flight_seat_id") REFERENCES "flight_seat"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "flight_seat" ADD CONSTRAINT "flight_seat_flight_id_fkey" FOREIGN KEY ("flight_id") REFERENCES "flight"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

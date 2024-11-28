@@ -65,6 +65,7 @@
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@eslint/js": "^9.13.0",
+    "@faker-js/faker": "^9.2.0",
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/eslint__js": "^8.42.3",
@@ -90,7 +91,7 @@
     "typescript": "^5.6.3"
   },
   "prisma": {
-    "seed": "node src/utils/prisma/seed.js",
+    "seed": "node src/utils/prisma/seed/seed.js",
     "schema": "src/utils/prisma/schema"
   },
   "volta": {

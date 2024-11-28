@@ -1,7 +1,8 @@
 model Airline {
-    id   String @id @default(uuid(7)) @db.Uuid
-    name String
-    code String
+    id    String @id @default(uuid(7)) @db.Uuid
+    name  String
+    code  String
+    image String
 
     flights Flight[]
 
