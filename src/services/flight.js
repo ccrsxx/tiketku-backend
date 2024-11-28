@@ -1,12 +1,7 @@
 import { prisma } from '../utils/db.js';
 import { HttpError } from '../utils/error.js';
 
-/**
- * Mengambil penerbangan berdasarkan ID
- *
- * @param {string} id
- * @returns {Promise<Object>}
- */
+/** @param {string} id */
 async function getFlight(id) {
   const flight = await prisma.flight.findUnique({
     where: { id },
