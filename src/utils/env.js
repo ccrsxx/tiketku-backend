@@ -13,8 +13,7 @@ const envSchema = z.object({
   FRONTEND_URL: validStringSchema,
   EMAIL_ADDRESS: validStringSchema,
   EMAIL_API_KEY: validStringSchema,
-  STORAGE_BUCKET: validStringSchema,
-  GOOGLE_APPLICATION_CREDENTIALS: validStringSchema
+  STORAGE_BUCKET: validStringSchema
 });
 
 /** @typedef {z.infer<typeof envSchema>} EnvSchema */

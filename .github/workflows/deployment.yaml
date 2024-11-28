@@ -75,7 +75,5 @@ jobs:
             FRONTEND_URL=${{ secrets.FRONTEND_URL }}
             EMAIL_ADDRESS=${{ secrets.EMAIL_ADDRESS }}
             EMAIL_API_KEY=${{ secrets.EMAIL_API_KEY }}
-            IMAGEKIT_PUBLIC_KEY=${{ secrets.IMAGEKIT_PUBLIC_KEY }} 
-            IMAGEKIT_PRIVATE_KEY=${{ secrets.IMAGEKIT_PRIVATE_KEY }} 
-            IMAGEKIT_URL_ENDPOINT=${{ secrets.IMAGEKIT_URL_ENDPOINT }}
+            STORAGE_BUCKET=${{ secrets.STORAGE_BUCKET }}
           env_vars_update_strategy: 'overwrite'
