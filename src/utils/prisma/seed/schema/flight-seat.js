@@ -12,6 +12,11 @@ export async function seedFlightSeat() {
           maxColumn: true
         }
       }
+    },
+    where: {
+      flightSeats: {
+        none: {}
+      }
     }
   });
 
