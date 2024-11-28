@@ -30,15 +30,7 @@ function isValidFlightQueryParams(req, _res, next) {
 }
 
 const validFavoriteFlightQueryParams = z.object({
-  continent: z
-    .enum([
-      Continent.ASIA,
-      Continent.EUROPE,
-      Continent.AFRICA,
-      Continent.AMERICA,
-      Continent.AUSTRALIA
-    ])
-    .optional()
+  continent: z.nativeEnum(Continent).optional()
 });
 
 /** @typedef {z.infer<typeof validFavoriteFlightQueryParams>} ValidFavoriteFlightQueryParams */

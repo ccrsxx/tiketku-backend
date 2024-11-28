@@ -1,5 +1,6 @@
 import { prisma } from '../utils/db.js';
 
+/** @import {Flight} from '@prisma/client' */
 /** @import {ValidFlightQueryParams, ValidFavoriteFlightQueryParams} from '../middlewares/validation/flight.js' */
 
 /** @param {ValidFlightQueryParams} query */
@@ -36,7 +37,7 @@ async function getFlights(query) {
           name: true,
           type: true,
           code: true,
-          location: true
+          city: true
         }
       },
       destinationAirport: {
@@ -44,52 +45,55 @@ async function getFlights(query) {
           name: true,
           type: true,
           code: true,
-          location: true
+          city: true
         }
       }
     }
   });
 
-  const returnFlights = returnDate
-    ? await prisma.flight.findMany({
-        where: {
-          departureAirportId: destinationAirportId,
-          destinationAirportId: departureAirportId,
-          departureTimestamp: {
-            gte: new Date(returnDate)
+  /** @type {Flight[]} */
+  let returnFlights = [];
+
+  if (returnDate) {
+    returnFlights = await prisma.flight.findMany({
+      where: {
+        departureAirportId: destinationAirportId,
+        destinationAirportId: departureAirportId,
+        departureTimestamp: {
+          gte: new Date(returnDate)
+        }
+      },
+      include: {
+        airline: {
+          select: {
+            name: true,
+            code: true
           }
         },
-        include: {
-          airline: {
-            select: {
-              name: true,
-              code: true
-            }
-          },
-          airplane: {
-            select: {
-              name: true
-            }
-          },
-          departureAirport: {
-            select: {
-              name: true,
-              type: true,
-              code: true,
-              location: true
-            }
-          },
-          destinationAirport: {
-            select: {
-              name: true,
-              type: true,
-              code: true,
-              location: true
-            }
+        airplane: {
+          select: {
+            name: true
+          }
+        },
+        departureAirport: {
+          select: {
+            name: true,
+            type: true,
+            code: true,
+            city: true
+          }
+        },
+        destinationAirport: {
+          select: {
+            name: true,
+            type: true,
+            code: true,
+            city: true
           }
         }
-      })
-    : [];
+      }
+    });
+  }
 
   return { departureFlights, returnFlights };
 }
@@ -112,7 +116,7 @@ async function getFavoriteFlights(query) {
           name: true,
           type: true,
           code: true,
-          location: true,
+          city: true,
           continent: true
         }
       },
@@ -121,7 +125,7 @@ async function getFavoriteFlights(query) {
           name: true,
           type: true,
           code: true,
-          location: true,
+          city: true,
           continent: true
         }
       }
