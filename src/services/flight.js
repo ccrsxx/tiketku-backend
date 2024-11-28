@@ -1,25 +1,22 @@
 import { prisma } from '../utils/db.js';
 
-/** @import {Continent, Prisma} from '@prisma/client' */
+/** @import {ValidFlightQueryParams, ValidFavoriteFlightQueryParams} from '../middlewares/validation/flight.js' */
 
-/**
- * @param {string} departureAirportId
- * @param {string} destinationAirportId
- * @param {Date} departureDate
- * @param {Date | undefined} returnDate
- */
-async function getFlights(
-  departureAirportId,
-  destinationAirportId,
-  departureDate,
-  returnDate
-) {
+/** @param {ValidFlightQueryParams} query */
+async function getFlights(query) {
+  const {
+    departureAirportId,
+    destinationAirportId,
+    departureDate,
+    returnDate
+  } = query;
+
   const departureFlights = await prisma.flight.findMany({
     where: {
       departureAirportId,
       destinationAirportId,
       departureTimestamp: {
-        gte: departureDate
+        gte: new Date(departureDate)
       }
     },
     include: {
@@ -59,7 +56,7 @@ async function getFlights(
           departureAirportId: destinationAirportId,
           destinationAirportId: departureAirportId,
           departureTimestamp: {
-            gte: returnDate
+            gte: new Date(returnDate)
           }
         },
         include: {
@@ -97,8 +94,10 @@ async function getFlights(
   return { departureFlights, returnFlights };
 }
 
-/** @param {Continent | undefined} continent */
-async function getFavoriteFlights(continent) {
+/** @param {ValidFavoriteFlightQueryParams} query */
+async function getFavoriteFlights(query) {
+  const { continent } = query;
+
   const flights = await prisma.flight.findMany({
     where: continent
       ? {

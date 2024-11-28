@@ -5,22 +5,22 @@ import { Continent } from '@prisma/client';
 
 /** @import {Request,Response,NextFunction} from 'express' */
 
-const validFlightPayload = z.object({
+const validFlightQueryParams = z.object({
   departureAirportId: validStringSchema,
   destinationAirportId: validStringSchema,
   departureDate: validStringSchema,
   returnDate: validStringSchema.optional()
 });
 
-/** @typedef {z.infer<typeof validFlightPayload>} ValidFlightPayload */
+/** @typedef {z.infer<typeof validFlightQueryParams>} ValidFlightQueryParams */
 
 /**
- * @param {Request<unknown, unknown, unknown, ValidFlightPayload>} req
+ * @param {Request<unknown, unknown, unknown, ValidFlightQueryParams>} req
  * @param {Response} _res
  * @param {NextFunction} next
  */
-function isValidFlightPayload(req, _res, next) {
-  const { error } = validFlightPayload.safeParse(req.query);
+function isValidFlightQueryParams(req, _res, next) {
+  const { error } = validFlightQueryParams.safeParse(req.query);
 
   if (error) {
     throw new HttpError(400, formatZodError(error));
@@ -29,7 +29,7 @@ function isValidFlightPayload(req, _res, next) {
   next();
 }
 
-const validFavoriteFlightPayload = z.object({
+const validFavoriteFlightQueryParams = z.object({
   continent: z
     .enum([
       Continent.ASIA,
@@ -41,15 +41,20 @@ const validFavoriteFlightPayload = z.object({
     .optional()
 });
 
-/** @typedef {z.infer<typeof validFavoriteFlightPayload>} ValidFavoriteFlightPayload */
+/** @typedef {z.infer<typeof validFavoriteFlightQueryParams>} ValidFavoriteFlightQueryParams */
 
 /**
- * @param {Request<unknown, unknown, unknown, ValidFavoriteFlightPayload>} req
+ * @param {Request<
+ *   unknown,
+ *   unknown,
+ *   unknown,
+ *   ValidFavoriteFlightQueryParams
+ * >} req
  * @param {Response} _res
  * @param {NextFunction} next
  */
-function isValidFavoriteFlightPayload(req, _res, next) {
-  const { error } = validFavoriteFlightPayload.safeParse(req.query);
+function isValidFavoriteFlightQueryParams(req, _res, next) {
+  const { error } = validFavoriteFlightQueryParams.safeParse(req.query);
 
   if (error) {
     throw new HttpError(400, formatZodError(error));
@@ -59,6 +64,6 @@ function isValidFavoriteFlightPayload(req, _res, next) {
 }
 
 export const FlightValidationMiddleware = {
-  isValidFlightPayload,
-  isValidFavoriteFlightPayload
+  isValidFlightQueryParams,
+  isValidFavoriteFlightQueryParams
 };

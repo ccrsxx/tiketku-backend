@@ -10,13 +10,13 @@ export default (app) => {
 
   router.get(
     '/',
-    FlightValidationMiddleware.isValidFlightPayload,
+    FlightValidationMiddleware.isValidFlightQueryParams,
     FlightController.getFlights
   );
 
   router.get(
     '/favorites',
-    FlightValidationMiddleware.isValidFavoriteFlightPayload,
+    FlightValidationMiddleware.isValidFavoriteFlightQueryParams,
     FlightController.getFavoriteFlights
   );
 };
