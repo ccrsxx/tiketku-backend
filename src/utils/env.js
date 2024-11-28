@@ -13,6 +13,7 @@ const envSchema = z.object({
   FRONTEND_URL: validStringSchema,
   EMAIL_ADDRESS: validStringSchema,
   EMAIL_API_KEY: validStringSchema,
+  VALID_ORIGINS: validStringSchema,
   STORAGE_BUCKET: validStringSchema
 });
 

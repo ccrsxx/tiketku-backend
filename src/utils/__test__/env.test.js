@@ -52,6 +52,7 @@ describe('Environment configuration', () => {
     process.env.FRONTEND_URL = 'http://localhost:3000';
     process.env.EMAIL_ADDRESS = 'test@email.com';
     process.env.EMAIL_API_KEY = 'secret';
+    process.env.VALID_ORIGINS = 'http://localhost:3000';
     process.env.STORAGE_BUCKET = 'storage_bucket';
     process.env.IMAGEKIT_PUBLIC_KEY = 'public';
     process.env.IMAGEKIT_PRIVATE_KEY = 'private';

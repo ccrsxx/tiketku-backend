@@ -13,6 +13,7 @@ services:
       - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT:-5432}/postgres?schema=public
       - EMAIL_ADDRESS=${EMAIL_ADDRESS}
       - EMAIL_API_KEY=${EMAIL_API_KEY}
+      - VALID_ORIGINS=${VALID_ORIGINS}
       - STORAGE_BUCKET=${STORAGE_BUCKET}
       - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json
     volumes:
