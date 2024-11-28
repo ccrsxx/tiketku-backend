@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { AuthController } from '../controllers/auth.js';
-import { OtpController } from '../controllers/otp.js';
 import { OtpValidationMiddleware } from '../middlewares/validation/otp.js';
 import { UserValidationMiddleware } from '../middlewares/validation/user.js';
 import { AuthValidationMiddleware } from '../middlewares/validation/auth.js';
@@ -46,13 +45,13 @@ export default (app) => {
     '/otp',
     CommonValidationMiddleware.isValidEmailPayload,
     UserValidationMiddleware.isUnverifiedUserExistsPayload,
-    OtpController.sendUserVerificationOtp
+    AuthController.sendUserVerificationOtp
   );
 
   router.post(
     '/otp/verify',
     OtpValidationMiddleware.isValidOtpPayload,
     UserValidationMiddleware.isUnverifiedUserExistsPayload,
-    OtpController.verifyUserVerificationOtp
+    AuthController.verifyUserVerificationOtp
   );
 };
