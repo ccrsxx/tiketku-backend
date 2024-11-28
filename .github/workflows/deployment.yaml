@@ -75,5 +75,6 @@ jobs:
             FRONTEND_URL=${{ secrets.FRONTEND_URL }}
             EMAIL_ADDRESS=${{ secrets.EMAIL_ADDRESS }}
             EMAIL_API_KEY=${{ secrets.EMAIL_API_KEY }}
+            VALID_ORIGINS=${{ secrets.VALID_ORIGINS }}
             STORAGE_BUCKET=${{ secrets.STORAGE_BUCKET }}
           env_vars_update_strategy: 'overwrite'
