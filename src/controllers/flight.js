@@ -5,6 +5,7 @@ import { HttpError } from '../utils/error.js';
 
 /**
  * Mengambil penerbangan berdasarkan ID
+ *
  * @param {Request<{ id: string }>} req
  * @param {Response} res
  */
@@ -19,7 +20,9 @@ async function getFlight(req, res) {
         errors: error.errors || []
       });
     } else if (error instanceof Error) {
-      res.status(500).json({ message: error.message || 'Internal Server Error' });
+      res
+        .status(500)
+        .json({ message: error.message || 'Internal Server Error' });
     } else {
       res.status(500).json({ message: 'Unknown error occurred' });
     }

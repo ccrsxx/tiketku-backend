@@ -3,6 +3,7 @@ import { HttpError } from '../utils/error.js';
 
 /**
  * Mengambil penerbangan berdasarkan ID
+ *
  * @param {string} id
  * @returns {Promise<Object>}
  */
