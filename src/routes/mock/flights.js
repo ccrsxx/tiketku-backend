@@ -6,28 +6,30 @@ export default (mockApp) => {
 
   mockApp.use('/flights', router);
 
-  router.get('/', (_req, res) => {
-    const flightsData = [
-      {
-        id: 1,
-        flightNumber: 'SQ 231',
-        origin: 'SIN',
-        destination: 'HKG',
-        departureTime: '2022-01-01T12:00:00Z',
-        arrivalTime: '2022-01-01T15:00:00Z',
-        status: 'ON TIME'
+  router.get('/:id', (req, res) => {
+    const flight = {
+      id: req.params.id,
+      type: 'ECONOMY',
+      price: 850,
+      discount: 50,
+      arrivalTimestamp: '2024-03-15T14:30:00.000Z',
+      departureTimestamp: '2024-03-15T10:00:00.000Z',
+      airline: { name: 'Delta Airlines', code: 'DL' },
+      airplane: { name: 'Boeing 747' },
+      departureAirport: {
+        name: 'John F. Kennedy International Airport',
+        type: 'INTERNATIONAL',
+        code: 'JFK',
+        location: 'New York, USA'
       },
-      {
-        id: 2,
-        flightNumber: 'SQ 232',
-        origin: 'HKG',
-        destination: 'SIN',
-        departureTime: '2022-01-01T16:00:00Z',
-        arrivalTime: '2022-01-01T19:00:00Z',
-        status: 'DELAYED'
+      destinationAirport: {
+        name: 'Heathrow Airport',
+        type: 'INTERNATIONAL',
+        code: 'LHR',
+        location: 'London, UK'
       }
-    ];
+    };
 
-    res.status(200).json(flightsData);
+    res.status(200).json(flight);
   });
 };
