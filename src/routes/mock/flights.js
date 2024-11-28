@@ -10,21 +10,31 @@ export default (mockApp) => {
     const flightsData = [
       {
         id: 1,
-        flightNumber: 'SQ 231',
-        origin: 'SIN',
-        destination: 'HKG',
-        departureTime: '2022-01-01T12:00:00Z',
-        arrivalTime: '2022-01-01T15:00:00Z',
-        status: 'ON TIME'
+        flightNumber: 'JC 231',
+        type: 'BUSINESS',
+        price: 9000000,
+        description:
+          'Baggage Allowance: 30kg, Cabin Baggage: 7kg, In Flight Meal, In Flight Entertainment',
+        departureId: 'JKT',
+        departureName: 'Soekarno Hatta Airport',
+        destinationId: 'HKG',
+        destinationName: 'Hong Kong International Airport',
+        departureTime: '2024-11-27T14:00:00+07:00',
+        arrivalTime: '2024-11-27T21:00:00+07:00'
       },
       {
         id: 2,
-        flightNumber: 'SQ 232',
-        origin: 'HKG',
-        destination: 'SIN',
-        departureTime: '2022-01-01T16:00:00Z',
-        arrivalTime: '2022-01-01T19:00:00Z',
-        status: 'DELAYED'
+        flightNumber: 'SM 232',
+        type: 'ECONOMY',
+        price: 1000000,
+        description:
+          'Baggage Allowance: 10kg, Cabin Baggage: 5kg, In Flight Meal',
+        departureId: 'SIN',
+        departureName: 'Changi Airport',
+        destinationId: 'MAL',
+        destinationName: 'Kuala Lumpur International Airport',
+        departureTime: '2024-11-27T22:00:00+07:00',
+        arrivalTime: '2024-11-27T23:00:00+07:00'
       }
     ];
 
