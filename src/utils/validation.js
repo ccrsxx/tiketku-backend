@@ -25,6 +25,9 @@ export const phoneNumberSchema = z
  * @typedef {{ preferSingleError?: T }} FormatZodErrorOptions
  */
 
+// TODO: Remove generic and detect if `preferSingleError` is `true` or `false` based on the type of `errors`
+// TODO: It can be detected if zod schema is not an object, the path inside errors will be empty
+
 /**
  * @template {boolean} [T=false] Default is `false`
  * @param {ZodError} error - The ZodError to format.
