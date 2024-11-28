@@ -13,7 +13,7 @@ export default (app) => {
     '/image',
     AuthMiddleware.isAuthorized,
     UploadMiddleware.parseImage,
-    UploadMiddleware.uploadToImageKit,
+    UploadMiddleware.uploadImageToGcs,
     UploadController.uploadImage
   );
 };
