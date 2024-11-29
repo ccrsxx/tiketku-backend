@@ -1,11 +1,9 @@
-import { Router } from 'express';
-
 import root from './root.js';
 import auth from './auth.js';
 import docs from './docs.js';
 import users from './users.js';
 import upload from './upload.js';
-import flights from './mock/flights.js';
+import airport from './airports.js';
 
 /** @import {Application} from 'express' */
 
@@ -16,10 +14,5 @@ export default (app) => {
   docs(app);
   users(app);
   upload(app);
-
-  const mockApp = Router();
-
-  app.use('/mock', mockApp);
-
-  flights(mockApp);
+  airport(app);
 };
