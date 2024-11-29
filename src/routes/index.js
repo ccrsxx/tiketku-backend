@@ -6,6 +6,7 @@ import docs from './docs.js';
 import users from './users.js';
 import upload from './upload.js';
 import flights from './mock/flights.js';
+import airport from './airport.js';
 
 /** @import {Application} from 'express' */
 
@@ -13,6 +14,7 @@ import flights from './mock/flights.js';
 export default (app) => {
   root(app);
   auth(app);
+  airport(app);
   docs(app);
   users(app);
   upload(app);

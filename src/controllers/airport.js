@@ -1,10 +1,10 @@
-import { AirportService } from '../services/airport.js'; // Import layanan yang relevan
+import { AirportService } from '../services/airport.js';
+
+/** @import {Request, Response} from 'express' */
 
 /**
- * Mendapatkan semua bandara dan mengembalikan respons JSON
- *
- * @param {import('express').Request} _req
- * @param {import('express').Response} res
+ * @param {Request} _req
+ * @param {Response} res
  */
 async function getAirports(_req, res) {
   const airports = await AirportService.getAirports();
