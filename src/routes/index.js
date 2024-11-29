@@ -3,7 +3,8 @@ import auth from './auth.js';
 import docs from './docs.js';
 import users from './users.js';
 import upload from './upload.js';
-import airport from './airports.js';
+import flights from './flights.js';
+import airports from './airports.js';
 
 /** @import {Application} from 'express' */
 
@@ -14,5 +15,6 @@ export default (app) => {
   docs(app);
   users(app);
   upload(app);
-  airport(app);
+  flights(app);
+  airports(app);
 };
