@@ -13,9 +13,11 @@ services:
       - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT:-5432}/postgres?schema=public
       - EMAIL_ADDRESS=${EMAIL_ADDRESS}
       - EMAIL_API_KEY=${EMAIL_API_KEY}
-      - IMAGEKIT_PUBLIC_KEY=${IMAGEKIT_PUBLIC_KEY}
-      - IMAGEKIT_PRIVATE_KEY=${IMAGEKIT_PRIVATE_KEY}
-      - IMAGEKIT_URL_ENDPOINT=${IMAGEKIT_URL_ENDPOINT}
+      - VALID_ORIGINS=${VALID_ORIGINS}
+      - STORAGE_BUCKET=${STORAGE_BUCKET}
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/credentials.json
+    volumes:
+      - '${GOOGLE_APPLICATION_CREDENTIALS}:/app/credentials.json:ro'
     depends_on:
       db:
         condition: service_healthy

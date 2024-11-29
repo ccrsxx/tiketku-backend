@@ -14,6 +14,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ vars.NODE_VERSION }}
+
       - name: Download deps
         run: npm ci
 
@@ -26,6 +30,10 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ vars.NODE_VERSION }}
 
       - name: Download deps
         run: npm ci
@@ -40,6 +48,10 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ vars.NODE_VERSION }}
+
       - name: Download deps
         run: npm ci
 
@@ -52,6 +64,10 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ vars.NODE_VERSION }}
 
       - name: Download deps
         run: npm ci

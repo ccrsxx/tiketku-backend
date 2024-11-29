@@ -1,10 +1,13 @@
 import { UserService } from '../services/user.js';
 import { AuthService } from '../services/auth.js';
+import { OtpService } from '../services/otp.js';
 
 /** @import {Request,Response} from 'express' */
-/** @import {ValidResetPasswordPayload} from '../middlewares/validation/auth.js' */
+/** @import {User} from '@prisma/client' */
+/** @import {ValidOtpPayload} from '../middlewares/validation/otp.js' */
 /** @import {ValidUserPayload} from '../middlewares/validation/user.js' */
 /** @import {ValidEmailPayload} from '../middlewares/validation/common.js' */
+/** @import {ValidResetPasswordPayload} from '../middlewares/validation/auth.js' */
 
 /**
  * @param {Request<{ id: string }>} req
@@ -60,10 +63,36 @@ async function verifyPasswordResetToken(req, res) {
   res.status(200).json({ message: 'Password reset token is valid' });
 }
 
+/**
+ * @param {Request<unknown, unknown, ValidEmailPayload>} _req
+ * @param {Response<unknown, { user: User }>} res
+ */
+async function sendUserVerificationOtp(_req, res) {
+  const { id: userId, name, email } = res.locals.user;
+
+  await OtpService.sendUserVerificationOtp(name, email, userId);
+
+  res.status(201).json({ message: 'OTP sent successfully' });
+}
+
+/**
+ * @param {Request<unknown, unknown, ValidOtpPayload>} req
+ * @param {Response<unknown, { user: User }>} res
+ */
+async function verifyUserVerificationOtp(req, res) {
+  const payload = req.body;
+
+  await OtpService.verifyUserVerificationOtp(payload);
+
+  res.status(200).json({ message: 'OTP verified successfully' });
+}
+
 export const AuthController = {
   login,
   register,
   sendPasswordResetEmail,
   resetPassword,
-  verifyPasswordResetToken
+  verifyPasswordResetToken,
+  sendUserVerificationOtp,
+  verifyUserVerificationOtp
 };

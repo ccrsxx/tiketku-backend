@@ -9,5 +9,8 @@
         }
       }
     ]
+  },
+  "storage": {
+    "rules": "storage.rules"
   }
 }
