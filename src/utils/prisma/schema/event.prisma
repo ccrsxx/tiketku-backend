@@ -1,0 +1,15 @@
+model Event {
+    id String @id @default(uuid(7)) @db.Uuid
+
+    type      EventType
+    expiredAt DateTime? @map("expired_at") @db.Timestamptz()
+
+    createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+    updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+    @@map("event")
+}
+
+enum EventType {
+    SEED_FLIGHT
+}

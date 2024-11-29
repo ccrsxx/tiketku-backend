@@ -1,16 +1,45 @@
 import { prisma } from '../../../db.js';
 import { faker } from '@faker-js/faker';
+import { logger } from '../../../../loaders/pino.js';
 import { FlightClassType } from '@prisma/client';
 
 /** @import {Prisma,Airport} from '@prisma/client' */
 
 export async function seedFlight() {
+  const seedEvent = await prisma.event.findFirst({
+    where: {
+      type: 'SEED_FLIGHT'
+    },
+    select: {
+      expiredAt: true
+    },
+    orderBy: {
+      createdAt: 'desc'
+    }
+  });
+
+  let shouldSeed = false;
+
+  if (!seedEvent) shouldSeed = true;
+  else {
+    const { expiredAt } = seedEvent;
+
+    if (!expiredAt) shouldSeed = false;
+    else shouldSeed = new Date() > expiredAt;
+  }
+
+  if (!shouldSeed) {
+    logger.info('Skipping flight seed because it is not expired yet.');
+    return;
+  }
+
   // Fetch necessary data for relations
   const airports = await prisma.airport.findMany();
   const airlines = await prisma.airline.findMany();
   const airplanes = await prisma.airplane.findMany();
 
-  const allDataExists = airports.length && airlines.length && airplanes.length;
+  const allDataExists =
+    airports.length > 2 && airlines.length && airplanes.length;
 
   if (!allDataExists) {
     throw new Error(
@@ -91,9 +120,21 @@ export async function seedFlight() {
     }
   }
 
-  await prisma.flight.createMany({
-    data: flights
-  });
+  const nextWeek = new Date();
+
+  nextWeek.setDate(nextWeek.getDate() + 7);
+
+  await prisma.$transaction([
+    prisma.event.create({
+      data: {
+        type: 'SEED_FLIGHT',
+        expiredAt: nextWeek
+      }
+    }),
+    prisma.flight.createMany({
+      data: flights
+    })
+  ]);
 }
 
 /**
