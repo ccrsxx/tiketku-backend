@@ -4,6 +4,16 @@ import { FlightService } from '../services/flight.js';
 /** @import {ValidFlightQueryParams, ValidFavoriteFlightQueryParams} from '../middlewares/validation/flight.js' */
 
 /**
+ * @param {Request<{ id: string }>} req
+ * @param {Response} res
+ */
+async function getFlight(req, res) {
+  const flight = await FlightService.getFlight(req.params.id);
+
+  res.status(200).json({ data: flight });
+}
+
+/**
  * @param {Request<unknown, unknown, unknown, ValidFlightQueryParams>} req
  * @param {Response} res
  */
@@ -29,6 +39,7 @@ async function getFavoriteFlights(req, res) {
 }
 
 export const FlightController = {
+  getFlight,
   getFlights,
   getFavoriteFlights
 };

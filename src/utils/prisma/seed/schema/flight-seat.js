@@ -22,16 +22,15 @@ export async function seedFlightSeat() {
 
   const promises = [];
 
-  for (const { id, airplane } of flights) {
+  for (const {
+    id,
+    airplane: { maxRow, maxColumn }
+  } of flights) {
     /** @type {Prisma.FlightSeatUncheckedCreateInput[]} */
     const flightSeats = [];
 
-    for (const [rowIndex] of Array.from({
-      length: airplane.maxRow
-    }).entries()) {
-      for (const [columnIndex] of Array.from({
-        length: airplane.maxColumn
-      }).entries()) {
+    for (const [rowIndex] of Array.from({ length: maxRow }).entries()) {
+      for (const [columnIndex] of Array.from({ length: maxColumn }).entries()) {
         flightSeats.push({
           row: rowIndex + 1,
           column: columnIndex + 1,

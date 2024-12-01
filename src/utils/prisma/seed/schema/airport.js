@@ -52,15 +52,6 @@ export async function seedAirport() {
       continent: 'ASIA'
     },
     {
-      id: 'f5eeb781-e9cd-4550-877e-be29975a6872',
-      name: 'Melbourne Airport',
-      city: 'Melbourne ',
-      code: 'MEL',
-      type: 'INTERNATIONAL',
-      image: 'https://ik.imagekit.io/iaqozxfxq/IMG-1718888434678_0C9pPslPg.jpg',
-      continent: 'AUSTRALIA'
-    },
-    {
       id: '2515393b-108d-451e-a919-2bfa2e1c336f',
       type: 'INTERNATIONAL',
       code: 'HND',
@@ -77,6 +68,15 @@ export async function seedAirport() {
       image: 'https://ik.imagekit.io/iaqozxfxq/IMG-1718888434678_0C9pPslPg.jpg',
       continent: 'ASIA',
       id: '9cdaed4b-6e39-45c8-8645-39b11b299f8b'
+    },
+    {
+      id: 'f5eeb781-e9cd-4550-877e-be29975a6872',
+      name: 'Melbourne Airport',
+      city: 'Melbourne ',
+      code: 'MEL',
+      type: 'INTERNATIONAL',
+      image: 'https://ik.imagekit.io/iaqozxfxq/IMG-1718888434678_0C9pPslPg.jpg',
+      continent: 'AUSTRALIA'
     },
     {
       id: 'fb5cee12-7479-4a4b-8e2d-9f0b129f06e1',

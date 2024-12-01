@@ -1,17 +1,35 @@
 import { prisma } from '../utils/db.js';
+import { HttpError } from '../utils/error.js';
 
 /** @import {Flight} from '@prisma/client' */
 /** @import {ValidFlightQueryParams, ValidFavoriteFlightQueryParams} from '../middlewares/validation/flight.js' */
 
-/** @param {ValidFlightQueryParams} query */
-async function getFlights(query) {
-  const {
-    departureAirportId,
-    destinationAirportId,
-    departureDate,
-    returnDate
-  } = query;
+/** @param {string} id */
+async function getFlight(id) {
+  const flight = await prisma.flight.findUnique({
+    where: { id },
+    include: {
+      airline: true,
+      airplane: true,
+      departureAirport: true,
+      destinationAirport: true
+    }
+  });
 
+  if (!flight) {
+    throw new HttpError(404, { message: 'Flight not found' });
+  }
+
+  return flight;
+}
+
+/** @param {ValidFlightQueryParams} query */
+async function getFlights({
+  returnDate,
+  departureDate,
+  departureAirportId,
+  destinationAirportId
+}) {
   const departureFlights = await prisma.flight.findMany({
     where: {
       departureAirportId,
@@ -99,9 +117,7 @@ async function getFlights(query) {
 }
 
 /** @param {ValidFavoriteFlightQueryParams} query */
-async function getFavoriteFlights(query) {
-  const { continent } = query;
-
+async function getFavoriteFlights({ continent }) {
   const flights = await prisma.flight.findMany({
     where: continent
       ? {
@@ -140,6 +156,7 @@ async function getFavoriteFlights(query) {
 }
 
 export const FlightService = {
+  getFlight,
   getFlights,
   getFavoriteFlights
 };
