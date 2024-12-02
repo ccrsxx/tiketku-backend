@@ -81,13 +81,14 @@ export async function seedFlight() {
   /** @type {Prisma.FlightCreateManyInput[]} */
   const roundTripFlights = [];
 
-  // Add +1 day from normal flights for the next 7 days
-  const roundTripFlightDates = Array.from({ length: 7 }, (_, i) =>
-    faker.date.soon({ days: i + 2 })
-  );
-
   for (const normalFlight of normalFlights) {
-    const { departureAirportId, destinationAirportId } = normalFlight;
+    const { departureAirportId, destinationAirportId, departureTimestamp } =
+      normalFlight;
+
+    // Add +1 day from normal flight for the next 7 days
+    const roundTripFlightDates = Array.from({ length: 7 }, (_, i) =>
+      faker.date.soon({ days: i + 2, refDate: departureTimestamp })
+    );
 
     for (const flightDate of roundTripFlightDates) {
       const roundTripFlight = createFlight(flightDate, {
@@ -116,11 +117,12 @@ export async function seedFlight() {
     }),
     prisma.flight.createMany({
       data: normalFlights
-    }),
-    prisma.flight.createMany({
-      data: roundTripFlights
     })
   ]);
+
+  await prisma.flight.createMany({
+    data: roundTripFlights
+  });
 }
 
 /**

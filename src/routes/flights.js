@@ -16,14 +16,14 @@ export default (app) => {
   );
 
   router.get(
-    '/:id',
-    CommonValidationMiddleware.isValidParamsIdUuid,
-    FlightController.getFlight
-  );
-
-  router.get(
     '/favorites',
     FlightValidationMiddleware.isValidFavoriteFlightQueryParams,
     FlightController.getFavoriteFlights
+  );
+
+  router.get(
+    '/:id',
+    CommonValidationMiddleware.isValidParamsIdUuid,
+    FlightController.getFlight
   );
 };

@@ -8,8 +8,8 @@ import { Continent } from '@prisma/client';
 const validFlightQueryParams = z.object({
   departureAirportId: validStringSchema,
   destinationAirportId: validStringSchema,
-  departureDate: validStringSchema,
-  returnDate: validStringSchema.optional()
+  departureDate: z.string().date(),
+  returnDate: z.string().date().optional()
 });
 
 /** @typedef {z.infer<typeof validFlightQueryParams>} ValidFlightQueryParams */
