@@ -5,6 +5,9 @@ CREATE TYPE "AirportType" AS ENUM ('DOMESTIC', 'INTERNATIONAL');
 CREATE TYPE "Continent" AS ENUM ('ASIA', 'EUROPE', 'AFRICA', 'AMERICA', 'AUSTRALIA');
 
 -- CreateEnum
+CREATE TYPE "EventType" AS ENUM ('SEED_FLIGHT');
+
+-- CreateEnum
 CREATE TYPE "FlightSeatStatus" AS ENUM ('AVAILABLE', 'BOOKED', 'HELD');
 
 -- CreateEnum
@@ -67,11 +70,22 @@ CREATE TABLE "booking" (
     "passenger_id" UUID NOT NULL,
     "transaction_id" UUID NOT NULL,
     "return_flight_seat_id" UUID,
-    "departure_flight_seat_id" UUID NOT NULL,
+    "departure_flight_seat_id" UUID,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ NOT NULL,
 
     CONSTRAINT "booking_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "event" (
+    "id" UUID NOT NULL,
+    "type" "EventType" NOT NULL,
+    "expired_at" TIMESTAMPTZ,
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updated_at" TIMESTAMPTZ NOT NULL,
+
+    CONSTRAINT "event_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -136,14 +150,12 @@ CREATE TABLE "passenger" (
     "id" UUID NOT NULL,
     "type" "PassengerType" NOT NULL,
     "name" TEXT NOT NULL,
-    "email" TEXT,
     "birth_date" DATE,
     "family_name" TEXT,
-    "phone_number" TEXT,
     "identity_type" "IdentityType" NOT NULL,
     "identity_number" TEXT NOT NULL,
-    "identity_expiry_date" DATE,
     "identity_nationality" TEXT,
+    "identity_expiration_date" DATE,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ NOT NULL,
 
@@ -230,7 +242,7 @@ ALTER TABLE "booking" ADD CONSTRAINT "booking_transaction_id_fkey" FOREIGN KEY (
 ALTER TABLE "booking" ADD CONSTRAINT "booking_return_flight_seat_id_fkey" FOREIGN KEY ("return_flight_seat_id") REFERENCES "flight_seat"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "booking" ADD CONSTRAINT "booking_departure_flight_seat_id_fkey" FOREIGN KEY ("departure_flight_seat_id") REFERENCES "flight_seat"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "booking" ADD CONSTRAINT "booking_departure_flight_seat_id_fkey" FOREIGN KEY ("departure_flight_seat_id") REFERENCES "flight_seat"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "flight_seat" ADD CONSTRAINT "flight_seat_flight_id_fkey" FOREIGN KEY ("flight_id") REFERENCES "flight"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

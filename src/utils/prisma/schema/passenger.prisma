@@ -1,17 +1,15 @@
 model Passenger {
-    id                  String        @id @default(uuid(7)) @db.Uuid
-    type                PassengerType
-    name                String
-    email               String?
-    birthDate           DateTime?     @map("birth_date") @db.Date
-    familyName          String?       @map("family_name")
-    phoneNumber         String?       @map("phone_number")
-    identityType        IdentityType  @map("identity_type")
-    identityNumber      String        @map("identity_number")
-    identityExpiryDate  DateTime?     @map("identity_expiry_date") @db.Date
-    identityNationality String?       @map("identity_nationality")
+    id                     String        @id @default(uuid(7)) @db.Uuid
+    type                   PassengerType
+    name                   String
+    birthDate              DateTime?     @map("birth_date") @db.Date
+    familyName             String?       @map("family_name")
+    identityType           IdentityType  @map("identity_type")
+    identityNumber         String        @map("identity_number")
+    identityNationality    String?       @map("identity_nationality")
+    identityExpirationDate DateTime?     @map("identity_expiration_date") @db.Date
 
-    Bookings Booking[]
+    bookings Booking[]
 
     createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
     updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
