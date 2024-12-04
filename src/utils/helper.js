@@ -1,8 +1,8 @@
 import { randomBytes, randomInt } from 'crypto';
 
 /** @returns {string} */
-export function generateRandomToken() {
-  return randomBytes(24).toString('base64url');
+export function generateRandomToken(size = 12) {
+  return randomBytes(size).toString('base64url');
 }
 
 /** @returns {string} */
