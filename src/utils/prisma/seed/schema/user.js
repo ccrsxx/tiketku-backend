@@ -10,7 +10,8 @@ export async function seedUser() {
       name: 'Emilia',
       admin: true,
       email: 'emilia@risalamin.com',
-      password: '$2b$10$LelKPXseavu7buKzPpFji.m6G.RJFDuuZa0tCTwhPmtsSPCcJSK9u',
+      verified: true,
+      password: '$2b$10$snPO3t3zk1vV5H3MpdhJgeUSii2yZWYWVI8KtOtuv9k8YXpN4Uaxm',
       phoneNumber: '+628123456789'
     },
     {
@@ -18,7 +19,8 @@ export async function seedUser() {
       name: 'Rem',
       admin: true,
       email: 'rem@risalamin.com',
-      password: '$2b$10$ALPZuUZuceGHRjMA0qKlp.F/Ex9p8RSMAHC6/Jg6N9Aro/G4NJ5jm',
+      verified: true,
+      password: '$2b$10$h85XBtInvK0EDwEJOgXP8.O9xjzsKtzkzvkwFFda5RXCFShe1TLGy',
       phoneNumber: '+628123456799'
     }
   ];
