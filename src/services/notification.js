@@ -8,12 +8,6 @@ async function getNotifications(userId) {
     orderBy: { createdAt: 'desc' }
   });
 
-  if (!notifications.length) {
-    throw new HttpError(404, {
-      message: 'No notifications found for this user'
-    });
-  }
-
   return notifications;
 }
 

@@ -14,13 +14,13 @@ export default (app) => {
     NotificationController.getNotifications
   );
 
-  router.post(
+  router.patch(
     '/read-all',
     AuthMiddleware.isAuthorized,
     NotificationController.readAllNotifications
   );
 
-  router.put(
+  router.patch(
     '/:id',
     AuthMiddleware.isAuthorized,
     NotificationController.readNotification
