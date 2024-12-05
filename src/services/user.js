@@ -89,8 +89,37 @@ export async function createUser(payload) {
   return user;
 }
 
+/**
+ * Updates an existing user in the database with the provided data.
+ *
+ * @param {string} id
+ * @param {Object} payload
+ * @param {string} [payload.name]
+ * @param {string} [payload.email]
+ * @param {string} [payload.phoneNumber]
+ * @param {string} [payload.image]
+ * @param {string} [payload.password]
+ * @returns {Promise<Object>}
+ */
+async function updatedUser(payload, id) {
+  const { name, email, phoneNumber, image, password } = payload;
+
+  try {
+    const updatedUser = await prisma.user.update({
+      where: { id },
+      data: { name, email, phoneNumber, image, password }
+    });
+    return updatedUser;
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error(error);
+    return {};
+  }
+}
+
 export const UserService = {
   getUser,
   getUsers,
-  createUser
+  createUser,
+  updatedUser
 };

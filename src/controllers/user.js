@@ -44,9 +44,23 @@ async function createUser(req, res) {
   res.status(201).json({ data: user });
 }
 
+/**
+ * Updates an existing user with the provided data.
+ *
+ * @param {Request<{ id: string }, unknown, ValidUserPayload>} req
+ * @param {Response} res
+ */
+async function updateUser(req, res) {
+  const userId = req.params.id;
+  const user = await UserService.updatedUser(req.body, userId);
+
+  res.status(201).json({ data: user });
+}
+
 export const UserController = {
   getCurrentUser,
   getUser,
   getUsers,
-  createUser
+  createUser,
+  updateUser
 };

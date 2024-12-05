@@ -13,6 +13,14 @@ export default (app) => {
 
   router.get('/me', AuthMiddleware.isAuthorized, UserController.getCurrentUser);
 
+  router.post('/', AuthMiddleware.isAuthorized, UserController.createUser);
+
+  router.put(
+    '/:id',
+    CommonValidationMiddleware.isValidParamsIdUuid,
+    UserController.updateUser
+  );
+
   router.get(
     '/:id',
     CommonValidationMiddleware.isValidParamsIdUuid,
