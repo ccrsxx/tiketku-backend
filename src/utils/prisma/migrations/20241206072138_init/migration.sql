@@ -14,10 +14,7 @@ CREATE TYPE "FlightSeatStatus" AS ENUM ('AVAILABLE', 'BOOKED', 'HELD');
 CREATE TYPE "FlightClassType" AS ENUM ('ECONOMY', 'PREMIUM', 'BUSINESS', 'FIRST_CLASS');
 
 -- CreateEnum
-CREATE TYPE "PassengerType" AS ENUM ('USER', 'ADULT', 'CHILD', 'INFANT');
-
--- CreateEnum
-CREATE TYPE "IdentityType" AS ENUM ('KTP', 'PASSPORT');
+CREATE TYPE "PassengerType" AS ENUM ('ADULT', 'CHILD', 'INFANT');
 
 -- CreateEnum
 CREATE TYPE "PaymentStatus" AS ENUM ('PENDING', 'COMPLETED', 'FAILED', 'CANCELLED');
@@ -152,10 +149,9 @@ CREATE TABLE "passenger" (
     "name" TEXT NOT NULL,
     "birth_date" DATE,
     "family_name" TEXT,
-    "identity_type" "IdentityType" NOT NULL,
     "identity_number" TEXT NOT NULL,
-    "identity_nationality" TEXT,
-    "identity_expiration_date" DATE,
+    "identity_nationality" TEXT NOT NULL,
+    "identity_expiration_date" DATE NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ NOT NULL,
 

@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 import { HttpError } from '../../utils/error.js';
-import { IdentityType, PassengerType } from '@prisma/client';
+import { PassengerType } from '@prisma/client';
 import { formatZodError, validStringSchema } from '../../utils/validation.js';
 
 const validFlightSeatPayload = z.object({
@@ -16,7 +16,6 @@ const ValidPassengerPayload = z
     name: validStringSchema,
     birthDate: z.string().date(),
     familyName: validStringSchema.optional(),
-    identityType: z.nativeEnum(IdentityType),
     identityNumber: validStringSchema,
     identityNationality: validStringSchema,
     identityExpirationDate: z.string().date(),
@@ -65,7 +64,7 @@ function isValidBookingPayload(req, _res, next) {
 
   // Check duplicate flight seats
   for (const flightType of /** @type {const} */ (['departure', 'return'])) {
-    /** @type {{ row: number; column: number }[]} */
+    /** @type {ValidFlightSeatPayload[]} */
     const parsedFlightSeats = [];
 
     for (const { returnFlightSeat, departureFlightSeat } of data.passengers) {

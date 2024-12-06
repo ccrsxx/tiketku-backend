@@ -2,7 +2,7 @@ import { prisma } from '../utils/db.js';
 import { HttpError } from '../utils/error.js';
 import { generateRandomToken } from '../utils/helper.js';
 
-/** @import {ValidBookingPayload,ValidPassengerPayload} from '../middlewares/validation/booking.js' */
+/** @import {ValidBookingPayload,ValidFlightSeatPayload,ValidPassengerPayload} from '../middlewares/validation/booking.js' */
 /** @import {Flight,FlightSeat} from '@prisma/client' */
 
 /** @param {string} userId */
@@ -165,7 +165,7 @@ async function checkFlightAvailability(flightType, flightId, passengers) {
     throw new HttpError(404, { message: 'Flight not found' });
   }
 
-  const flightSeatsFromBody = /** @type {{ row: number; column: number }[]} */ (
+  const flightSeatsFromBody = /** @type {ValidFlightSeatPayload[]} */ (
     passengers
       .map(({ departureFlightSeat, returnFlightSeat }) =>
         flightType === 'departure' ? departureFlightSeat : returnFlightSeat
@@ -174,8 +174,6 @@ async function checkFlightAvailability(flightType, flightId, passengers) {
   );
 
   for (const flightSeat of flightSeatsFromBody) {
-    if (!flightSeat) continue;
-
     const isValidFlightSeat =
       flight.airplane.maxRow >= flightSeat.row &&
       flight.airplane.maxColumn >= flightSeat.column;
