@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { HttpError } from '../../utils/error.js';
 import { PassengerType } from '@prisma/client';
 import { formatZodError, validStringSchema } from '../../utils/validation.js';
+import { toTitleCase } from '../../utils/helper.js';
 
 const validFlightSeatPayload = z.object({
   row: z.number().int().positive(),
@@ -64,6 +65,8 @@ function isValidBookingPayload(req, _res, next) {
 
   // Check duplicate flight seats
   for (const flightType of /** @type {const} */ (['departure', 'return'])) {
+    const formattedFlightType = toTitleCase(flightType);
+
     /** @type {ValidFlightSeatPayload[]} */
     const parsedFlightSeats = [];
 
@@ -81,7 +84,7 @@ function isValidBookingPayload(req, _res, next) {
 
       if (flightSeatExists) {
         throw new HttpError(400, {
-          message: 'Flight seat must be unique between passengers'
+          message: `${formattedFlightType} flight seat must be unique between passengers`
         });
       }
 
@@ -102,7 +105,7 @@ function isValidBookingPayload(req, _res, next) {
 
     if (!validFlightSeats) {
       throw new HttpError(400, {
-        message: 'Departure and return flights must have at least one seat'
+        message: `${formattedFlightType} flight must have at least one seat`
       });
     }
   }

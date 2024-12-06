@@ -1,9 +1,9 @@
 import { prisma } from '../utils/db.js';
 import { HttpError } from '../utils/error.js';
-import { generateRandomToken } from '../utils/helper.js';
+import { generateRandomToken, toTitleCase } from '../utils/helper.js';
 
-/** @import {ValidBookingPayload,ValidFlightSeatPayload,ValidPassengerPayload} from '../middlewares/validation/booking.js' */
 /** @import {Flight,FlightSeat} from '@prisma/client' */
+/** @import {ValidBookingPayload,ValidFlightSeatPayload,ValidPassengerPayload} from '../middlewares/validation/booking.js' */
 
 /** @param {string} userId */
 async function getMyBookings(userId) {
@@ -43,7 +43,8 @@ async function createBooking(
     returnFlightData = await checkFlightAvailability(
       'return',
       returnFlightId,
-      passengers
+      passengers,
+      departureFlightData.flight
     );
   }
 
@@ -153,16 +154,32 @@ async function createBooking(
  * @param {'departure' | 'return'} flightType
  * @param {string} flightId
  * @param {ValidPassengerPayload[]} passengers
+ * @param {Flight} [departureFlight]
  * @returns {Promise<FlightAvailability>}
  */
-async function checkFlightAvailability(flightType, flightId, passengers) {
+async function checkFlightAvailability(
+  flightType,
+  flightId,
+  passengers,
+  departureFlight
+) {
+  const formattedFlightType = toTitleCase(flightType);
+
   const flight = await prisma.flight.findUnique({
-    where: { id: flightId },
+    where: {
+      id: flightId,
+      ...(departureFlight && {
+        departureAirportId: departureFlight.destinationAirportId,
+        destinationAirportId: departureFlight.departureAirportId
+      })
+    },
     include: { airplane: true }
   });
 
   if (!flight) {
-    throw new HttpError(404, { message: 'Flight not found' });
+    throw new HttpError(404, {
+      message: `${formattedFlightType} flight not found`
+    });
   }
 
   const flightSeatsFromBody = /** @type {ValidFlightSeatPayload[]} */ (
@@ -180,7 +197,7 @@ async function checkFlightAvailability(flightType, flightId, passengers) {
 
     if (!isValidFlightSeat) {
       throw new HttpError(400, {
-        message: 'Invalid flight seats selected'
+        message: `Invalid ${flightType} flight seats selected`
       });
     }
   }
@@ -198,7 +215,7 @@ async function checkFlightAvailability(flightType, flightId, passengers) {
 
   if (!isFlightSeatsAvailable) {
     throw new HttpError(409, {
-      message: 'Selected flight seats are no longer available'
+      message: `Selected ${flightType} flight seats are no longer available`
     });
   }
 
