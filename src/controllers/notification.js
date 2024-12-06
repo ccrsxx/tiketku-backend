@@ -8,8 +8,7 @@ import { NotificationService } from '../services/notification.js';
  * @param {Response} res
  */
 async function getNotifications(_req, res) {
-  const userId = res.locals.user.id;
-  const notifications = await NotificationService.getNotifications(userId);
+  const notifications = await NotificationService.getNotifications(res.locals.user.id);
 
   res.status(200).json({ data: notifications });
 }
@@ -19,10 +18,9 @@ async function getNotifications(_req, res) {
  * @param {Response} res
  */
 async function readAllNotifications(_req, res) {
-  const userId = res.locals.user.id;
-  await NotificationService.readAllNotifications(userId);
+  await NotificationService.readAllNotifications(res.locals.user.id);
 
-  res.status(200).json({ message: 'All notifications marked as read' });
+  res.status(200).json({ message: 'All notifications have been marked as read' });
 }
 
 /**
@@ -30,11 +28,9 @@ async function readAllNotifications(_req, res) {
  * @param {Response} res
  */
 async function readNotification(req, res) {
-  const { id } = req.params;
-  const userId = res.locals.user.id;
-  await NotificationService.readNotification(id, userId);
+  await NotificationService.readNotification(req.params.id, res.locals.user.id);
 
-  res.status(200).json({ message: `Notification ${id} marked as read` });
+  res.status(200).json({ message: 'Notification has been marked as read' });
 }
 
 /**
@@ -42,11 +38,9 @@ async function readNotification(req, res) {
  * @param {Response} res
  */
 async function deleteNotification(req, res) {
-  const { id } = req.params;
-  const userId = res.locals.user.id;
-  await NotificationService.deleteNotification(id, userId);
+  await NotificationService.deleteNotification(req.params.id, res.locals.user.id);
 
-  res.status(200).json({ message: `Notification ${id} deleted` });
+  res.status(200).json({ message: 'Notification has been deleted' });
 }
 
 export const NotificationController = {

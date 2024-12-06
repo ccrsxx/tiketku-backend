@@ -1,5 +1,4 @@
 import { prisma } from '../utils/db.js';
-import { HttpError } from '../utils/error.js';
 
 /** @param {string} userId */
 async function getNotifications(userId) {
@@ -21,18 +20,10 @@ async function readAllNotifications(userId) {
 
 /**
  * @param {string} notificationId
- * @param {string} userId
+ * @param {string} _userId
  */
 
-async function readNotification(notificationId, userId) {
-  const notification = await prisma.notification.findFirst({
-    where: { id: notificationId, userId }
-  });
-
-  if (!notification) {
-    throw new HttpError(404, { message: 'Notification not found' });
-  }
-
+async function readNotification(notificationId, _userId) {
   await prisma.notification.update({
     where: { id: notificationId },
     data: { viewed: true }
@@ -41,17 +32,9 @@ async function readNotification(notificationId, userId) {
 
 /**
  * @param {string} notificationId
- * @param {string} userId
+ * @param {string} _userId
  */
-async function deleteNotification(notificationId, userId) {
-  const notification = await prisma.notification.findFirst({
-    where: { id: notificationId, userId }
-  });
-
-  if (!notification) {
-    throw new HttpError(404, { message: 'Notification not found' });
-  }
-
+async function deleteNotification(notificationId, _userId) {
   await prisma.notification.delete({
     where: { id: notificationId }
   });

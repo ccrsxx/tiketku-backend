@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { NotificationController } from '../controllers/notification.js';
 import { AuthMiddleware } from '../middlewares/auth.js';
+import { CommonValidationMiddleware } from '../middlewares/validation/common.js';
+import { NotificationMiddleware } from '../middlewares/notification.js';
 
 /** @param {Router} app */
 export default (app) => {
@@ -14,21 +16,25 @@ export default (app) => {
     NotificationController.getNotifications
   );
 
-  router.patch(
+  router.post(
     '/read-all',
     AuthMiddleware.isAuthorized,
     NotificationController.readAllNotifications
   );
 
-  router.patch(
+  router.post(
     '/:id',
+    CommonValidationMiddleware.isValidParamsIdUuid,
     AuthMiddleware.isAuthorized,
+    NotificationMiddleware.isNotificationExists,
     NotificationController.readNotification
   );
 
   router.delete(
     '/:id',
+    CommonValidationMiddleware.isValidParamsIdUuid,
     AuthMiddleware.isAuthorized,
+    NotificationMiddleware.isNotificationExists,
     NotificationController.deleteNotification
   );
 };
