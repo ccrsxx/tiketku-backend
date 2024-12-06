@@ -11,8 +11,8 @@ export default (app) => {
 
   router.post(
     '/image',
-    AuthMiddleware.isAuthorized,
     UploadMiddleware.parseImage,
+    AuthMiddleware.isAuthorized,
     UploadMiddleware.uploadImageToGcs,
     UploadController.uploadImage
   );

@@ -35,9 +35,13 @@ export const phoneNumberSchema = z
  * @returns {FormattedZodError<T>} The formatted error.
  */
 export function formatZodError(error, formatZodErrorOptions = {}) {
-  const errors = error.errors.map(({ message, path: [name] }) =>
-    name ? `${name} ${message}` : message
-  );
+  const errors = error.errors.map(({ message, path }) => {
+    const name = path.join('.');
+
+    const result = name ? `${name} ${message}` : message;
+
+    return result;
+  });
 
   let parsedMessage = 'Invalid body';
 
