@@ -2,7 +2,7 @@ import { UserService } from '../services/user.js';
 
 /** @import {Request,Response} from 'express' */
 /** @import {User} from '@prisma/client' */
-/** @import {ValidUserPayload} from '../middlewares/validation/user.js' */
+/** @import {ValidUserPayload, ValidUserUpdatePayload} from '../middlewares/validation/user.js' */
 
 /**
  * @param {Request<{ id: string }>} req
@@ -45,14 +45,11 @@ async function createUser(req, res) {
 }
 
 /**
- * Updates an existing user with the provided data.
- *
- * @param {Request<{ id: string }, unknown, ValidUserPayload>} req
+ * @param {Request<{ id: string }, unknown, ValidUserUpdatePayload>} req
  * @param {Response} res
  */
 async function updateUser(req, res) {
-  const userId = req.params.id;
-  const user = await UserService.updatedUser(req.body, userId);
+  const user = await UserService.updateUser(req.params.id, req.body);
 
   res.status(201).json({ data: user });
 }
