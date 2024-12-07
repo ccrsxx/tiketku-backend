@@ -11,6 +11,7 @@ async function getFlight(id) {
     include: {
       airline: true,
       airplane: true,
+      flightSeats: true,
       departureAirport: true,
       destinationAirport: true
     }
