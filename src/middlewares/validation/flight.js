@@ -23,7 +23,12 @@ function isValidFlightQueryParams(req, _res, next) {
   const { error } = validFlightQueryParams.safeParse(req.query);
 
   if (error) {
-    throw new HttpError(400, formatZodError(error));
+    throw new HttpError(
+      400,
+      formatZodError(error, {
+        errorMessage: 'Invalid query params'
+      })
+    );
   }
 
   next();
@@ -49,7 +54,12 @@ function isValidFavoriteFlightQueryParams(req, _res, next) {
   const { error } = validFavoriteFlightQueryParams.safeParse(req.query);
 
   if (error) {
-    throw new HttpError(400, formatZodError(error));
+    throw new HttpError(
+      400,
+      formatZodError(error, {
+        errorMessage: 'Invalid query params'
+      })
+    );
   }
 
   next();

@@ -113,6 +113,44 @@ function isValidBookingPayload(req, _res, next) {
   next();
 }
 
+const validMyBookingsQueryParams = z
+  .object({
+    bookingCode: z.string().trim().length(6).optional(),
+    startDate: z.string().date().optional(),
+    endDate: z.string().date().optional()
+  })
+  .refine(
+    ({ startDate, endDate }) => {
+      if (!startDate || !endDate) return true;
+
+      return startDate < endDate;
+    },
+    {
+      message: 'Start date must be before end date'
+    }
+  );
+
+/** @typedef {z.infer<typeof validMyBookingsQueryParams>} ValidMyBookingsQueryParams */
+
+/**
+ * @param {Request<unknown, unknown, unknown, ValidMyBookingsQueryParams>} req
+ * @param {Response} _res
+ * @param {NextFunction} next
+ */
+function isValidMyBookingQueryParams(req, _res, next) {
+  const { error } = validMyBookingsQueryParams.safeParse(req.query);
+
+  if (error) {
+    throw new HttpError(
+      400,
+      formatZodError(error, { errorMessage: 'Invalid query params' })
+    );
+  }
+
+  next();
+}
+
 export const BookingValidationMiddleware = {
-  isValidBookingPayload
+  isValidBookingPayload,
+  isValidMyBookingQueryParams
 };

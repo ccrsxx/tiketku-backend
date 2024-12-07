@@ -2,7 +2,7 @@ import { BookingService } from '../services/booking.js';
 
 /** @import {User} from '@prisma/client' */
 /** @import {Request,Response} from 'express' */
-/** @import {ValidBookingPayload} from '../middlewares/validation/booking.js' */
+/** @import {ValidBookingPayload,ValidMyBookingsQueryParams} from '../middlewares/validation/booking.js' */
 
 /**
  * @param {Request<unknown, unknown, ValidBookingPayload>} req
@@ -15,11 +15,14 @@ async function createBooking(req, res) {
 }
 
 /**
- * @param {Request} _req
+ * @param {Request<unknown, unknown, unknown, ValidMyBookingsQueryParams>} req
  * @param {Response<unknown, { user: User }>} res
  */
-async function getMyBookings(_req, res) {
-  const bookings = await BookingService.getMyBookings(res.locals.user.id);
+async function getMyBookings(req, res) {
+  const bookings = await BookingService.getMyBookings(
+    res.locals.user.id,
+    req.query
+  );
 
   res.status(200).json({ data: bookings });
 }

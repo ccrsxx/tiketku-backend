@@ -3,13 +3,21 @@ import { HttpError } from '../utils/error.js';
 import { generateRandomToken, toTitleCase } from '../utils/helper.js';
 
 /** @import {Flight,FlightSeat} from '@prisma/client' */
-/** @import {ValidBookingPayload,ValidFlightSeatPayload,ValidPassengerPayload} from '../middlewares/validation/booking.js' */
+/** @import {ValidBookingPayload,ValidFlightSeatPayload,ValidPassengerPayload,ValidMyBookingsQueryParams} from '../middlewares/validation/booking.js' */
 
-/** @param {string} userId */
-async function getMyBookings(userId) {
+/**
+ * @param {string} userId
+ * @param {ValidMyBookingsQueryParams} query
+ */
+async function getMyBookings(userId, { bookingCode, startDate, endDate }) {
   const bookings = await prisma.transaction.findMany({
     where: {
-      userId
+      userId,
+      code: bookingCode,
+      createdAt: {
+        ...(startDate && { gte: new Date(startDate) }),
+        ...(endDate && { lte: new Date(endDate) })
+      }
     },
     include: {
       payment: true,

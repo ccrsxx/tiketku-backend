@@ -11,6 +11,7 @@ export default (app) => {
 
   router.get(
     '/me',
+    BookingValidationMiddleware.isValidMyBookingQueryParams,
     AuthMiddleware.isAuthorized,
     BookingController.getMyBookings
   );
