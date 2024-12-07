@@ -5,7 +5,7 @@ import { HttpError } from '../utils/error.js';
 /** @import {User} from '@prisma/client' */
 
 /**
- * @param {Request} req
+ * @param {Request<unknown, unknown, unknown, unknown>} req
  * @param {Response<unknown, { user: User }>} res
  * @param {NextFunction} next
  */

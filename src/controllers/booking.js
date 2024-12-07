@@ -19,12 +19,12 @@ async function createBooking(req, res) {
  * @param {Response<unknown, { user: User }>} res
  */
 async function getMyBookings(req, res) {
-  const bookings = await BookingService.getMyBookings(
+  const { meta, bookings } = await BookingService.getMyBookings(
     res.locals.user.id,
     req.query
   );
 
-  res.status(200).json({ data: bookings });
+  res.status(200).json({ meta, data: bookings });
 }
 
 export const BookingController = {

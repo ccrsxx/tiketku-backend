@@ -1,24 +1,53 @@
 import { prisma } from '../utils/db.js';
 import { HttpError } from '../utils/error.js';
-import { generateRandomToken, toTitleCase } from '../utils/helper.js';
+import {
+  toTitleCase,
+  generateRandomToken,
+  generatePaginationMeta
+} from '../utils/helper.js';
 
-/** @import {Flight,FlightSeat} from '@prisma/client' */
+/** @import {Prisma,Flight,FlightSeat} from '@prisma/client' */
 /** @import {ValidBookingPayload,ValidFlightSeatPayload,ValidPassengerPayload,ValidMyBookingsQueryParams} from '../middlewares/validation/booking.js' */
 
 /**
  * @param {string} userId
  * @param {ValidMyBookingsQueryParams} query
  */
-async function getMyBookings(userId, { bookingCode, startDate, endDate }) {
+async function getMyBookings(
+  userId,
+  { bookingCode, startDate, endDate, page }
+) {
+  /** @type {Prisma.TransactionWhereInput} */
+  const bookingWhereFilter = {
+    userId,
+    code: bookingCode,
+    createdAt: {
+      ...(startDate && { gte: new Date(startDate) }),
+      ...(endDate && { lte: new Date(endDate) })
+    }
+  };
+
+  const bookingsCount = await prisma.transaction.count({
+    where: bookingWhereFilter
+  });
+
+  const paginationMeta = generatePaginationMeta({
+    page,
+    limit: 10,
+    recordCount: bookingsCount
+  });
+
+  if (paginationMeta.offPageLimit) {
+    return {
+      meta: paginationMeta.meta,
+      bookings: []
+    };
+  }
+
   const bookings = await prisma.transaction.findMany({
-    where: {
-      userId,
-      code: bookingCode,
-      createdAt: {
-        ...(startDate && { gte: new Date(startDate) }),
-        ...(endDate && { lte: new Date(endDate) })
-      }
-    },
+    where: bookingWhereFilter,
+    take: paginationMeta.limit,
+    skip: paginationMeta.offset,
     include: {
       payment: true,
       bookings: true,
@@ -27,7 +56,10 @@ async function getMyBookings(userId, { bookingCode, startDate, endDate }) {
     }
   });
 
-  return bookings;
+  return {
+    meta: paginationMeta.meta,
+    bookings
+  };
 }
 
 /**

@@ -12,6 +12,12 @@ export const phoneNumberSchema = z
     message: 'Invalid phone number'
   });
 
+export const validPageCountSchema = z.coerce
+  .number()
+  .int()
+  .positive()
+  .default(1);
+
 /**
  * @template {boolean} T
  * @typedef {{

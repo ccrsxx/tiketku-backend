@@ -3,7 +3,11 @@
 import { z } from 'zod';
 import { HttpError } from '../../utils/error.js';
 import { PassengerType } from '@prisma/client';
-import { formatZodError, validStringSchema } from '../../utils/validation.js';
+import {
+  formatZodError,
+  validStringSchema,
+  validPageCountSchema
+} from '../../utils/validation.js';
 import { toTitleCase } from '../../utils/helper.js';
 
 const validFlightSeatPayload = z.object({
@@ -117,7 +121,8 @@ const validMyBookingsQueryParams = z
   .object({
     bookingCode: z.string().trim().length(6).optional(),
     startDate: z.string().date().optional(),
-    endDate: z.string().date().optional()
+    endDate: z.string().date().optional(),
+    page: validPageCountSchema.optional()
   })
   .refine(
     ({ startDate, endDate }) => {
