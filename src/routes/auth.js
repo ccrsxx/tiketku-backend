@@ -29,7 +29,7 @@ export default (app) => {
     AuthController.sendPasswordResetEmail
   );
 
-  router.put(
+  router.post(
     '/password-reset',
     AuthValidationMiddleware.isValidResetPasswordPayload,
     AuthController.resetPassword
