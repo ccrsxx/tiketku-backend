@@ -2,11 +2,11 @@ import { AuthService } from '../services/auth.js';
 import { HttpError } from '../utils/error.js';
 
 /** @import {Request,Response,NextFunction} from 'express' */
-/** @import {User} from '@prisma/client' */
+/** @import {OmittedModel} from '../utils/db.js' */
 
 /**
  * @param {Request<unknown, unknown, unknown, unknown>} req
- * @param {Response<unknown, { user: User }>} res
+ * @param {Response<unknown, { user: OmittedModel<'user'> }>} res
  * @param {NextFunction} next
  */
 async function isAuthorized(req, res, next) {

@@ -1,9 +1,7 @@
 import { jest } from '@jest/globals';
 import { Prisma } from '@prisma/client';
 
-/** @typedef {Prisma.TypeMap['meta']['modelProps']} ModelName */
-
-/** @typedef {keyof Prisma.TypeMap['model']['User']['operations']} ModelAction */
+/** @import {ModelName,ModelAction} from './types/prisma.js' */
 
 /**
  * @typedef {{

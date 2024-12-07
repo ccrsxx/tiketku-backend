@@ -6,7 +6,7 @@ import { HttpError } from '../utils/error.js';
 import { generateRandomToken } from '../utils/helper.js';
 import { sendResetPasswordEmail } from '../utils/emails/mail.js';
 
-/** @import {ValidLoginPayload, ValidResetPasswordPayload} from '../middlewares/validation/auth.js' */
+/** @import {ValidLoginPayload,ValidResetPasswordPayload} from '../middlewares/validation/auth.js' */
 
 /** @param {ValidLoginPayload} payload */
 async function login(payload) {
