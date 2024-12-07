@@ -15,6 +15,12 @@ function parseImage(req, res, next) {
   uploadToMemory(req, res, (err) => {
     if (err) {
       if (err instanceof MulterError) {
+        if (err.code === 'LIMIT_UNEXPECTED_FILE') {
+          return next(
+            new HttpError(400, { message: 'Only one image is allowed' })
+          );
+        }
+
         return next(new HttpError(400, { message: err.message }));
       }
 
