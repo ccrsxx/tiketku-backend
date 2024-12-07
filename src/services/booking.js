@@ -1,12 +1,13 @@
 import { prisma } from '../utils/db.js';
 import { HttpError } from '../utils/error.js';
+import { toTitleCase, generateRandomToken } from '../utils/helper.js';
 import {
-  toTitleCase,
-  generateRandomToken,
-  generatePaginationMeta
-} from '../utils/helper.js';
+  MAX_OFFSET_LIMIT,
+  generateOffsetPaginationMeta
+} from '../utils/pagination.js';
 
-/** @import {Prisma,Flight,FlightSeat} from '@prisma/client' */
+/** @import {Prisma,Flight} from '@prisma/client' */
+/** @import {OmittedModel} from '../utils/db.js' */
 /** @import {ValidBookingPayload,ValidFlightSeatPayload,ValidPassengerPayload,ValidMyBookingsQueryParams} from '../middlewares/validation/booking.js' */
 
 /**
@@ -31,9 +32,9 @@ async function getMyBookings(
     where: bookingWhereFilter
   });
 
-  const paginationMeta = generatePaginationMeta({
+  const paginationMeta = generateOffsetPaginationMeta({
     page,
-    limit: 10,
+    limit: MAX_OFFSET_LIMIT,
     recordCount: bookingsCount
   });
 
@@ -76,7 +77,7 @@ async function createBooking(
     passengers
   );
 
-  /** @type {Awaited<ReturnType<typeof checkFlightAvailability>> | null} */
+  /** @type {FlightAvailability | null} */
   let returnFlightData = null;
 
   if (returnFlightId) {
@@ -181,7 +182,12 @@ async function createBooking(
 
 /**
  * @typedef {ValidPassengerPayload &
- *   Partial<Record<'departureFlightSeat' | 'returnFlightSeat', FlightSeat>>} PassengerWithFlightSeat
+ *   Partial<
+ *     Record<
+ *       'departureFlightSeat' | 'returnFlightSeat',
+ *       OmittedModel<'flightSeat'>
+ *     >
+ *   >} PassengerWithFlightSeat
  */
 
 /**
@@ -213,7 +219,15 @@ async function checkFlightAvailability(
         destinationAirportId: departureFlight.departureAirportId
       })
     },
-    include: { airplane: true }
+    include: { airplane: true },
+    omit: {
+      airlineId: false,
+      createdAt: false,
+      updatedAt: false,
+      airplaneId: false,
+      departureAirportId: false,
+      destinationAirportId: false
+    }
   });
 
   if (!flight) {

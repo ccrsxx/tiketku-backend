@@ -18,6 +18,8 @@ export const validPageCountSchema = z.coerce
   .positive()
   .default(1);
 
+export const validCursorSchema = z.string().uuid();
+
 /**
  * @template {boolean} T
  * @typedef {{
