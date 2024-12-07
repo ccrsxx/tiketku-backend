@@ -44,7 +44,7 @@ async function main() {
       description: 'Local development server'
     },
     {
-      url: 'https://binar.ccrsxx.com',
+      url: 'https://api.tiketku.risalamin.com',
       description: 'Production server'
     }
   ];
