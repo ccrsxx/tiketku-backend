@@ -3,32 +3,47 @@ import { pinoHttp as PinoHttp } from 'pino-http';
 
 /** @import {Application} from 'express' */
 /** @import {LoggerOptions} from 'pino' */
+/** @import {Options} from 'pino-http' */
 
-/** @type {LoggerOptions} */
+/**
+ * @typedef {Object} CombinedLoggerOptions
+ * @property {LoggerOptions} pinoOptions
+ * @property {Options} [pinoHttpOptions]
+ */
+
+/** @type {CombinedLoggerOptions} */
 const developmentLoggerOptions = {
-  transport: {
-    target: 'pino-pretty'
+  pinoOptions: {
+    transport: {
+      target: 'pino-pretty'
+    }
+  },
+  pinoHttpOptions: {
+    autoLogging: false
   }
 };
 
-/** @type {LoggerOptions} */
+/** @type {CombinedLoggerOptions} */
 const productionLoggerOptions = {
-  formatters: {
-    level(label) {
-      return { severity: label };
-    }
-  },
-  messageKey: 'message'
+  pinoOptions: {
+    formatters: {
+      level(label) {
+        return { severity: label };
+      }
+    },
+    messageKey: 'message'
+  }
 };
 
-const loggerOptions =
+const { pinoOptions, pinoHttpOptions } =
   process.env.NODE_ENV === 'production'
     ? productionLoggerOptions
     : developmentLoggerOptions;
 
-export const logger = Pino(loggerOptions);
+export const logger = Pino(pinoOptions);
 
 const pinoHttp = PinoHttp({
+  ...pinoHttpOptions,
   logger
 });
 

@@ -1,7 +1,10 @@
+/** @import {CursorPaginationMeta,OffsetPaginationMeta} from '../pagination.js' */
+
 /**
  * @template [T=unknown] Default is `unknown`
  * @typedef {Object} SuccessResponse
- * @property {T} data
+ * @property {T | T[]} data
+ * @property {CursorPaginationMeta | OffsetPaginationMeta} [meta]
  */
 
 /**

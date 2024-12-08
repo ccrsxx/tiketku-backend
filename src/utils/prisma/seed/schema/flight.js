@@ -3,7 +3,9 @@ import { faker } from '@faker-js/faker';
 import { logger } from '../../../../loaders/pino.js';
 import { FlightClassType } from '@prisma/client';
 
-/** @import {Prisma,Airport,Airline,Airplane} from '@prisma/client' */
+/** @import {OmittedModel} from '../../../db.js' */
+
+/** @import {Prisma} from '@prisma/client' */
 
 export async function seedFlight() {
   const seedEvent = await prisma.event.findFirst({
@@ -141,9 +143,9 @@ function roundToNearestFiveMinutes(date) {
 
 /**
  * @typedef {Object} NeededModels
- * @property {Airline[]} airlines
- * @property {Airport[]} airports
- * @property {Airplane[]} airplanes
+ * @property {OmittedModel<'airline'>[]} airlines
+ * @property {OmittedModel<'airport'>[]} airports
+ * @property {OmittedModel<'airplane'>[]} airplanes
  */
 
 /**
@@ -157,7 +159,7 @@ function createFlight(flightDate, models) {
   // Randomly select unique departure airports
   const departureAirport = faker.helpers.arrayElement(airports);
 
-  /** @type {Airport} */
+  /** @type {OmittedModel<'airport'>} */
   let destinationAirport;
 
   // Ensure destination airport is different from departure airport

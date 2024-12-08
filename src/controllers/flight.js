@@ -33,9 +33,9 @@ async function getFlights(req, res) {
  * @param {Response} res
  */
 async function getFavoriteFlights(req, res) {
-  const flights = await FlightService.getFavoriteFlights(req.query);
+  const { meta, flights } = await FlightService.getFavoriteFlights(req.query);
 
-  res.status(200).json({ data: flights });
+  res.status(200).json({ meta, data: flights });
 }
 
 export const FlightController = {

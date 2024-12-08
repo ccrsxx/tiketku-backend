@@ -12,6 +12,14 @@ export const phoneNumberSchema = z
     message: 'Invalid phone number'
   });
 
+export const validPageCountSchema = z.coerce
+  .number()
+  .int()
+  .positive()
+  .default(1);
+
+export const validCursorSchema = z.string().uuid();
+
 /**
  * @template {boolean} T
  * @typedef {{
@@ -22,11 +30,8 @@ export const phoneNumberSchema = z
 
 /**
  * @template {boolean} T
- * @typedef {{ preferSingleError?: T }} FormatZodErrorOptions
+ * @typedef {{ preferSingleError?: T; errorMessage?: string }} FormatZodErrorOptions
  */
-
-// TODO: Remove generic and detect if `preferSingleError` is `true` or `false` based on the type of `errors`
-// TODO: It can be detected if zod schema is not an object, the path inside errors will be empty
 
 /**
  * @template {boolean} [T=false] Default is `false`
@@ -35,11 +40,15 @@ export const phoneNumberSchema = z
  * @returns {FormattedZodError<T>} The formatted error.
  */
 export function formatZodError(error, formatZodErrorOptions = {}) {
-  const errors = error.errors.map(({ message, path: [name] }) =>
-    name ? `${name} ${message}` : message
-  );
+  const errors = error.errors.map(({ message, path }) => {
+    const name = path.join('.');
 
-  let parsedMessage = 'Invalid body';
+    const result = name ? `${name} ${message}` : message;
+
+    return result;
+  });
+
+  let parsedMessage = formatZodErrorOptions.errorMessage ?? 'Invalid body';
 
   /** @type {string[] | undefined} */
   let parsedErrors = errors;
