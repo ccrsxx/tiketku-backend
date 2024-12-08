@@ -130,7 +130,7 @@ async function createTransaction(
       }
     }
 
-    const flightSeatsUpdateAction = await tx.flightSeat.updateMany({
+    await tx.flightSeat.updateMany({
       where: {
         id: {
           in: flightSeatsToBeBooked
