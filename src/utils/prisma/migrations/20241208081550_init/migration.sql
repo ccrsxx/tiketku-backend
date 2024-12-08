@@ -104,6 +104,7 @@ CREATE TABLE "flight" (
     "type" "FlightClassType" NOT NULL,
     "price" INTEGER NOT NULL,
     "discount" INTEGER,
+    "flight_number" TEXT NOT NULL,
     "arrival_timestamp" TIMESTAMPTZ NOT NULL,
     "departure_timestamp" TIMESTAMPTZ NOT NULL,
     "airline_id" UUID NOT NULL,

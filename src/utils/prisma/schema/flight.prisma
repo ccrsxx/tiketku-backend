@@ -1,9 +1,9 @@
 model Flight {
-    id       String          @id @default(uuid(7)) @db.Uuid
-    type     FlightClassType
-    price    Int
-    discount Int?
-
+    id           String          @id @default(uuid(7)) @db.Uuid
+    type         FlightClassType
+    price        Int
+    discount     Int?
+    flightNumber String          @map("flight_number")
     arrivalTimestamp   DateTime @map("arrival_timestamp") @db.Timestamptz()
     departureTimestamp DateTime @map("departure_timestamp") @db.Timestamptz()
 
