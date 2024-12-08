@@ -17,10 +17,10 @@ CREATE TYPE "FlightClassType" AS ENUM ('ECONOMY', 'PREMIUM', 'BUSINESS', 'FIRST_
 CREATE TYPE "PassengerType" AS ENUM ('ADULT', 'CHILD', 'INFANT');
 
 -- CreateEnum
-CREATE TYPE "PaymentStatus" AS ENUM ('PENDING', 'COMPLETED', 'FAILED', 'CANCELLED');
+CREATE TYPE "PaymentStatus" AS ENUM ('PENDING', 'SUCCESS', 'FAILED');
 
 -- CreateEnum
-CREATE TYPE "PaymentMethod" AS ENUM ('CREDIT_CARD', 'BANK_TRANSFER');
+CREATE TYPE "PaymentMethod" AS ENUM ('QRIS', 'CREDIT_CARD', 'BANK_TRANSFER');
 
 -- CreateTable
 CREATE TABLE "airline" (
@@ -104,6 +104,7 @@ CREATE TABLE "flight" (
     "type" "FlightClassType" NOT NULL,
     "price" INTEGER NOT NULL,
     "discount" INTEGER,
+    "flight_number" TEXT NOT NULL,
     "arrival_timestamp" TIMESTAMPTZ NOT NULL,
     "departure_timestamp" TIMESTAMPTZ NOT NULL,
     "airline_id" UUID NOT NULL,
@@ -176,7 +177,9 @@ CREATE TABLE "payment" (
     "id" UUID NOT NULL,
     "amount" INTEGER NOT NULL,
     "status" "PaymentStatus" NOT NULL,
-    "method" "PaymentMethod" NOT NULL,
+    "method" "PaymentMethod",
+    "snap_token" TEXT NOT NULL,
+    "snap_redirect_url" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMPTZ NOT NULL,
 

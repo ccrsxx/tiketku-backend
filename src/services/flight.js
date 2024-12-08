@@ -1,7 +1,8 @@
 import { prisma } from '../utils/db.js';
 import { HttpError } from '../utils/error.js';
+import { MAX_CURSOR_LIMIT } from '../utils/pagination.js';
 
-/** @import {Flight} from '@prisma/client' */
+/** @import {OmittedModel} from '../utils/db.js' */
 /** @import {ValidFlightQueryParams, ValidFavoriteFlightQueryParams} from '../middlewares/validation/flight.js' */
 
 /** @param {string} id */
@@ -11,6 +12,7 @@ async function getFlight(id) {
     include: {
       airline: true,
       airplane: true,
+      flightSeats: true,
       departureAirport: true,
       destinationAirport: true
     }
@@ -52,7 +54,7 @@ async function getFlights({
     }
   });
 
-  /** @type {Flight[]} */
+  /** @type {OmittedModel<'flight'>[]} */
   let returnFlights = [];
 
   if (returnDate) {
@@ -84,7 +86,7 @@ async function getFlights({
 }
 
 /** @param {ValidFavoriteFlightQueryParams} query */
-async function getFavoriteFlights({ continent }) {
+async function getFavoriteFlights({ continent, nextCursor }) {
   const flights = await prisma.flight.findMany({
     where: continent
       ? {
@@ -93,18 +95,31 @@ async function getFavoriteFlights({ continent }) {
           }
         }
       : undefined,
+    take: MAX_CURSOR_LIMIT,
+    ...(nextCursor && {
+      cursor: { id: nextCursor },
+      skip: 1
+    }),
+    orderBy: {
+      id: 'asc'
+    },
     include: {
       departureAirport: true,
       destinationAirport: true
-    },
-    orderBy: {
-      price: 'asc'
     },
     // Select only unique flights sorted by lowest starting price
     distinct: ['departureAirportId', 'destinationAirportId']
   });
 
-  return flights;
+  const parsedNextCursor = flights[MAX_CURSOR_LIMIT - 1]?.id ?? null;
+
+  return {
+    flights,
+    meta: {
+      limit: MAX_CURSOR_LIMIT,
+      nextCursor: parsedNextCursor
+    }
+  };
 }
 
 export const FlightService = {

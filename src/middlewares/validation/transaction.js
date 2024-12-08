@@ -3,7 +3,11 @@
 import { z } from 'zod';
 import { HttpError } from '../../utils/error.js';
 import { PassengerType } from '@prisma/client';
-import { formatZodError, validStringSchema } from '../../utils/validation.js';
+import {
+  formatZodError,
+  validStringSchema,
+  validPageCountSchema
+} from '../../utils/validation.js';
 import { toTitleCase } from '../../utils/helper.js';
 
 const validFlightSeatPayload = z.object({
@@ -37,9 +41,9 @@ const validTransactionPayload = z.object({
   passengers: z.array(ValidPassengerPayload)
 });
 
-/** @typedef {z.infer<typeof validFlightSeatPayload>} ValidFlightSeatPayload */
-
 /** @typedef {z.infer<typeof ValidPassengerPayload>} ValidPassengerPayload */
+
+/** @typedef {z.infer<typeof validFlightSeatPayload>} ValidFlightSeatPayload */
 
 /** @typedef {z.infer<typeof validTransactionPayload>} ValidTransactionPayload */
 
@@ -113,6 +117,50 @@ function isValidTransactionPayload(req, _res, next) {
   next();
 }
 
+const validMyTransactionsQueryParams = z
+  .object({
+    bookingCode: z.string().trim().length(6).optional(),
+    startDate: z.string().date().optional(),
+    endDate: z.string().date().optional(),
+    page: validPageCountSchema.optional()
+  })
+  .refine(
+    ({ startDate, endDate }) => {
+      if (!startDate || !endDate) return true;
+
+      return startDate < endDate;
+    },
+    {
+      message: 'Start date must be before end date'
+    }
+  );
+
+/** @typedef {z.infer<typeof validMyTransactionsQueryParams>} ValidMyTransactionsQueryParams */
+
+/**
+ * @param {Request<
+ *   unknown,
+ *   unknown,
+ *   unknown,
+ *   ValidMyTransactionsQueryParams
+ * >} req
+ * @param {Response} _res
+ * @param {NextFunction} next
+ */
+function isValidMyTransactionsQueryParams(req, _res, next) {
+  const { error } = validMyTransactionsQueryParams.safeParse(req.query);
+
+  if (error) {
+    throw new HttpError(
+      400,
+      formatZodError(error, { errorMessage: 'Invalid query params' })
+    );
+  }
+
+  next();
+}
+
 export const TransactionValidationMiddleware = {
-  isValidTransactionPayload
+  isValidTransactionPayload,
+  isValidMyTransactionsQueryParams
 };

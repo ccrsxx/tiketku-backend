@@ -12,6 +12,14 @@ export const phoneNumberSchema = z
     message: 'Invalid phone number'
   });
 
+export const validPageCountSchema = z.coerce
+  .number()
+  .int()
+  .positive()
+  .default(1);
+
+export const validCursorSchema = z.string().uuid();
+
 /**
  * @template {boolean} T
  * @typedef {{
@@ -22,11 +30,8 @@ export const phoneNumberSchema = z
 
 /**
  * @template {boolean} T
- * @typedef {{ preferSingleError?: T }} FormatZodErrorOptions
+ * @typedef {{ preferSingleError?: T; errorMessage?: string }} FormatZodErrorOptions
  */
-
-// TODO: Remove generic and detect if `preferSingleError` is `true` or `false` based on the type of `errors`
-// TODO: It can be detected if zod schema is not an object, the path inside errors will be empty
 
 /**
  * @template {boolean} [T=false] Default is `false`
@@ -43,7 +48,7 @@ export function formatZodError(error, formatZodErrorOptions = {}) {
     return result;
   });
 
-  let parsedMessage = 'Invalid body';
+  let parsedMessage = formatZodErrorOptions.errorMessage ?? 'Invalid body';
 
   /** @type {string[] | undefined} */
   let parsedErrors = errors;

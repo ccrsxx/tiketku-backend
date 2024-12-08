@@ -1,40 +1,43 @@
 import midtransClient from 'midtrans-client';
 import { appEnv } from './env.js';
 
-let snap = new midtransClient.Snap({
-  isProduction: false,
+/** @import {PaymentType} from 'midtrans-client' */
+/** @import {PaymentMethod} from '@prisma/client' */
+
+const core = new midtransClient.CoreApi({
+  clientKey: appEnv.MIDTRANS_CLIENT_KEY,
   serverKey: appEnv.MIDTRANS_SERVER_KEY,
-  clientKey: appEnv.MIDTRANS_CLIENT_KEY
+  isProduction: false
 });
 
-/**
- * @param {string} order_id
- * @param {number} gross_amount
- * @param {string} first_name
- * @param {string} last_name
- * @param {string} email
- * @param {string} phone
- */
-export const midtransParameter = (
-  order_id,
-  gross_amount,
-  first_name,
-  last_name,
-  email,
-  phone
-) => {
-  return {
-    transaction_details: {
-      order_id,
-      gross_amount
-    },
-    customer_details: {
-      first_name,
-      last_name,
-      email,
-      phone
-    }
-  };
+const snap = new midtransClient.Snap({
+  clientKey: appEnv.MIDTRANS_CLIENT_KEY,
+  serverKey: appEnv.MIDTRANS_SERVER_KEY,
+  isProduction: false
+});
+
+/** @typedef {Extract<PaymentType, 'credit_card' | 'bank_transfer' | 'qris'>} SelectedPaymentType */
+
+/** @typedef {Record<SelectedPaymentType, PaymentMethod>} ValidPaymentMethodMap */
+
+/** @type {ValidPaymentMethodMap} */
+const paymentMethodMap = {
+  qris: 'QRIS',
+  credit_card: 'CREDIT_CARD',
+  bank_transfer: 'BANK_TRANSFER'
 };
 
-export default snap;
+/**
+ * @param {PaymentType} paymentType
+ * @returns {PaymentMethod}
+ */
+export function validatePaymentMethod(paymentType) {
+  return paymentMethodMap[/** @type {SelectedPaymentType} */ (paymentType)];
+}
+
+export const midtrans = {
+  core,
+  snap,
+  paymentMethodMap,
+  validatePaymentMethod
+};

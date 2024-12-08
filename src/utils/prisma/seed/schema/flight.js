@@ -3,7 +3,9 @@ import { faker } from '@faker-js/faker';
 import { logger } from '../../../../loaders/pino.js';
 import { FlightClassType } from '@prisma/client';
 
-/** @import {Prisma,Airport,Airline,Airplane} from '@prisma/client' */
+/** @import {OmittedModel} from '../../../db.js' */
+
+/** @import {Prisma} from '@prisma/client' */
 
 export async function seedFlight() {
   const seedEvent = await prisma.event.findFirst({
@@ -14,7 +16,8 @@ export async function seedFlight() {
       }
     },
     select: {
-      expiredAt: true
+      expiredAt: true,
+      createdAt: true
     },
     orderBy: {
       createdAt: 'desc'
@@ -25,12 +28,16 @@ export async function seedFlight() {
 
   if (!seedEvent) shouldSeed = true;
   else {
-    const { expiredAt } = seedEvent;
+    const { expiredAt, createdAt } = seedEvent;
 
     if (!expiredAt) shouldSeed = false;
     else {
       logger.info(
-        `Last flight seed was at ${expiredAt.toLocaleDateString()} ${expiredAt.toLocaleTimeString()}.`
+        `Last flight seed was at ${createdAt.toLocaleDateString()} ${createdAt.toLocaleTimeString()}.`
+      );
+
+      logger.info(
+        `Flight seed will expire at ${expiredAt.toLocaleDateString()} ${expiredAt.toLocaleTimeString()}.`
       );
 
       shouldSeed = new Date() > expiredAt;
@@ -141,9 +148,9 @@ function roundToNearestFiveMinutes(date) {
 
 /**
  * @typedef {Object} NeededModels
- * @property {Airline[]} airlines
- * @property {Airport[]} airports
- * @property {Airplane[]} airplanes
+ * @property {OmittedModel<'airline'>[]} airlines
+ * @property {OmittedModel<'airport'>[]} airports
+ * @property {OmittedModel<'airplane'>[]} airplanes
  */
 
 /**
@@ -157,7 +164,7 @@ function createFlight(flightDate, models) {
   // Randomly select unique departure airports
   const departureAirport = faker.helpers.arrayElement(airports);
 
-  /** @type {Airport} */
+  /** @type {OmittedModel<'airport'>} */
   let destinationAirport;
 
   // Ensure destination airport is different from departure airport
@@ -196,6 +203,14 @@ function createFlight(flightDate, models) {
   // Add random price for flight
   const flightPrice = faker.number.int({ min: 800_000, max: 10_000_000 });
 
+  const flightNumber = faker.number
+    .int({ min: 1, max: 9999 })
+    .toString()
+    .padStart(4, '0');
+
+  // Random flight number with airline code
+  const flightNumberWithAirlineCode = `${airline.code}${flightNumber}`;
+
   // Add probability of 20% for discount
   const discount = faker.datatype.boolean({ probability: 0.2 })
     ? faker.number.int({ min: 5, max: 50 })
@@ -208,6 +223,7 @@ function createFlight(flightDate, models) {
     discount: discount,
     airlineId: airline.id,
     airplaneId: airplane.id,
+    flightNumber: flightNumberWithAirlineCode,
     arrivalTimestamp: arrivalTimestamp,
     departureTimestamp: departureTimestamp,
     departureAirportId: departureAirport.id,

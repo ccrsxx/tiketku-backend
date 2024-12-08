@@ -8,7 +8,7 @@ import { prisma } from '../../utils/db.js';
 import { HttpError } from '../../utils/error.js';
 
 /** @import {Request,Response,NextFunction} from 'express' */
-/** @import {User} from '@prisma/client' */
+/** @import {OmittedModel} from '../../utils/db.js' */
 /** @import {ValidEmailPayload} from './common.js' */
 
 const validUserPayload = z.object({
@@ -61,7 +61,7 @@ function isValidUserUpdatePayload(req, _res, next) {
 
 /**
  * @param {Request<unknown, ValidEmailPayload>} req
- * @param {Response<unknown, { user: User }>} res
+ * @param {Response<unknown, { user: OmittedModel<'user'> }>} res
  * @param {NextFunction} next
  */
 export async function isUnverifiedUserExistsPayload(req, res, next) {

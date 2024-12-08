@@ -5,7 +5,7 @@ import users from './users.js';
 import upload from './upload.js';
 import flights from './flights.js';
 import airports from './airports.js';
-import bookings from './bookings.js';
+import bookings from './transactions.js';
 
 /** @import {Application} from 'express' */
 
