@@ -40,12 +40,12 @@ async function main() {
 
   openapi.servers = [
     {
-      url: 'http://localhost:4000',
-      description: 'Local development server'
-    },
-    {
       url: 'https://api.tiketku.risalamin.com',
       description: 'Production server'
+    },
+    {
+      url: 'http://localhost:4000',
+      description: 'Local development server'
     }
   ];
 
