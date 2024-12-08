@@ -1,13 +1,15 @@
 import { prisma } from '../utils/db.js';
+import snap, { midtransParameter } from '../utils/midtrans.js';
 import { HttpError } from '../utils/error.js';
 import { generateRandomToken, toTitleCase } from '../utils/helper.js';
+import { UserService } from './user.js';
 
 /** @import {Flight,FlightSeat} from '@prisma/client' */
-/** @import {ValidBookingPayload,ValidFlightSeatPayload,ValidPassengerPayload} from '../middlewares/validation/booking.js' */
+/** @import {ValidTransactionPayload,ValidFlightSeatPayload,ValidPassengerPayload} from '../middlewares/validation/transaction.js' */
 
 /** @param {string} userId */
-async function getMyBookings(userId) {
-  const bookings = await prisma.transaction.findMany({
+async function getMyTransaction(userId) {
+  const transactions = await prisma.transaction.findMany({
     where: {
       userId
     },
@@ -19,14 +21,14 @@ async function getMyBookings(userId) {
     }
   });
 
-  return bookings;
+  return transactions;
 }
 
 /**
  * @param {string} userId
- * @param {ValidBookingPayload} payload
+ * @param {ValidTransactionPayload} payload
  */
-async function createBooking(
+async function createTransaction(
   userId,
   { passengers, returnFlightId, departureFlightId }
 ) {
@@ -56,87 +58,113 @@ async function createBooking(
     mergedPassengers.push(...returnFlightData.passengers);
   }
 
-  const bookingCreateAction = prisma.transaction.create({
-    data: {
-      code: generateRandomToken(4),
-      user: {
-        connect: {
-          id: userId
-        }
-      },
-      departureFlight: {
-        connect: {
-          id: departureFlightId
-        }
-      },
-      ...(returnFlightId && {
-        returnFlight: {
+  let response = {};
+
+  await prisma.$transaction(async (tx) => {
+    const bookingCreateAction = await tx.transaction.create({
+      data: {
+        code: generateRandomToken(4),
+        user: {
           connect: {
-            id: returnFlightId
+            id: userId
+          }
+        },
+        departureFlight: {
+          connect: {
+            id: departureFlightId
+          }
+        },
+        ...(returnFlightId && {
+          returnFlight: {
+            connect: {
+              id: returnFlightId
+            }
+          }
+        }),
+        bookings: {
+          create: mergedPassengers.map(
+            ({ departureFlightSeat, returnFlightSeat, ...rest }) => ({
+              passenger: {
+                create: {
+                  ...rest,
+                  birthDate: new Date(rest.birthDate),
+                  identityExpirationDate: new Date(rest.identityExpirationDate)
+                }
+              },
+              ...(departureFlightSeat && {
+                departureFlightSeat: {
+                  connect: {
+                    id: departureFlightSeat.id
+                  }
+                }
+              }),
+              ...(returnFlightSeat && {
+                returnFlightSeat: {
+                  connect: {
+                    id: returnFlightSeat.id
+                  }
+                }
+              })
+            })
+          )
+        },
+        payment: {
+          create: {
+            amount: flightPrice,
+            method: 'CREDIT_CARD',
+            status: 'PENDING'
           }
         }
-      }),
-      bookings: {
-        create: mergedPassengers.map(
-          ({ departureFlightSeat, returnFlightSeat, ...rest }) => ({
-            passenger: {
-              create: {
-                ...rest,
-                birthDate: new Date(rest.birthDate),
-                identityExpirationDate: new Date(rest.identityExpirationDate)
-              }
-            },
-            ...(departureFlightSeat && {
-              departureFlightSeat: {
-                connect: {
-                  id: departureFlightSeat.id
-                }
-              }
-            }),
-            ...(returnFlightSeat && {
-              returnFlightSeat: {
-                connect: {
-                  id: returnFlightSeat.id
-                }
-              }
-            })
-          })
-        )
-      },
-      payment: {
-        create: {
-          amount: flightPrice,
-          method: 'CREDIT_CARD',
-          status: 'PENDING'
+      }
+    });
+
+    let flightSeatsToBeBooked = [];
+
+    for (const { departureFlightSeat, returnFlightSeat } of mergedPassengers) {
+      if (departureFlightSeat) {
+        flightSeatsToBeBooked.push(departureFlightSeat.id);
+      }
+
+      if (returnFlightSeat) {
+        flightSeatsToBeBooked.push(returnFlightSeat.id);
+      }
+    }
+
+    const flightSeatsUpdateAction = await tx.flightSeat.updateMany({
+      where: {
+        id: {
+          in: flightSeatsToBeBooked
         }
+      },
+      data: {
+        status: 'BOOKED'
       }
-    }
+    });
+
+    const user = await UserService.getUser(bookingCreateAction.userId);
+
+    const name = user.name.split(' ');
+    const first_name = name[0];
+    const last_name = name[1];
+
+    const parameter = midtransParameter(
+      bookingCreateAction.id,
+      flightPrice,
+      first_name,
+      last_name,
+      user.email,
+      user.phoneNumber
+    );
+
+    await snap.createTransaction(parameter).then((transaction) => {
+      response = {
+        token: transaction.token,
+        redirect_url: transaction.redirect_url
+      };
+    });
   });
 
-  let flightSeatsToBeBooked = [];
-
-  for (const { departureFlightSeat, returnFlightSeat } of mergedPassengers) {
-    if (departureFlightSeat) {
-      flightSeatsToBeBooked.push(departureFlightSeat.id);
-    }
-
-    if (returnFlightSeat) {
-      flightSeatsToBeBooked.push(returnFlightSeat.id);
-    }
-  }
-
-  const flightSeatsUpdateAction = prisma.flightSeat.updateMany({
-    where: {
-      id: {
-        in: flightSeatsToBeBooked
-      }
-    },
-    data: {
-      status: 'BOOKED'
-    }
-  });
-
-  await prisma.$transaction([bookingCreateAction, flightSeatsUpdateAction]);
+  return response;
 }
 
 /**
@@ -241,7 +269,7 @@ async function checkFlightAvailability(
   };
 }
 
-export const BookingService = {
-  createBooking,
-  getMyBookings
+export const TransactionService = {
+  createTransaction,
+  getMyTransaction
 };

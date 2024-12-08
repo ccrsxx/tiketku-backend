@@ -31,7 +31,7 @@ const ValidPassengerPayload = z
     }
   );
 
-const validBookingPayload = z.object({
+const validTransactionPayload = z.object({
   departureFlightId: z.string().uuid(),
   returnFlightId: z.string().uuid().optional(),
   passengers: z.array(ValidPassengerPayload)
@@ -41,15 +41,15 @@ const validBookingPayload = z.object({
 
 /** @typedef {z.infer<typeof ValidPassengerPayload>} ValidPassengerPayload */
 
-/** @typedef {z.infer<typeof validBookingPayload>} ValidBookingPayload */
+/** @typedef {z.infer<typeof validTransactionPayload>} ValidTransactionPayload */
 
 /**
  * @param {Request} req
  * @param {Response} _res
  * @param {NextFunction} next
  */
-function isValidBookingPayload(req, _res, next) {
-  const { data, error } = validBookingPayload.safeParse(req.body);
+function isValidTransactionPayload(req, _res, next) {
+  const { data, error } = validTransactionPayload.safeParse(req.body);
 
   if (error) {
     throw new HttpError(400, formatZodError(error));
@@ -71,7 +71,7 @@ function isValidBookingPayload(req, _res, next) {
     const parsedFlightSeats = [];
 
     for (const { returnFlightSeat, departureFlightSeat } of data.passengers) {
-      /** @type {ValidBookingPayload['passengers'][0]['departureFlightSeat']} */
+      /** @type {ValidTransactionPayload['passengers'][0]['departureFlightSeat']} */
       const flightSeat =
         flightType === 'departure' ? departureFlightSeat : returnFlightSeat;
 
@@ -113,6 +113,6 @@ function isValidBookingPayload(req, _res, next) {
   next();
 }
 
-export const BookingValidationMiddleware = {
-  isValidBookingPayload
+export const TransactionValidationMiddleware = {
+  isValidTransactionPayload
 };

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { AuthMiddleware } from '../middlewares/auth.js';
-import { BookingController } from '../controllers/booking.js';
-import { BookingValidationMiddleware } from '../middlewares/validation/booking.js';
+import { TransactionController } from '../controllers/transaction.js';
+import { TransactionValidationMiddleware } from '../middlewares/validation/transaction.js';
 
 /** @param {Router} app */
 export default (app) => {
@@ -12,13 +12,13 @@ export default (app) => {
   router.get(
     '/me',
     AuthMiddleware.isAuthorized,
-    BookingController.getMyBookings
+    TransactionController.getMyTransaction
   );
 
   router.post(
     '/',
-    BookingValidationMiddleware.isValidBookingPayload,
+    TransactionValidationMiddleware.isValidTransactionPayload,
     AuthMiddleware.isAuthorized,
-    BookingController.createBooking
+    TransactionController.createTransaction
   );
 };
