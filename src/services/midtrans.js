@@ -42,7 +42,11 @@ export async function manageMidtransNotification(payload) {
   let isPaymentStillValid = transaction.payment.status === 'PENDING';
 
   // Handle a case where credit card is denied, but can be reattempted with valid credit card or other payment method
-  if (transaction.payment.method === 'CREDIT_CARD') {
+  const isCreditCardPreviouslyDenied =
+    transaction.payment.status === 'FAILED' &&
+    transaction.payment.method === 'CREDIT_CARD';
+
+  if (isCreditCardPreviouslyDenied) {
     // As long as the transaction is still within the expired time, it can be reattempted
     isPaymentStillValid = new Date() < transaction.payment.expiredAt;
   }

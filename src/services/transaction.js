@@ -16,59 +16,6 @@ import {
 /** @import {ValidTransactionPayload,ValidFlightSeatPayload,ValidPassengerPayload,ValidMyTransactionsQueryParams} from '../middlewares/validation/transaction.js' */
 
 /**
- * @param {string} userId
- * @param {ValidMyTransactionsQueryParams} query
- */
-async function getMyTransactions(
-  userId,
-  { bookingCode, startDate, endDate, page }
-) {
-  /** @type {Prisma.TransactionWhereInput} */
-  const transactionWhereFilter = {
-    userId,
-    code: bookingCode,
-    createdAt: {
-      ...(startDate && { gte: new Date(startDate) }),
-      ...(endDate && { lte: new Date(endDate) })
-    }
-  };
-
-  const transactionsCount = await prisma.transaction.count({
-    where: transactionWhereFilter
-  });
-
-  const paginationMeta = generateOffsetPaginationMeta({
-    page,
-    limit: MAX_OFFSET_LIMIT,
-    recordCount: transactionsCount
-  });
-
-  if (paginationMeta.offPageLimit) {
-    return {
-      meta: paginationMeta.meta,
-      bookings: []
-    };
-  }
-
-  const transactions = await prisma.transaction.findMany({
-    where: transactionWhereFilter,
-    take: paginationMeta.limit,
-    skip: paginationMeta.offset,
-    include: {
-      payment: true,
-      bookings: true,
-      returnFlight: true,
-      departureFlight: true
-    }
-  });
-
-  return {
-    meta: paginationMeta.meta,
-    transactions
-  };
-}
-
-/**
  * @param {OmittedModel<'user'>} user
  * @param {ValidTransactionPayload} payload
  */
@@ -112,7 +59,7 @@ async function createTransaction(
     flightPrice += returnFlightData.flight.price;
   }
 
-  const transactionResponse = await prisma.$transaction(async (tx) => {
+  const createdTransaction = await prisma.$transaction(async (tx) => {
     const next15MinutesDate = new Date();
 
     next15MinutesDate.setMinutes(next15MinutesDate.getMinutes() + 15);
@@ -173,6 +120,9 @@ async function createTransaction(
             expiredAt: next15MinutesDate
           }
         }
+      },
+      omit: {
+        paymentId: false
       }
     });
 
@@ -227,10 +177,14 @@ async function createTransaction(
       }
     });
 
-    return transactionResponse;
+    return {
+      transactionId: transactionCreation.id,
+      snapToken: transactionResponse.token,
+      snapRedirectUrl: transactionResponse.redirect_url
+    };
   });
 
-  return transactionResponse;
+  return createdTransaction;
 }
 
 /**
@@ -348,7 +302,162 @@ async function checkFlightAvailability(
   };
 }
 
+/**
+ * @param {string} userId
+ * @param {ValidMyTransactionsQueryParams} query
+ */
+async function getMyTransactions(
+  userId,
+  { bookingCode, startDate, endDate, page }
+) {
+  /** @type {Prisma.TransactionWhereInput} */
+  const transactionWhereFilter = {
+    userId,
+    code: bookingCode,
+    createdAt: {
+      ...(startDate && { gte: new Date(startDate) }),
+      ...(endDate && { lte: new Date(endDate) })
+    }
+  };
+
+  const transactionsCount = await prisma.transaction.count({
+    where: transactionWhereFilter
+  });
+
+  const paginationMeta = generateOffsetPaginationMeta({
+    page,
+    limit: MAX_OFFSET_LIMIT,
+    recordCount: transactionsCount
+  });
+
+  if (paginationMeta.offPageLimit) {
+    return {
+      meta: paginationMeta.meta,
+      bookings: []
+    };
+  }
+
+  const transactions = await prisma.transaction.findMany({
+    where: transactionWhereFilter,
+    take: paginationMeta.limit,
+    skip: paginationMeta.offset,
+    include: {
+      payment: true,
+      bookings: true,
+      returnFlight: true,
+      departureFlight: true
+    }
+  });
+
+  return {
+    meta: paginationMeta.meta,
+    transactions
+  };
+}
+
+/**
+ * @param {string} userId
+ * @param {string} transactionId
+ */
+async function getTransaction(userId, transactionId) {
+  const transaction = await prisma.transaction.findUnique({
+    where: {
+      id: transactionId,
+      userId: userId
+    },
+    include: {
+      payment: true,
+      returnFlight: true,
+      departureFlight: true
+    }
+  });
+
+  if (!transaction) {
+    throw new HttpError(404, {
+      message: 'Transaction not found'
+    });
+  }
+
+  return transaction;
+}
+
+/**
+ * @param {string} userId
+ * @param {string} transactionId
+ */
+async function cancelTransaction(userId, transactionId) {
+  const transaction = await prisma.transaction.findUnique({
+    where: {
+      id: transactionId,
+      userId: userId
+    },
+    include: {
+      payment: true,
+      bookings: true,
+      returnFlight: true,
+      departureFlight: true
+    }
+  });
+
+  if (!transaction) {
+    throw new HttpError(404, {
+      message: 'Transaction not found'
+    });
+  }
+
+  const isPaymentAlreadyFinished = transaction.payment.status !== 'PENDING';
+
+  if (isPaymentAlreadyFinished) {
+    throw new HttpError(409, {
+      message: 'Transaction already success or failed'
+    });
+  }
+
+  /** @type {string[]} */
+  const flightsSeatsToBeReleased = [];
+
+  for (const {
+    returnFlightSeatId,
+    departureFlightSeatId
+  } of transaction.bookings) {
+    if (departureFlightSeatId) {
+      flightsSeatsToBeReleased.push(departureFlightSeatId);
+    }
+
+    if (returnFlightSeatId) {
+      flightsSeatsToBeReleased.push(returnFlightSeatId);
+    }
+  }
+
+  await prisma.$transaction([
+    prisma.flightSeat.updateMany({
+      where: {
+        id: {
+          in: flightsSeatsToBeReleased
+        }
+      },
+      data: {
+        status: 'AVAILABLE'
+      }
+    }),
+    prisma.transaction.update({
+      where: {
+        id: transactionId
+      },
+      data: {
+        payment: {
+          update: {
+            status: 'FAILED'
+          }
+        }
+      }
+    })
+  ]);
+}
+
 export const TransactionService = {
+  getTransaction,
+  getMyTransactions,
   createTransaction,
-  getMyTransactions
+  cancelTransaction
 };

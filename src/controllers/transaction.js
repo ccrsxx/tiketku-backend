@@ -19,6 +19,29 @@ async function createTransaction(req, res) {
 }
 
 /**
+ * @param {Request<{ id: string }>} req
+ * @param {Response<unknown, { user: OmittedModel<'user'> }>} res
+ */
+async function getTransaction(req, res) {
+  const transaction = await TransactionService.getTransaction(
+    res.locals.user.id,
+    req.params.id
+  );
+
+  res.status(200).json({ data: transaction });
+}
+
+/**
+ * @param {Request<{ id: string }>} req
+ * @param {Response<unknown, { user: OmittedModel<'user'> }>} res
+ */
+async function cancelTransaction(req, res) {
+  await TransactionService.cancelTransaction(res.locals.user.id, req.params.id);
+
+  res.status(200).json({ message: 'Transaction has been canceled' });
+}
+
+/**
  * @param {Request<
  *   unknown,
  *   unknown,
@@ -37,6 +60,8 @@ async function getMyTransactions(req, res) {
 }
 
 export const TransactionController = {
+  getTransaction,
   getMyTransactions,
-  createTransaction
+  createTransaction,
+  cancelTransaction
 };
