@@ -15,7 +15,7 @@ import { FlightService } from '../services/flight.js';
 async function getFlight(req, res) {
   const flight = await FlightService.getFlight(req.params.id, req.query);
 
-  res.status(200).json({ flight });
+  res.status(200).json(flight);
 }
 
 /**
