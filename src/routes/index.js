@@ -5,6 +5,7 @@ import users from './users.js';
 import upload from './upload.js';
 import flights from './flights.js';
 import airports from './airports.js';
+import notifications from './notifications.js';
 import bookings from './transactions.js';
 
 /** @import {Application} from 'express' */
@@ -18,5 +19,6 @@ export default (app) => {
   upload(app);
   flights(app);
   airports(app);
+  notifications(app);
   bookings(app);
 };
