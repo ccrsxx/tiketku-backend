@@ -67,6 +67,12 @@ declare module 'midtrans-client' {
     currency: string;
   };
 
+  type ApiResponse = {
+    id: string;
+    status_code: string;
+    status_message: string;
+  };
+
   class Snap {
     constructor(options: ConfigOptions);
     createTransaction(
@@ -79,5 +85,17 @@ declare module 'midtrans-client' {
     transaction: {
       status: (transactionId: string) => Promise<NotificationPayload>;
     };
+  }
+
+  class MidtransError extends Error {
+    httpStatusCode: string | null;
+    ApiResponse: ApiResponse | string | null;
+    rawHttpClientData: Record<string, unknown> | null;
+    constructor(
+      message: string,
+      httpStatusCode: string | null,
+      ApiResponse: ApiResponse | string | null,
+      rawHttpClientData: Record<string, unknown> | null
+    );
   }
 }

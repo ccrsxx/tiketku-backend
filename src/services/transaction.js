@@ -113,6 +113,10 @@ async function createTransaction(
   }
 
   const transactionResponse = await prisma.$transaction(async (tx) => {
+    const next15MinutesDate = new Date();
+
+    next15MinutesDate.setMinutes(next15MinutesDate.getMinutes() + 15);
+
     const transactionCreation = await tx.transaction.create({
       data: {
         code: generateRandomToken(4),
@@ -165,7 +169,8 @@ async function createTransaction(
             amount: flightPrice,
             status: 'PENDING',
             snapToken: '',
-            snapRedirectUrl: ''
+            snapRedirectUrl: '',
+            expiredAt: next15MinutesDate
           }
         }
       }

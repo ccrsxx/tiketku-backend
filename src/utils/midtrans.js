@@ -31,13 +31,16 @@ const paymentMethodMap = {
  * @param {PaymentType} paymentType
  * @returns {PaymentMethod}
  */
-export function validatePaymentMethod(paymentType) {
+function validatePaymentMethod(paymentType) {
   return paymentMethodMap[/** @type {SelectedPaymentType} */ (paymentType)];
 }
+
+const MidtransError = midtransClient.MidtransError;
 
 export const midtrans = {
   core,
   snap,
   paymentMethodMap,
+  MidtransError,
   validatePaymentMethod
 };

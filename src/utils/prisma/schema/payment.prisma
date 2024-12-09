@@ -3,6 +3,7 @@ model Payment {
     amount          Int
     status          PaymentStatus
     method          PaymentMethod?
+    expiredAt       DateTime       @map("expired_at") @db.Timestamptz
     snapToken       String         @map("snap_token")
     snapRedirectUrl String         @map("snap_redirect_url")
 
