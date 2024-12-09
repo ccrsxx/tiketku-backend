@@ -20,23 +20,22 @@ async function readAllNotifications(userId) {
 
 /**
  * @param {string} notificationId
- * @param {string} _userId
+ * @param {string} userId
  */
-
-async function readNotification(notificationId, _userId) {
+async function readNotification(notificationId, userId) {
   await prisma.notification.update({
-    where: { id: notificationId },
+    where: { id: notificationId, userId },
     data: { viewed: true }
   });
 }
 
 /**
  * @param {string} notificationId
- * @param {string} _userId
+ * @param {string} userId
  */
-async function deleteNotification(notificationId, _userId) {
+async function deleteNotification(notificationId, userId) {
   await prisma.notification.delete({
-    where: { id: notificationId }
+    where: { id: notificationId, userId }
   });
 }
 

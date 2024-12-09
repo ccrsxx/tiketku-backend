@@ -2,11 +2,14 @@ import { prisma } from '../utils/db.js';
 import { HttpError } from '../utils/error.js';
 
 /** @import {Request, Response, NextFunction} from 'express'} */
-/** @import {User} from '@prisma/client' */
+/** @import {OmittedModel} from '../utils/db.js' */
 
 /**
- * @param {Request} req
- * @param {Response<unknown, { user: User }>} res
+ * @param {Request<{ id: string }>} req
+ * @param {Response<
+ *   unknown,
+ *   { user: OmittedModel<'user'>; notification: OmittedModel<'notification'> }
+ * >} res
  * @param {NextFunction} next
  */
 async function isNotificationExists(req, res, next) {
@@ -17,6 +20,8 @@ async function isNotificationExists(req, res, next) {
   if (!notification) {
     throw new HttpError(404, { message: 'Notification not found' });
   }
+
+  res.locals.notification = notification;
 
   next();
 }
