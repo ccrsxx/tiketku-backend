@@ -3,12 +3,18 @@ import { HttpError } from '../utils/error.js';
 import { MAX_CURSOR_LIMIT } from '../utils/pagination.js';
 
 /** @import {OmittedModel} from '../utils/db.js' */
-/** @import {ValidFlightQueryParams, ValidFavoriteFlightQueryParams} from '../middlewares/validation/flight.js' */
+/** @import {ValidFlightQueryParams, ValidFavoriteFlightQueryParams, ValidFlightDetailQueryParams} from '../middlewares/validation/flight.js' */
 
-/** @param {string} id */
-async function getFlight(id) {
-  const flight = await prisma.flight.findUnique({
-    where: { id },
+/**
+ * @param {string} departureFlightId
+ * @param {ValidFlightDetailQueryParams} query
+ */
+async function getFlight(departureFlightId, query) {
+  const { returnFlightId } = query;
+  let price = 0;
+
+  const departureFlight = await prisma.flight.findUnique({
+    where: { id: departureFlightId },
     include: {
       airline: true,
       airplane: true,
@@ -18,11 +24,45 @@ async function getFlight(id) {
     }
   });
 
-  if (!flight) {
+  if (!departureFlight) {
     throw new HttpError(404, { message: 'Flight not found' });
   }
 
-  return flight;
+  price += departureFlight.price;
+
+  let returnFlight = null;
+
+  if (returnFlightId) {
+    returnFlight = await prisma.flight.findUnique({
+      where: {
+        id: returnFlightId
+      },
+      include: {
+        airline: true,
+        airplane: true,
+        flightSeats: true,
+        departureAirport: true,
+        destinationAirport: true
+      }
+    });
+
+    if (!returnFlight) {
+      throw new HttpError(404, { message: 'Return flight not found' });
+    }
+
+    if (
+      returnFlight.departureAirport.id !== departureFlight.destinationAirport.id
+    ) {
+      throw new HttpError(400, {
+        message:
+          'Return flight must have the same destination as the departure flight'
+      });
+    }
+
+    price += returnFlight.price;
+  }
+
+  return { departureFlight, returnFlight, price };
 }
 
 /** @param {ValidFlightQueryParams} query */
