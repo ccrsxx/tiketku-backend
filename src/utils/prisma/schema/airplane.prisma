@@ -1,5 +1,4 @@
 model Airplane {
-
     id        String @id @default(uuid(7)) @db.Uuid
     name      String
     maxRow    Int    @map("max_row")
