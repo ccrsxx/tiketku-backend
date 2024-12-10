@@ -12,7 +12,7 @@ export async function seedAirport() {
       code: 'YIA',
       type: 'DOMESTIC',
       image:
-        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/1c94f349-1697-4377-80a1-efdbb85b78af.jpg',
+        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/d9b7916d-0759-4a3d-9a7d-69918cb1a0bf.jpeg',
       continent: 'ASIA'
     },
     {
@@ -22,7 +22,7 @@ export async function seedAirport() {
       code: 'CGK',
       type: 'DOMESTIC',
       image:
-        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/4b1110ae-28f8-4287-97a1-408ea3916758.jpg',
+        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/d4f96a6d-5048-44c1-a104-17b341109fab.jpg',
       continent: 'ASIA'
     },
     {
@@ -32,7 +32,7 @@ export async function seedAirport() {
       code: 'UPG',
       type: 'DOMESTIC',
       image:
-        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/f5119606-fd00-4257-9591-a1f6bc0a0506.jpg',
+        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/b3226f9d-0a9e-4cba-be23-6a99320b3289.jpg',
       continent: 'ASIA'
     },
     {
@@ -42,7 +42,7 @@ export async function seedAirport() {
       code: 'BKS',
       type: 'DOMESTIC',
       image:
-        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/6cb364ba-f770-435b-bd0a-5dceff41f564.jpg',
+        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/02642e62-a12c-4348-b221-aa95e0ee8e7e.jpeg',
       continent: 'ASIA'
     },
     {
@@ -52,7 +52,7 @@ export async function seedAirport() {
       code: 'SUB',
       type: 'DOMESTIC',
       image:
-        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/8ccd893d-dc0f-4b02-8a0a-a956a23577a8.jpg',
+        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/44225310-cf25-46c7-b9d4-dd6c6aafd096.jpeg',
       continent: 'ASIA'
     },
     {
@@ -62,7 +62,7 @@ export async function seedAirport() {
       code: 'HND',
       type: 'INTERNATIONAL',
       image:
-        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/4809e305-1305-4b15-9f6f-0d414eab66fd.jpg',
+        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/d2c85b9e-a9a9-4cf3-b00b-f0f35ec2c0c6.jpeg',
       continent: 'ASIA'
     },
     {
@@ -72,7 +72,7 @@ export async function seedAirport() {
       code: 'AUH',
       type: 'INTERNATIONAL',
       image:
-        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/794bd40d-6ad8-41f1-968b-bfad00408bea.jpg',
+        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/2eb40abb-07b6-4f04-bf99-408c0e7e50cc.jpg',
       continent: 'ASIA'
     },
     {
@@ -82,7 +82,7 @@ export async function seedAirport() {
       code: 'MEL',
       type: 'INTERNATIONAL',
       image:
-        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/7f6977f6-96db-40ad-b136-2a987c9a3bf6.jpg',
+        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/138e0d94-bc8d-466e-adb5-30ab3bcd6f58.jpeg',
       continent: 'AUSTRALIA'
     },
     {
@@ -92,7 +92,7 @@ export async function seedAirport() {
       code: 'SYD',
       type: 'INTERNATIONAL',
       image:
-        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/f4598df7-8f8a-40ae-989c-187d96ca0b02.jpg',
+        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/e56403c8-7bef-4cde-afa8-19019650ca2e.jpeg',
       continent: 'AUSTRALIA'
     },
     {
@@ -102,7 +102,7 @@ export async function seedAirport() {
       code: 'AMS',
       type: 'INTERNATIONAL',
       image:
-        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/3512ecb5-297a-429b-ad05-291c7cdb41fd.jpg',
+        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/4c68bf71-0502-4bbe-a9f4-a8c13176ba64.jpeg',
       continent: 'EUROPE'
     },
     {
@@ -112,7 +112,7 @@ export async function seedAirport() {
       code: 'KEF',
       type: 'INTERNATIONAL',
       image:
-        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/668f92bb-227c-4b02-9a9c-7386dded7adf.jpg',
+        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/8cbbd031-dbb3-4232-8a6f-d7ac2d8733b5.jpeg',
       continent: 'EUROPE'
     },
     {
@@ -122,7 +122,7 @@ export async function seedAirport() {
       code: 'LAX',
       type: 'INTERNATIONAL',
       image:
-        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/bca2cfa0-0921-4065-b8d9-5d2f5d4e533b.jpg',
+        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/d56778bf-558b-4bc1-807a-894d1568e366.jpg',
       continent: 'AMERICA'
     },
     {
@@ -132,7 +132,7 @@ export async function seedAirport() {
       code: 'JFK',
       type: 'INTERNATIONAL',
       image:
-        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/5263d340-1812-4153-bffc-555b03cb20f5.jpg',
+        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/5d5eb117-5f5f-4264-bd4b-aa83bc329c07.jpeg',
       continent: 'AMERICA'
     },
     {
@@ -142,7 +142,7 @@ export async function seedAirport() {
       code: 'CAI',
       type: 'INTERNATIONAL',
       image:
-        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/d981d96d-7e09-4410-8d3a-af5de20747e7.jpg',
+        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/220e4e60-400c-44c3-b64a-07ec7143965a.jpg',
       continent: 'AFRICA'
     },
     {
@@ -152,7 +152,7 @@ export async function seedAirport() {
       code: 'JNB',
       type: 'INTERNATIONAL',
       image:
-        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/a2bdfcd1-5591-4605-8ed8-6e3149029995.jpg',
+        'https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/be03360c-4aca-4068-bf8e-6d032abd6fa6.jpg',
       continent: 'AFRICA'
     }
   ];
