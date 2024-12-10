@@ -10,8 +10,7 @@ const validFlightQueryParams = z.object({
   departureAirportId: z.string().uuid(),
   destinationAirportId: z.string().uuid(),
   departureDate: z.string().date(),
-  returnDate: z.string().date().optional(),
-  cursor: validCursorSchema.optional()
+  nextCursor: validCursorSchema.optional()
 });
 
 /** @typedef {z.infer<typeof validFlightQueryParams>} ValidFlightQueryParams */

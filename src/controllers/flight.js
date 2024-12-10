@@ -18,9 +18,9 @@ async function getFlight(req, res) {
  * @param {Response} res
  */
 async function getFlights(req, res) {
-  const flights = await FlightService.getFlights(req.query);
+  const { meta, flights } = await FlightService.getFlights(req.query);
 
-  res.status(200).json({ data: flights });
+  res.status(200).json({ meta, data: flights });
 }
 
 /**

@@ -91,7 +91,7 @@ async function getFlight(departureFlightId, query) {
 
 /** @param {ValidFlightQueryParams} query */
 async function getFlights({
-  returnDate,
+  nextCursor,
   departureDate,
   departureAirportId,
   destinationAirportId
@@ -101,7 +101,7 @@ async function getFlights({
 
   nextDayAfterDepartureDate.setDate(nextDayAfterDepartureDate.getDate() + 1);
 
-  const departureFlights = await prisma.flight.findMany({
+  const flights = await prisma.flight.findMany({
     where: {
       departureAirportId,
       destinationAirportId,
@@ -109,6 +109,14 @@ async function getFlights({
         gte: departureParsedDate,
         lte: nextDayAfterDepartureDate
       }
+    },
+    take: MAX_CURSOR_LIMIT,
+    ...(nextCursor && {
+      cursor: { id: nextCursor },
+      skip: 1
+    }),
+    orderBy: {
+      id: 'asc'
     },
     include: {
       airline: true,
@@ -118,35 +126,15 @@ async function getFlights({
     }
   });
 
-  /** @type {OmittedModel<'flight'>[]} */
-  let returnFlights = [];
+  const parsedNextCursor = flights[MAX_CURSOR_LIMIT - 1]?.id ?? null;
 
-  if (returnDate) {
-    const returnParsedDate = new Date(returnDate);
-
-    const nextDayAfterReturnDate = new Date(returnDate);
-
-    nextDayAfterReturnDate.setDate(nextDayAfterReturnDate.getDate() + 1);
-
-    returnFlights = await prisma.flight.findMany({
-      where: {
-        departureAirportId: destinationAirportId,
-        destinationAirportId: departureAirportId,
-        departureTimestamp: {
-          gte: returnParsedDate,
-          lte: nextDayAfterReturnDate
-        }
-      },
-      include: {
-        airline: true,
-        airplane: true,
-        departureAirport: true,
-        destinationAirport: true
-      }
-    });
-  }
-
-  return { departureFlights, returnFlights };
+  return {
+    flights,
+    meta: {
+      limit: MAX_CURSOR_LIMIT,
+      nextCursor: parsedNextCursor
+    }
+  };
 }
 
 /** @param {ValidFavoriteFlightQueryParams} query */
