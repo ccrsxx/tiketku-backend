@@ -10,11 +10,6 @@ import {
 } from '../../utils/validation.js';
 import { toTitleCase } from '../../utils/helper.js';
 
-const validFlightSeatPayload = z.object({
-  row: z.number().int().positive(),
-  column: z.number().int().positive()
-});
-
 const ValidPassengerPayload = z
   .object({
     type: z.nativeEnum(PassengerType),
@@ -24,12 +19,12 @@ const ValidPassengerPayload = z
     identityNumber: validStringSchema,
     identityNationality: validStringSchema,
     identityExpirationDate: z.string().date(),
-    departureFlightSeat: validFlightSeatPayload.optional(),
-    returnFlightSeat: validFlightSeatPayload.optional()
+    departureFlightSeatId: z.string().uuid().optional(),
+    returnFlightSeatId: z.string().uuid().optional()
   })
   .refine(
-    ({ type, departureFlightSeat }) =>
-      type === 'INFANT' ? true : Boolean(departureFlightSeat),
+    ({ type, departureFlightSeatId }) =>
+      type === 'INFANT' ? true : Boolean(departureFlightSeatId),
     {
       message: 'Departure flight seat is required for adults and children'
     }
@@ -42,8 +37,6 @@ const validTransactionPayload = z.object({
 });
 
 /** @typedef {z.infer<typeof ValidPassengerPayload>} ValidPassengerPayload */
-
-/** @typedef {z.infer<typeof validFlightSeatPayload>} ValidFlightSeatPayload */
 
 /** @typedef {z.infer<typeof validTransactionPayload>} ValidTransactionPayload */
 
@@ -71,20 +64,19 @@ function isValidTransactionPayload(req, _res, next) {
   for (const flightType of /** @type {const} */ (['departure', 'return'])) {
     const formattedFlightType = toTitleCase(flightType);
 
-    /** @type {ValidFlightSeatPayload[]} */
+    /** @type {string[]} */
     const parsedFlightSeats = [];
 
-    for (const { returnFlightSeat, departureFlightSeat } of data.passengers) {
-      /** @type {ValidTransactionPayload['passengers'][0]['departureFlightSeat']} */
+    for (const {
+      returnFlightSeatId,
+      departureFlightSeatId
+    } of data.passengers) {
       const flightSeat =
-        flightType === 'departure' ? departureFlightSeat : returnFlightSeat;
+        flightType === 'departure' ? departureFlightSeatId : returnFlightSeatId;
 
       if (!flightSeat) continue;
 
-      const flightSeatExists = parsedFlightSeats.find(
-        ({ row, column }) =>
-          row === flightSeat.row && column === flightSeat.column
-      );
+      const flightSeatExists = parsedFlightSeats.includes(flightSeat);
 
       if (flightSeatExists) {
         throw new HttpError(400, {
