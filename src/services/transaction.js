@@ -174,16 +174,6 @@ async function createTransaction(
 }
 
 /**
- * @typedef {ValidPassengerPayload &
- *   Partial<
- *     Record<
- *       'departureFlightSeat' | 'returnFlightSeat',
- *       OmittedModel<'flightSeat'>
- *     >
- *   >} PassengerWithFlightSeat
- */
-
-/**
  * @param {'departure' | 'return'} flightType
  * @param {string} flightId
  * @param {ValidPassengerPayload[]} passengers
