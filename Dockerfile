@@ -1,5 +1,5 @@
 # Build stage
-FROM node:20-alpine3.20 AS build
+FROM node:20-alpine AS build
 
 # Create and change to the app directory
 WORKDIR /app
@@ -21,7 +21,7 @@ RUN npm run build
 # ---
 
 # Production stage
-FROM node:20-alpine3.20 AS production
+FROM node:20-alpine AS production
 
 # Add environment variables
 ENV HUSKY=0
