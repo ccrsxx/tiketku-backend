@@ -68,6 +68,24 @@ async function getFlight(departureFlightId, query) {
     }
   }
 
+  /**
+   * @param {OmittedModel<'flightSeat'>} firstFlightSeats
+   * @param {OmittedModel<'flightSeat'>} secondFlightSeats
+   */
+  function handleSortFlightSeat(firstFlightSeats, secondFlightSeats) {
+    if (firstFlightSeats.row === secondFlightSeats.row) {
+      return firstFlightSeats.column - secondFlightSeats.column;
+    }
+
+    return firstFlightSeats.row - secondFlightSeats.row;
+  }
+
+  departureFlight.flightSeats.sort(handleSortFlightSeat);
+
+  if (returnFlight) {
+    returnFlight.flightSeats.sort(handleSortFlightSeat);
+  }
+
   return { departureFlight, returnFlight };
 }
 
