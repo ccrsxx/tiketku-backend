@@ -13,7 +13,7 @@ import {
 
 /** @import {Prisma,Flight} from '@prisma/client' */
 /** @import {OmittedModel} from '../utils/db.js' */
-/** @import {ValidTransactionPayload,ValidFlightSeatPayload,ValidPassengerPayload,ValidMyTransactionsQueryParams} from '../middlewares/validation/transaction.js' */
+/** @import {ValidTransactionPayload,ValidPassengerPayload,ValidMyTransactionsQueryParams} from '../middlewares/validation/transaction.js' */
 
 /**
  * @param {OmittedModel<'user'>} user
@@ -29,7 +29,7 @@ async function createTransaction(
     passengers
   );
 
-  /** @type {FlightAvailability | null} */
+  /** @type {Flight | null} */
   let returnFlightData = null;
 
   if (returnFlightId) {
@@ -37,26 +37,14 @@ async function createTransaction(
       'return',
       returnFlightId,
       passengers,
-      departureFlightData.flight
+      departureFlightData
     );
   }
 
-  const mergedPassengers = departureFlightData.passengers.map(
-    ({ returnFlightSeat: _, ...rest }, index) => {
-      const returnFlightSeat =
-        returnFlightData?.passengers[index]?.returnFlightSeat;
-
-      return {
-        ...rest,
-        ...(returnFlightSeat && { returnFlightSeat })
-      };
-    }
-  );
-
-  let flightPrice = departureFlightData.flight.price;
+  let flightPrice = departureFlightData.price;
 
   if (returnFlightData) {
-    flightPrice += returnFlightData.flight.price;
+    flightPrice += returnFlightData.price;
   }
 
   const createdTransaction = await prisma.$transaction(async (tx) => {
@@ -85,8 +73,8 @@ async function createTransaction(
           }
         }),
         bookings: {
-          create: mergedPassengers.map(
-            ({ departureFlightSeat, returnFlightSeat, ...rest }) => ({
+          create: passengers.map(
+            ({ departureFlightSeatId, returnFlightSeatId, ...rest }) => ({
               passenger: {
                 create: {
                   ...rest,
@@ -94,17 +82,17 @@ async function createTransaction(
                   identityExpirationDate: new Date(rest.identityExpirationDate)
                 }
               },
-              ...(departureFlightSeat && {
+              ...(departureFlightSeatId && {
                 departureFlightSeat: {
                   connect: {
-                    id: departureFlightSeat.id
+                    id: departureFlightSeatId
                   }
                 }
               }),
-              ...(returnFlightSeat && {
+              ...(returnFlightSeatId && {
                 returnFlightSeat: {
                   connect: {
-                    id: returnFlightSeat.id
+                    id: returnFlightSeatId
                   }
                 }
               })
@@ -128,13 +116,13 @@ async function createTransaction(
 
     let flightSeatsToBeBooked = [];
 
-    for (const { departureFlightSeat, returnFlightSeat } of mergedPassengers) {
-      if (departureFlightSeat) {
-        flightSeatsToBeBooked.push(departureFlightSeat.id);
+    for (const { departureFlightSeatId, returnFlightSeatId } of passengers) {
+      if (departureFlightSeatId) {
+        flightSeatsToBeBooked.push(departureFlightSeatId);
       }
 
-      if (returnFlightSeat) {
-        flightSeatsToBeBooked.push(returnFlightSeat.id);
+      if (returnFlightSeatId) {
+        flightSeatsToBeBooked.push(returnFlightSeatId);
       }
     }
 
@@ -198,17 +186,11 @@ async function createTransaction(
  */
 
 /**
- * @typedef {Object} FlightAvailability
- * @property {Flight} flight
- * @property {PassengerWithFlightSeat[]} passengers
- */
-
-/**
  * @param {'departure' | 'return'} flightType
  * @param {string} flightId
  * @param {ValidPassengerPayload[]} passengers
  * @param {Flight} [departureFlight]
- * @returns {Promise<FlightAvailability>}
+ * @returns {Promise<Flight>}
  */
 async function checkFlightAvailability(
   flightType,
@@ -226,7 +208,7 @@ async function checkFlightAvailability(
         destinationAirportId: departureFlight.departureAirportId
       })
     },
-    include: { airplane: true },
+    include: { flightSeats: true },
     omit: {
       airlineId: false,
       createdAt: false,
@@ -243,33 +225,29 @@ async function checkFlightAvailability(
     });
   }
 
-  const flightSeatsFromBody = /** @type {ValidFlightSeatPayload[]} */ (
+  const flightSeatsFromBody = /** @type {string[]} */ (
     passengers
-      .map(({ departureFlightSeat, returnFlightSeat }) =>
-        flightType === 'departure' ? departureFlightSeat : returnFlightSeat
+      .map(({ departureFlightSeatId, returnFlightSeatId }) =>
+        flightType === 'departure' ? departureFlightSeatId : returnFlightSeatId
       )
       .filter(Boolean)
   );
 
-  for (const flightSeat of flightSeatsFromBody) {
-    const isValidFlightSeat =
-      flight.airplane.maxRow >= flightSeat.row &&
-      flight.airplane.maxColumn >= flightSeat.column;
+  const isFlightSeatValid = flightSeatsFromBody.every((flightSeatId) =>
+    flight.flightSeats.some(({ id }) => id === flightSeatId)
+  );
 
-    if (!isValidFlightSeat) {
-      throw new HttpError(400, {
-        message: `Invalid ${flightType} flight seats selected`
-      });
-    }
+  if (!isFlightSeatValid) {
+    throw new HttpError(400, {
+      message: `Invalid ${formattedFlightType} flight seats selected`
+    });
   }
 
-  const flightSeatsAvailability = await prisma.flightSeat.findMany({
-    where: {
-      flightId: flightId,
-      status: 'AVAILABLE',
-      OR: flightSeatsFromBody
-    }
-  });
+  const flightSeatsAvailability = flightSeatsFromBody.filter((flightSeatId) =>
+    flight.flightSeats.some(
+      ({ id, status }) => id === flightSeatId && status === 'AVAILABLE'
+    )
+  );
 
   const isFlightSeatsAvailable =
     flightSeatsFromBody.length === flightSeatsAvailability.length;
@@ -280,26 +258,7 @@ async function checkFlightAvailability(
     });
   }
 
-  const flightSeatKey = /** @type {const} */ (`${flightType}FlightSeat`);
-
-  const passengerWithFlightSeatsIds = /** @type {PassengerWithFlightSeat[]} */ (
-    passengers.map((passenger) => {
-      const flightSeat = flightSeatsAvailability.find(
-        ({ row, column }) =>
-          row === passenger[flightSeatKey]?.row &&
-          column === passenger[flightSeatKey]?.column
-      );
-
-      if (flightSeat) passenger[flightSeatKey] = flightSeat;
-
-      return passenger;
-    })
-  );
-
-  return {
-    flight,
-    passengers: passengerWithFlightSeatsIds
-  };
+  return flight;
 }
 
 /**
