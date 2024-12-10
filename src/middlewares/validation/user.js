@@ -11,22 +11,22 @@ import { HttpError } from '../../utils/error.js';
 /** @import {OmittedModel} from '../../utils/db.js' */
 /** @import {ValidEmailPayload} from './common.js' */
 
-const validUserPayload = z.object({
+const validCreateUserPayload = z.object({
   name: validStringSchema,
   email: z.string().email(),
   password: z.string().trim().min(8),
   phoneNumber: phoneNumberSchema
 });
 
-/** @typedef {z.infer<typeof validUserPayload>} ValidUserPayload */
+/** @typedef {z.infer<typeof validCreateUserPayload>} ValidCreateUserPayload */
 
 /**
- * @param {Request<unknown, ValidUserPayload>} req
+ * @param {Request<unknown, ValidCreateUserPayload>} req
  * @param {Response} _res
  * @param {NextFunction} next
  */
 function isValidUserCreatePayload(req, _res, next) {
-  const { error } = validUserPayload.safeParse(req.body);
+  const { error } = validCreateUserPayload.safeParse(req.body);
 
   if (error) {
     throw new HttpError(400, formatZodError(error));
@@ -35,22 +35,21 @@ function isValidUserCreatePayload(req, _res, next) {
   next();
 }
 
-const validUserUpdatePayload = z.object({
+const validUpdateUserPayload = z.object({
   name: validStringSchema,
-  email: z.string().email(),
   image: z.string().url().optional(),
   phoneNumber: phoneNumberSchema
 });
 
-/** @typedef {z.infer<typeof validUserUpdatePayload>} ValidUserUpdatePayload */
+/** @typedef {z.infer<typeof validUpdateUserPayload>} ValidUpdateUserPayload */
 
 /**
- * @param {Request<unknown, ValidUserPayload>} req
+ * @param {Request<unknown, ValidCreateUserPayload>} req
  * @param {Response} _res
  * @param {NextFunction} next
  */
 function isValidUserUpdatePayload(req, _res, next) {
-  const { error } = validUserUpdatePayload.safeParse(req.body);
+  const { error } = validUpdateUserPayload.safeParse(req.body);
 
   if (error) {
     throw new HttpError(400, formatZodError(error));

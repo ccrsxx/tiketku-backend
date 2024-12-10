@@ -5,7 +5,7 @@ import { OtpService } from '../services/otp.js';
 /** @import {Request,Response} from 'express' */
 /** @import {User} from '@prisma/client' */
 /** @import {ValidOtpPayload} from '../middlewares/validation/otp.js' */
-/** @import {ValidUserPayload} from '../middlewares/validation/user.js' */
+/** @import {ValidCreateUserPayload} from '../middlewares/validation/user.js' */
 /** @import {ValidEmailPayload} from '../middlewares/validation/common.js' */
 /** @import {ValidResetPasswordPayload} from '../middlewares/validation/auth.js' */
 
@@ -20,7 +20,7 @@ async function login(req, res) {
 }
 
 /**
- * @param {Request<unknown, unknown, ValidUserPayload>} req
+ * @param {Request<unknown, unknown, ValidCreateUserPayload>} req
  * @param {Response} res
  */
 async function register(req, res) {

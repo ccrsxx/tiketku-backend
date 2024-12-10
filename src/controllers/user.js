@@ -2,7 +2,7 @@ import { UserService } from '../services/user.js';
 
 /** @import {Request,Response} from 'express' */
 /** @import {User} from '@prisma/client' */
-/** @import {ValidUserPayload} from '../middlewares/validation/user.js' */
+/** @import {ValidCreateUserPayload,ValidUpdateUserPayload} from '../middlewares/validation/user.js' */
 
 /**
  * @param {Request<{ id: string }>} req
@@ -35,7 +35,7 @@ async function getUsers(_req, res) {
 }
 
 /**
- * @param {Request<unknown, unknown, ValidUserPayload>} req
+ * @param {Request<unknown, unknown, ValidCreateUserPayload>} req
  * @param {Response} res
  */
 async function createUser(req, res) {
@@ -44,9 +44,20 @@ async function createUser(req, res) {
   res.status(201).json({ data: user });
 }
 
+/**
+ * @param {Request<unknown, unknown, ValidUpdateUserPayload>} req
+ * @param {Response<unknown, { user: User }>} res
+ */
+async function updateCurrentUser(req, res) {
+  await UserService.updateUser(res.locals.user.id, req.body);
+
+  res.status(200).json({ message: 'User updated successfully' });
+}
+
 export const UserController = {
-  getCurrentUser,
   getUser,
   getUsers,
-  createUser
+  createUser,
+  getCurrentUser,
+  updateCurrentUser
 };
