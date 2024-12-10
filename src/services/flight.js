@@ -1,18 +1,25 @@
+import { z } from 'zod';
 import { prisma } from '../utils/db.js';
 import { HttpError } from '../utils/error.js';
 import { MAX_CURSOR_LIMIT } from '../utils/pagination.js';
 
 /** @import {OmittedModel} from '../utils/db.js' */
-/** @import {ValidFlightQueryParams, ValidFavoriteFlightQueryParams, ValidFlightDetailQueryParams} from '../middlewares/validation/flight.js' */
+/** @import {ValidFlightQueryParams, ValidFavoriteFlightQueryParams} from '../middlewares/validation/flight.js' */
+
+const validFlightDetailQueryParams = z.object({
+  returnFlightId: z
+    .string()
+    .transform((value) => z.string().uuid().safeParse(value).data)
+    .optional()
+});
+
+/** @typedef {z.infer<typeof validFlightDetailQueryParams>} ValidFlightDetailQueryParams */
 
 /**
  * @param {string} departureFlightId
  * @param {ValidFlightDetailQueryParams} query
  */
 async function getFlight(departureFlightId, query) {
-  const { returnFlightId } = query;
-  let price = 0;
-
   const departureFlight = await prisma.flight.findUnique({
     where: { id: departureFlightId },
     include: {
@@ -28,9 +35,10 @@ async function getFlight(departureFlightId, query) {
     throw new HttpError(404, { message: 'Flight not found' });
   }
 
-  price += departureFlight.price;
-
   let returnFlight = null;
+
+  const returnFlightId =
+    validFlightDetailQueryParams.safeParse(query).data?.returnFlightId;
 
   if (returnFlightId) {
     returnFlight = await prisma.flight.findUnique({
@@ -58,11 +66,9 @@ async function getFlight(departureFlightId, query) {
           'Return flight must have the same destination as the departure flight'
       });
     }
-
-    price += returnFlight.price;
   }
 
-  return { departureFlight, returnFlight, price };
+  return { departureFlight, returnFlight };
 }
 
 /** @param {ValidFlightQueryParams} query */

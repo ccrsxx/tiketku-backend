@@ -4,6 +4,7 @@ import { formatZodError, validCursorSchema } from '../../utils/validation.js';
 import { Continent } from '@prisma/client';
 
 /** @import {Request,Response,NextFunction} from 'express' */
+/** @import {ValidFlightDetailQueryParams} from '../../services/flight.js' */
 
 const validFlightQueryParams = z.object({
   departureAirportId: z.string().uuid(),
@@ -67,27 +68,24 @@ function isValidFavoriteFlightQueryParams(req, _res, next) {
   next();
 }
 
-const validFlightDetailQueryParams = z.object({
-  returnFlightId: z.string().uuid().optional()
-});
-
-/** @typedef {z.infer<typeof validFlightDetailQueryParams>} ValidFlightDetailQueryParams */
-
 /**
- * @param {Request<unknown, unknown, unknown, ValidFlightDetailQueryParams>} req
+ * @param {Request<
+ *   { id: string },
+ *   unknown,
+ *   unknown,
+ *   ValidFlightDetailQueryParams
+ * >} req
  * @param {Response} _res
  * @param {NextFunction} next
  */
 function isValidFlightDetailQueryParams(req, _res, next) {
-  const { error } = validFlightDetailQueryParams.safeParse(req.query);
+  const sameDestinationOnBothFlights =
+    req.query.returnFlightId === req.params.id;
 
-  if (error) {
-    throw new HttpError(
-      400,
-      formatZodError(error, {
-        errorMessage: 'Invalid query params'
-      })
-    );
+  if (sameDestinationOnBothFlights) {
+    throw new HttpError(400, {
+      message: 'Return flight must be different from the departure flight'
+    });
   }
 
   next();

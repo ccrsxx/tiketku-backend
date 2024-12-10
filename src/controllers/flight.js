@@ -1,15 +1,10 @@
 import { FlightService } from '../services/flight.js';
 
-/** @import {Request, Response} from 'express' */
-/** @import {ValidFlightQueryParams, ValidFavoriteFlightQueryParams, ValidFlightDetailQueryParams} from '../middlewares/validation/flight.js' */
+/** @import {Request,Response} from 'express' */
+/** @import {ValidFlightQueryParams,ValidFavoriteFlightQueryParams} from '../middlewares/validation/flight.js' */
 
 /**
- * @param {Request<
- *   { id: string },
- *   unknown,
- *   unknown,
- *   ValidFlightDetailQueryParams
- * >} req
+ * @param {Request} req
  * @param {Response} res
  */
 async function getFlight(req, res) {
