@@ -290,7 +290,7 @@ async function getMyTransactions(
   if (paginationMeta.offPageLimit) {
     return {
       meta: paginationMeta.meta,
-      bookings: []
+      transactions: []
     };
   }
 
