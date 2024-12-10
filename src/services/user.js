@@ -6,27 +6,6 @@ import { OtpService } from './otp.js';
 /** @import {Prisma} from '@prisma/client' */
 /** @import {ValidCreateUserPayload,ValidUpdateUserPayload} from '../middlewares/validation/user.js' */
 
-/** @param {string} id */
-async function getUser(id) {
-  const user = await prisma.user.findUnique({
-    where: {
-      id
-    }
-  });
-
-  if (!user) {
-    throw new HttpError(404, { message: 'User not found' });
-  }
-
-  return user;
-}
-
-async function getUsers() {
-  const users = await prisma.user.findMany();
-
-  return users;
-}
-
 /** @param {ValidCreateUserPayload} payload */
 export async function createUser(payload) {
   const { email, phoneNumber, password } = payload;
@@ -123,8 +102,6 @@ async function updateUser(userId, { name, image, phoneNumber }) {
 }
 
 export const UserService = {
-  getUser,
-  getUsers,
   createUser,
   updateUser
 };
