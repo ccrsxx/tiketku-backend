@@ -1899,9 +1899,9 @@
       },
       "patch": {
         "tags": ["User"],
-        "summary": "Update user by id",
-        "description": "Update user by id",
-        "operationId": "updateUserById",
+        "summary": "Update current user",
+        "description": "Update current user",
+        "operationId": "updateCurrentUser",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1923,7 +1923,7 @@
                 }
               },
               "examples": {
-                "Update user by id": {
+                "Update current user": {
                   "value": {
                     "image": "https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/26f3a700-ab4d-49e2-8aa9-dc33aba1e0a7.png",
                     "name": "Rem rin",
