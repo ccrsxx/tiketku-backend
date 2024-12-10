@@ -41,17 +41,27 @@ async function createTransaction(
     );
   }
 
-  let flightPrice = departureFlightData.price;
+  let flightPrice = 0;
 
-  if (returnFlightData) {
-    flightPrice += returnFlightData.price;
+  let flightSeatsToBeBooked = [];
+
+  for (const { departureFlightSeatId, returnFlightSeatId } of passengers) {
+    if (departureFlightSeatId) {
+      flightPrice += departureFlightData.price;
+      flightSeatsToBeBooked.push(departureFlightSeatId);
+    }
+
+    if (returnFlightSeatId) {
+      flightPrice += returnFlightData?.price ?? 0;
+      flightSeatsToBeBooked.push(returnFlightSeatId);
+    }
   }
 
+  const next15MinutesDate = new Date();
+
+  next15MinutesDate.setMinutes(next15MinutesDate.getMinutes() + 15);
+
   const createdTransaction = await prisma.$transaction(async (tx) => {
-    const next15MinutesDate = new Date();
-
-    next15MinutesDate.setMinutes(next15MinutesDate.getMinutes() + 15);
-
     const transactionCreation = await tx.transaction.create({
       data: {
         code: generateRandomToken(4),
@@ -113,18 +123,6 @@ async function createTransaction(
         paymentId: false
       }
     });
-
-    let flightSeatsToBeBooked = [];
-
-    for (const { departureFlightSeatId, returnFlightSeatId } of passengers) {
-      if (departureFlightSeatId) {
-        flightSeatsToBeBooked.push(departureFlightSeatId);
-      }
-
-      if (returnFlightSeatId) {
-        flightSeatsToBeBooked.push(returnFlightSeatId);
-      }
-    }
 
     const { firstName, lastName } = getFirstAndLastName(user.name);
 
