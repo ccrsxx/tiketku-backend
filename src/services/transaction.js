@@ -300,9 +300,25 @@ async function getMyTransactions(
     skip: paginationMeta.offset,
     include: {
       payment: true,
-      bookings: true,
-      returnFlight: true,
-      departureFlight: true
+      bookings: {
+        include: {
+          passenger: true
+        }
+      },
+      returnFlight: {
+        include: {
+          airline: true,
+          departureAirport: true,
+          destinationAirport: true
+        }
+      },
+      departureFlight: {
+        include: {
+          airline: true,
+          departureAirport: true,
+          destinationAirport: true
+        }
+      }
     }
   });
 
@@ -324,8 +340,25 @@ async function getTransaction(userId, transactionId) {
     },
     include: {
       payment: true,
-      returnFlight: true,
-      departureFlight: true
+      bookings: {
+        include: {
+          passenger: true
+        }
+      },
+      returnFlight: {
+        include: {
+          airline: true,
+          departureAirport: true,
+          destinationAirport: true
+        }
+      },
+      departureFlight: {
+        include: {
+          airline: true,
+          departureAirport: true,
+          destinationAirport: true
+        }
+      }
     }
   });
 
@@ -350,9 +383,12 @@ async function cancelTransaction(userId, transactionId) {
     },
     include: {
       payment: true,
-      bookings: true,
-      returnFlight: true,
-      departureFlight: true
+      bookings: {
+        omit: {
+          returnFlightSeatId: false,
+          departureFlightSeatId: false
+        }
+      }
     }
   });
 

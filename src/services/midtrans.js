@@ -30,7 +30,12 @@ export async function manageMidtransNotification(payload) {
     },
     include: {
       payment: true,
-      bookings: true
+      bookings: {
+        omit: {
+          returnFlightSeatId: false,
+          departureFlightSeatId: false
+        }
+      }
     }
   });
 
