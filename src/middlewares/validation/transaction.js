@@ -35,25 +35,25 @@ const ValidPassengerPayload = z
     }
   );
 
-const validBookingPayload = z.object({
+const validTransactionPayload = z.object({
   departureFlightId: z.string().uuid(),
   returnFlightId: z.string().uuid().optional(),
   passengers: z.array(ValidPassengerPayload)
 });
 
-/** @typedef {z.infer<typeof validFlightSeatPayload>} ValidFlightSeatPayload */
-
 /** @typedef {z.infer<typeof ValidPassengerPayload>} ValidPassengerPayload */
 
-/** @typedef {z.infer<typeof validBookingPayload>} ValidBookingPayload */
+/** @typedef {z.infer<typeof validFlightSeatPayload>} ValidFlightSeatPayload */
+
+/** @typedef {z.infer<typeof validTransactionPayload>} ValidTransactionPayload */
 
 /**
  * @param {Request} req
  * @param {Response} _res
  * @param {NextFunction} next
  */
-function isValidBookingPayload(req, _res, next) {
-  const { data, error } = validBookingPayload.safeParse(req.body);
+function isValidTransactionPayload(req, _res, next) {
+  const { data, error } = validTransactionPayload.safeParse(req.body);
 
   if (error) {
     throw new HttpError(400, formatZodError(error));
@@ -75,7 +75,7 @@ function isValidBookingPayload(req, _res, next) {
     const parsedFlightSeats = [];
 
     for (const { returnFlightSeat, departureFlightSeat } of data.passengers) {
-      /** @type {ValidBookingPayload['passengers'][0]['departureFlightSeat']} */
+      /** @type {ValidTransactionPayload['passengers'][0]['departureFlightSeat']} */
       const flightSeat =
         flightType === 'departure' ? departureFlightSeat : returnFlightSeat;
 
@@ -117,7 +117,7 @@ function isValidBookingPayload(req, _res, next) {
   next();
 }
 
-const validMyBookingsQueryParams = z
+const validMyTransactionsQueryParams = z
   .object({
     bookingCode: z.string().trim().length(6).optional(),
     startDate: z.string().date().optional(),
@@ -135,15 +135,20 @@ const validMyBookingsQueryParams = z
     }
   );
 
-/** @typedef {z.infer<typeof validMyBookingsQueryParams>} ValidMyBookingsQueryParams */
+/** @typedef {z.infer<typeof validMyTransactionsQueryParams>} ValidMyTransactionsQueryParams */
 
 /**
- * @param {Request<unknown, unknown, unknown, ValidMyBookingsQueryParams>} req
+ * @param {Request<
+ *   unknown,
+ *   unknown,
+ *   unknown,
+ *   ValidMyTransactionsQueryParams
+ * >} req
  * @param {Response} _res
  * @param {NextFunction} next
  */
-function isValidMyBookingQueryParams(req, _res, next) {
-  const { error } = validMyBookingsQueryParams.safeParse(req.query);
+function isValidMyTransactionsQueryParams(req, _res, next) {
+  const { error } = validMyTransactionsQueryParams.safeParse(req.query);
 
   if (error) {
     throw new HttpError(
@@ -155,7 +160,7 @@ function isValidMyBookingQueryParams(req, _res, next) {
   next();
 }
 
-export const BookingValidationMiddleware = {
-  isValidBookingPayload,
-  isValidMyBookingQueryParams
+export const TransactionValidationMiddleware = {
+  isValidTransactionPayload,
+  isValidMyTransactionsQueryParams
 };

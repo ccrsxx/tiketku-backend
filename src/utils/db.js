@@ -33,7 +33,13 @@ const omitConfig = {
     ...omittedTimestampFields,
     flightId: true
   },
-  transaction: omittedTimestampFields,
+  transaction: {
+    ...omittedTimestampFields,
+    userId: true,
+    paymentId: true,
+    returnFlightId: true,
+    departureFlightId: true
+  },
   notification: omittedTimestampFields,
   passwordReset: omittedTimestampFields
 };
