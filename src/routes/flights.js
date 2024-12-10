@@ -24,6 +24,7 @@ export default (app) => {
   router.get(
     '/:id',
     CommonValidationMiddleware.isValidParamsIdUuid,
+    FlightValidationMiddleware.isValidFlightDetailQueryParams,
     FlightController.getFlight
   );
 };

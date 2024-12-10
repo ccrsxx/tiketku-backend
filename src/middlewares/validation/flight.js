@@ -1,17 +1,14 @@
 import { z } from 'zod';
 import { HttpError } from '../../utils/error.js';
-import {
-  formatZodError,
-  validCursorSchema,
-  validStringSchema
-} from '../../utils/validation.js';
+import { formatZodError, validCursorSchema } from '../../utils/validation.js';
 import { Continent } from '@prisma/client';
 
 /** @import {Request,Response,NextFunction} from 'express' */
+/** @import {ValidFlightDetailQueryParams} from '../../services/flight.js' */
 
 const validFlightQueryParams = z.object({
-  departureAirportId: validStringSchema,
-  destinationAirportId: validStringSchema,
+  departureAirportId: z.string().uuid(),
+  destinationAirportId: z.string().uuid(),
   departureDate: z.string().date(),
   returnDate: z.string().date().optional(),
   cursor: validCursorSchema.optional()
@@ -71,7 +68,31 @@ function isValidFavoriteFlightQueryParams(req, _res, next) {
   next();
 }
 
+/**
+ * @param {Request<
+ *   { id: string },
+ *   unknown,
+ *   unknown,
+ *   ValidFlightDetailQueryParams
+ * >} req
+ * @param {Response} _res
+ * @param {NextFunction} next
+ */
+function isValidFlightDetailQueryParams(req, _res, next) {
+  const sameDestinationOnBothFlights =
+    req.query.returnFlightId === req.params.id;
+
+  if (sameDestinationOnBothFlights) {
+    throw new HttpError(400, {
+      message: 'Return flight must be different from the departure flight'
+    });
+  }
+
+  next();
+}
+
 export const FlightValidationMiddleware = {
   isValidFlightQueryParams,
-  isValidFavoriteFlightQueryParams
+  isValidFavoriteFlightQueryParams,
+  isValidFlightDetailQueryParams
 };
