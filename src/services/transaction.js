@@ -174,16 +174,6 @@ async function createTransaction(
 }
 
 /**
- * @typedef {ValidPassengerPayload &
- *   Partial<
- *     Record<
- *       'departureFlightSeat' | 'returnFlightSeat',
- *       OmittedModel<'flightSeat'>
- *     >
- *   >} PassengerWithFlightSeat
- */
-
-/**
  * @param {'departure' | 'return'} flightType
  * @param {string} flightId
  * @param {ValidPassengerPayload[]} passengers
@@ -290,7 +280,7 @@ async function getMyTransactions(
   if (paginationMeta.offPageLimit) {
     return {
       meta: paginationMeta.meta,
-      bookings: []
+      transactions: []
     };
   }
 
