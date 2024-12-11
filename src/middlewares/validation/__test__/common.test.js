@@ -53,4 +53,56 @@ describe('Common validation middleware', () => {
       expect(error).toHaveProperty('message', 'Invalid uuid');
     });
   });
+
+  describe('Is valid email payload', () => {
+    it('should call next() if the email payload is valid', () => {
+      const { req, res, next } = setupExpressMock({
+        req: {
+          body: {
+            email: 'test@example.com'
+          }
+        }
+      });
+
+      CommonValidationMiddleware.isValidEmailPayload(req, res, next);
+
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should throws an http error if the email payload is invalid', async () => {
+      const { req, res, next } = setupExpressMock({
+        req: {
+          body: {
+            email: 'invalid-email'
+          }
+        }
+      });
+
+      const error = await getFunctionThrownError(() =>
+        CommonValidationMiddleware.isValidEmailPayload(req, res, next)
+      );
+
+      expect(error).toBeInstanceOf(HttpError);
+
+      expect(error).toHaveProperty('statusCode', 400);
+      expect(error).toHaveProperty('message', 'Invalid body');
+    });
+
+    it('should throws an http error if the email payload is missing', async () => {
+      const { req, res, next } = setupExpressMock({
+        req: {
+          body: {}
+        }
+      });
+
+      const error = await getFunctionThrownError(() =>
+        CommonValidationMiddleware.isValidEmailPayload(req, res, next)
+      );
+
+      expect(error).toBeInstanceOf(HttpError);
+
+      expect(error).toHaveProperty('statusCode', 400);
+      expect(error).toHaveProperty('message', 'Invalid body');
+    });
+  });
 });
