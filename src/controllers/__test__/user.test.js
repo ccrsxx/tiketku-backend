@@ -48,7 +48,7 @@ describe('User controller', () => {
       const { req, res } = setupExpressMock({ res: { locals: { user } } });
 
       await UserController.getCurrentUser(req, res);
-
+      
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({ data: user });
     });
