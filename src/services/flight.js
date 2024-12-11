@@ -2,8 +2,8 @@ import { z } from 'zod';
 import { prisma } from '../utils/db.js';
 import { HttpError } from '../utils/error.js';
 import { MAX_CURSOR_LIMIT } from '../utils/pagination.js';
-import { Prisma } from '@prisma/client';
 
+/** @import {Prisma} from '@prisma/client' */
 /** @import {OmittedModel} from '../utils/db.js' */
 /** @import {ValidFlightQueryParams, ValidFavoriteFlightQueryParams} from '../middlewares/validation/flight.js' */
 
