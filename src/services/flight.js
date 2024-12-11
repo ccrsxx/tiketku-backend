@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { prisma } from '../utils/db.js';
 import { HttpError } from '../utils/error.js';
 import { MAX_CURSOR_LIMIT } from '../utils/pagination.js';
+import { Prisma } from '@prisma/client';
 
 /** @import {OmittedModel} from '../utils/db.js' */
 /** @import {ValidFlightQueryParams, ValidFavoriteFlightQueryParams} from '../middlewares/validation/flight.js' */
@@ -94,17 +95,40 @@ async function getFlights({
   nextCursor,
   departureDate,
   departureAirportId,
-  destinationAirportId
+  destinationAirportId,
+  type,
+  sortBy
 }) {
   const departureParsedDate = new Date(departureDate);
   const nextDayAfterDepartureDate = new Date(departureDate);
 
   nextDayAfterDepartureDate.setDate(nextDayAfterDepartureDate.getDate() + 1);
 
+  /** @type {Prisma.FlightOrderByWithRelationInput} */
+  let orderByClause = {
+    id: 'asc'
+  };
+
+  switch (sortBy) {
+    case 'cheapestPrice':
+      orderByClause = { price: 'asc' };
+      break;
+    case 'shortestDuration':
+      orderByClause = { durationMinutes: 'asc' };
+      break;
+    case 'earliestDeparture':
+      orderByClause = { departureTimestamp: 'asc' };
+      break;
+    case 'latestDeparture':
+      orderByClause = { departureTimestamp: 'desc' };
+      break;
+  }
+
   const flights = await prisma.flight.findMany({
     where: {
       departureAirportId,
       destinationAirportId,
+      type,
       departureTimestamp: {
         gte: departureParsedDate,
         lte: nextDayAfterDepartureDate
@@ -115,9 +139,7 @@ async function getFlights({
       cursor: { id: nextCursor },
       skip: 1
     }),
-    orderBy: {
-      id: 'asc'
-    },
+    orderBy: orderByClause,
     include: {
       airline: true,
       airplane: true,

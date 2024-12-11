@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { HttpError } from '../../utils/error.js';
 import { formatZodError, validCursorSchema } from '../../utils/validation.js';
-import { Continent } from '@prisma/client';
+import { Continent, FlightClassType } from '@prisma/client';
 
 /** @import {Request,Response,NextFunction} from 'express' */
 /** @import {ValidFlightDetailQueryParams} from '../../services/flight.js' */
@@ -10,7 +10,9 @@ const validFlightQueryParams = z.object({
   departureAirportId: z.string().uuid(),
   destinationAirportId: z.string().uuid(),
   departureDate: z.string().date(),
-  nextCursor: validCursorSchema.optional()
+  type: z.nativeEnum(FlightClassType),
+  nextCursor: validCursorSchema.optional(),
+  sortBy: z.string().optional()
 });
 
 /** @typedef {z.infer<typeof validFlightQueryParams>} ValidFlightQueryParams */
