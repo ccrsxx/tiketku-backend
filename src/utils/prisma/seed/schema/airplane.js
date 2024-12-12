@@ -34,7 +34,7 @@ export async function seedAirplane() {
   for (const airplane of airplanes) {
     await prisma.airplane.upsert({
       where: { id: airplane.id },
-      update: {},
+      update: airplane,
       create: airplane
     });
   }

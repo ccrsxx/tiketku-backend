@@ -13,7 +13,6 @@ export default (app) => {
 
   router.get(
     '/me',
-    TransactionValidationMiddleware.isValidMyTransactionsQueryParams,
     AuthMiddleware.isAuthorized,
     TransactionController.getMyTransactions
   );

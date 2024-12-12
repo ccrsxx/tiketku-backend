@@ -2,10 +2,11 @@ import { z } from 'zod';
 import { prisma } from '../utils/db.js';
 import { HttpError } from '../utils/error.js';
 import { MAX_CURSOR_LIMIT } from '../utils/pagination.js';
+import { Continent, FlightClassType } from '@prisma/client';
+import { validCursorSchema } from '../utils/validation.js';
 
 /** @import {Prisma} from '@prisma/client' */
 /** @import {OmittedModel} from '../utils/db.js' */
-/** @import {ValidFlightQueryParams, ValidFavoriteFlightQueryParams} from '../middlewares/validation/flight.js' */
 
 const validFlightDetailQueryParams = z.object({
   returnFlightId: z
@@ -90,19 +91,66 @@ async function getFlight(departureFlightId, query) {
   return { departureFlight, returnFlight };
 }
 
-/** @param {ValidFlightQueryParams} query */
-async function getFlights({
-  nextCursor,
-  departureDate,
-  departureAirportId,
-  destinationAirportId,
-  type,
-  sortBy
-}) {
-  const departureParsedDate = new Date(departureDate);
-  const nextDayAfterDepartureDate = new Date(departureDate);
+const VALID_SORT_BY = /** @type {const} */ ([
+  'cheapestPrice',
+  'shortestDuration',
+  'earliestDeparture',
+  'latestDeparture',
+  'earliestReturn',
+  'latestReturn'
+]);
 
-  nextDayAfterDepartureDate.setDate(nextDayAfterDepartureDate.getDate() + 1);
+const validFlightQueryParams = z.object({
+  type: z
+    .string()
+    .transform((value) => z.nativeEnum(FlightClassType).safeParse(value).data)
+    .optional(),
+  sortBy: z
+    .string()
+    .transform((value) => z.enum(VALID_SORT_BY).safeParse(value).data)
+    .optional(),
+  departureDate: z
+    .string()
+    .transform((value) => z.string().date().safeParse(value).data)
+    .optional(),
+  departureAirportId: z
+    .string()
+    .transform((value) => z.string().uuid().safeParse(value).data)
+    .optional(),
+  destinationAirportId: z
+    .string()
+    .transform((value) => z.string().uuid().safeParse(value).data)
+    .optional(),
+  nextCursor: validCursorSchema
+    .transform((value) => validCursorSchema.safeParse(value).data)
+    .optional()
+});
+
+/** @typedef {z.infer<typeof validFlightQueryParams>} ValidFlightQueryParams */
+
+/** @param {ValidFlightQueryParams} query */
+async function getFlights(query) {
+  const {
+    type,
+    sortBy,
+    nextCursor,
+    departureDate,
+    departureAirportId,
+    destinationAirportId
+  } = validFlightQueryParams.safeParse(query).data ?? {};
+
+  /** @type {Date | null} */
+  let departureParsedDate = null;
+
+  /** @type {Date | null} */
+  let nextDayAfterDepartureDate = null;
+
+  if (departureDate) {
+    departureParsedDate = new Date(departureDate);
+
+    nextDayAfterDepartureDate = new Date(departureParsedDate);
+    nextDayAfterDepartureDate.setDate(nextDayAfterDepartureDate.getDate() + 1);
+  }
 
   /** @type {Prisma.FlightOrderByWithRelationInput} */
   let orderByClause = {
@@ -111,28 +159,48 @@ async function getFlights({
 
   switch (sortBy) {
     case 'cheapestPrice':
-      orderByClause = { price: 'asc' };
+      orderByClause = {
+        price: 'asc'
+      };
       break;
     case 'shortestDuration':
-      orderByClause = { durationMinutes: 'asc' };
+      orderByClause = {
+        durationMinutes: 'asc'
+      };
       break;
     case 'earliestDeparture':
-      orderByClause = { departureTimestamp: 'asc' };
+      orderByClause = {
+        departureTimestamp: 'asc'
+      };
       break;
     case 'latestDeparture':
-      orderByClause = { departureTimestamp: 'desc' };
+      orderByClause = {
+        departureTimestamp: 'desc'
+      };
+      break;
+    case 'earliestReturn':
+      orderByClause = {
+        arrivalTimestamp: 'asc'
+      };
+      break;
+    case 'latestReturn':
+      orderByClause = {
+        arrivalTimestamp: 'desc'
+      };
       break;
   }
 
   const flights = await prisma.flight.findMany({
     where: {
+      type,
       departureAirportId,
       destinationAirportId,
-      type,
-      departureTimestamp: {
-        gte: departureParsedDate,
-        lte: nextDayAfterDepartureDate
-      }
+      ...(departureParsedDate && {
+        departureTimestamp: {
+          gte: departureParsedDate,
+          lte: /** @type {Date} */ (nextDayAfterDepartureDate)
+        }
+      })
     },
     take: MAX_CURSOR_LIMIT,
     ...(nextCursor && {
@@ -159,17 +227,31 @@ async function getFlights({
   };
 }
 
+const validFavoriteFlightQueryParams = z.object({
+  continent: z
+    .string()
+    .transform((value) => z.nativeEnum(Continent).safeParse(value).data)
+    .optional(),
+  nextCursor: validCursorSchema
+    .transform((value) => validCursorSchema.safeParse(value).data)
+    .optional()
+});
+
+/** @typedef {z.infer<typeof validFavoriteFlightQueryParams>} ValidFavoriteFlightQueryParams */
+
 /** @param {ValidFavoriteFlightQueryParams} query */
-async function getFavoriteFlights({ continent, nextCursor }) {
+async function getFavoriteFlights(query) {
+  const { continent, nextCursor } =
+    validFavoriteFlightQueryParams.safeParse(query).data ?? {};
+
   const flights = await prisma.flight.findMany({
-    where: continent
-      ? {
-          destinationAirport: {
-            continent
-          }
+    ...(continent && {
+      where: {
+        destinationAirport: {
+          continent
         }
-      : undefined,
-    take: MAX_CURSOR_LIMIT,
+      }
+    }),
     ...(nextCursor && {
       cursor: { id: nextCursor },
       skip: 1
@@ -177,6 +259,7 @@ async function getFavoriteFlights({ continent, nextCursor }) {
     orderBy: {
       id: 'asc'
     },
+    take: MAX_CURSOR_LIMIT,
     include: {
       departureAirport: true,
       destinationAirport: true

@@ -1,7 +1,7 @@
 import { FlightService } from '../services/flight.js';
 
 /** @import {Request,Response} from 'express' */
-/** @import {ValidFlightQueryParams,ValidFavoriteFlightQueryParams} from '../middlewares/validation/flight.js' */
+/** @import {ValidFlightQueryParams,ValidFavoriteFlightQueryParams} from '../services/flight.js' */
 
 /**
  * @param {Request} req

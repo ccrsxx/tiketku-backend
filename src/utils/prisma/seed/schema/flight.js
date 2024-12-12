@@ -7,152 +7,6 @@ import { FlightClassType } from '@prisma/client';
 
 /** @import {Prisma} from '@prisma/client' */
 
-async function seedFixedFlight() {
-  /** @type {Prisma.FlightCreateManyInput[]} */
-  const fixedFlights = [
-    // CGK to HND
-    {
-      id: '1234e86a-1325-43f1-be92-ce129e61712a',
-      type: 'BUSINESS',
-      price: 4000530,
-      discount: null,
-      flightNumber: 'GI1721',
-      arrivalTimestamp: '2025-01-10T12:00:00Z',
-      departureTimestamp: '2025-01-10T17:00:00Z',
-      durationMinutes: 300,
-      airlineId: '75321628-bb7e-43d3-8113-9287db630ff3',
-      airplaneId: '4b99f2f9-ac08-49fc-ae7b-035ac2dfa1d2',
-      departureAirportId: '947654bd-9806-4a69-a9b6-351824b45da8',
-      destinationAirportId: '2515393b-108d-451e-a919-2bfa2e1c336f',
-      createdAt: '2024-12-10T12:00:00Z',
-      updatedAt: '2024-12-10T12:00:00Z'
-    },
-    // HND to CGK
-    {
-      id: '1234e86b-1325-43f1-be92-ce129e61712b',
-      type: 'BUSINESS',
-      price: 3830530,
-      discount: 12,
-      flightNumber: 'GI1823',
-      arrivalTimestamp: '2025-01-11T12:00:00Z',
-      departureTimestamp: '2025-01-11T17:00:00Z',
-      durationMinutes: 300,
-      airlineId: '75321628-bb7e-43d3-8113-9287db630ff3',
-      airplaneId: '573abca2-1bc7-4635-9948-08be534e5227',
-      departureAirportId: '2515393b-108d-451e-a919-2bfa2e1c336f',
-      destinationAirportId: '947654bd-9806-4a69-a9b6-351824b45da8',
-      createdAt: '2024-12-10T12:00:00Z',
-      updatedAt: '2024-12-10T12:00:00Z'
-    },
-    // CGK to SUB
-    {
-      id: '1234e86c-1325-43f1-be92-ce129e61712c',
-      type: 'ECONOMY',
-      price: 1010980,
-      discount: null,
-      flightNumber: 'LI1351',
-      arrivalTimestamp: '2025-02-10T12:00:00Z',
-      departureTimestamp: '2025-02-10T17:00:00Z',
-      durationMinutes: 300,
-      airlineId: '7261dc0f-7b3f-4795-b349-18e82e69f839',
-      airplaneId: 'd8767ecb-4635-4194-9a8c-478390178fb3',
-      departureAirportId: '947654bd-9806-4a69-a9b6-351824b45da8',
-      destinationAirportId: 'c6d0564e-706a-40b5-b54f-859ad563ae98',
-      createdAt: '2024-12-10T12:00:00Z',
-      updatedAt: '2024-12-10T12:00:00Z'
-    },
-    // SUB to CGK
-    {
-      id: '1234e86d-1325-43f1-be92-ce129e61712d',
-      type: 'ECONOMY',
-      price: 1050000,
-      discount: null,
-      flightNumber: 'LI1633',
-      arrivalTimestamp: '2025-02-11T12:00:00Z',
-      departureTimestamp: '2025-02-11T17:00:00Z',
-      durationMinutes: 300,
-      airlineId: '7261dc0f-7b3f-4795-b349-18e82e69f839',
-      airplaneId: 'cdb6f274-91f7-4c19-ada6-c9d1ac6b641b',
-      departureAirportId: 'c6d0564e-706a-40b5-b54f-859ad563ae98',
-      destinationAirportId: '947654bd-9806-4a69-a9b6-351824b45da8',
-      createdAt: '2024-12-10T12:00:00Z',
-      updatedAt: '2024-12-10T12:00:00Z'
-    },
-    // LAX to CGK
-    {
-      id: '1234e86e-1325-43f1-be92-ce129e61712e',
-      type: 'FIRST_CLASS',
-      price: 5040872,
-      discount: 20,
-      flightNumber: 'EM6578',
-      arrivalTimestamp: '2025-03-10T12:00:00Z',
-      departureTimestamp: '2025-03-10T17:00:00Z',
-      durationMinutes: 300,
-      airlineId: '267f42e0-f0ac-4e2f-9b31-11a69088868b',
-      airplaneId: '573abca2-1bc7-4635-9948-08be534e5227',
-      departureAirportId: '067b352e-478e-4bb0-a47a-d06f6b35a6bf',
-      destinationAirportId: '947654bd-9806-4a69-a9b6-351824b45da8',
-      createdAt: '2024-12-10T12:00:00Z',
-      updatedAt: '2024-12-10T12:00:00Z'
-    },
-    // CGK to LAX
-    {
-      id: '1234e86f-1325-43f1-be92-ce129e61712f',
-      type: 'FIRST_CLASS',
-      price: 5100528,
-      discount: null,
-      flightNumber: 'EM6634',
-      arrivalTimestamp: '2025-03-11T12:00:00Z',
-      departureTimestamp: '2025-03-11T17:00:00Z',
-      durationMinutes: 300,
-      airlineId: '267f42e0-f0ac-4e2f-9b31-11a69088868b',
-      airplaneId: 'd8767ecb-4635-4194-9a8c-478390178fb3',
-      departureAirportId: '947654bd-9806-4a69-a9b6-351824b45da8',
-      destinationAirportId: '067b352e-478e-4bb0-a47a-d06f6b35a6bf',
-      createdAt: '2024-12-10T12:00:00Z',
-      updatedAt: '2024-12-10T12:00:00Z'
-    },
-    // AMS to CGK
-    {
-      id: '1234e861-1325-43f1-be92-ce129e617121',
-      type: 'PREMIUM',
-      price: 2050500,
-      discount: null,
-      flightNumber: 'SA5934',
-      arrivalTimestamp: '2025-04-10T12:00:00Z',
-      departureTimestamp: '2025-04-10T17:00:00Z',
-      durationMinutes: 300,
-      airlineId: 'd3f6bf56-1991-4466-8fa8-733cda833aaf',
-      airplaneId: '4b99f2f9-ac08-49fc-ae7b-035ac2dfa1d2',
-      departureAirportId: 'be494d8a-bc14-4bad-94f9-7b9cf35a7883',
-      destinationAirportId: '947654bd-9806-4a69-a9b6-351824b45da8',
-      createdAt: '2024-12-10T12:00:00Z',
-      updatedAt: '2024-12-10T12:00:00Z'
-    },
-    // CGK to AMS
-    {
-      id: '1234e870-1325-43f1-be92-ce129e617130',
-      type: 'PREMIUM',
-      price: 2340504,
-      discount: null,
-      flightNumber: 'SA5347',
-      arrivalTimestamp: '2025-04-11T12:00:00Z',
-      departureTimestamp: '2025-04-11T17:00:00Z',
-      durationMinutes: 300,
-      airlineId: 'd3f6bf56-1991-4466-8fa8-733cda833aaf',
-      airplaneId: 'cdb6f274-91f7-4c19-ada6-c9d1ac6b641b',
-      departureAirportId: '947654bd-9806-4a69-a9b6-351824b45da8',
-      destinationAirportId: 'be494d8a-bc14-4bad-94f9-7b9cf35a7883',
-      createdAt: '2024-12-10T12:00:00Z',
-      updatedAt: '2024-12-10T12:00:00Z'
-    }
-  ];
-
-  await prisma.flight.createMany({
-    data: fixedFlights
-  });
-}
-
 export async function seedFlight() {
   await seedFixedFlight();
 
@@ -384,6 +238,158 @@ function createFlight(flightDate, models) {
     departureAirportId: departureAirport.id,
     destinationAirportId: destinationAirport.id
   };
+}
+
+async function seedFixedFlight() {
+  /** @type {Prisma.FlightCreateManyInput[]} */
+  const fixedFlights = [
+    // Soekarno Hatta International (CGK) to Tokyo International Airport (HND)
+    {
+      id: '1234e86a-1325-43f1-be92-ce129e61712a',
+      type: 'BUSINESS',
+      price: 4000530,
+      discount: null,
+      flightNumber: 'GI1721',
+      arrivalTimestamp: '2025-01-10T12:00:00Z',
+      departureTimestamp: '2025-01-10T17:00:00Z',
+      durationMinutes: 300,
+      airlineId: '75321628-bb7e-43d3-8113-9287db630ff3',
+      airplaneId: '4b99f2f9-ac08-49fc-ae7b-035ac2dfa1d2',
+      departureAirportId: '947654bd-9806-4a69-a9b6-351824b45da8',
+      destinationAirportId: '2515393b-108d-451e-a919-2bfa2e1c336f',
+      createdAt: '2024-12-10T12:00:00Z',
+      updatedAt: '2024-12-10T12:00:00Z'
+    },
+    // Tokyo International Airport (HND) to Soekarno Hatta International (CGK)
+    {
+      id: '1234e86b-1325-43f1-be92-ce129e61712b',
+      type: 'BUSINESS',
+      price: 3830530,
+      discount: 12,
+      flightNumber: 'GI1823',
+      arrivalTimestamp: '2025-01-11T12:00:00Z',
+      departureTimestamp: '2025-01-11T17:00:00Z',
+      durationMinutes: 300,
+      airlineId: '75321628-bb7e-43d3-8113-9287db630ff3',
+      airplaneId: '573abca2-1bc7-4635-9948-08be534e5227',
+      departureAirportId: '2515393b-108d-451e-a919-2bfa2e1c336f',
+      destinationAirportId: '947654bd-9806-4a69-a9b6-351824b45da8',
+      createdAt: '2024-12-10T12:00:00Z',
+      updatedAt: '2024-12-10T12:00:00Z'
+    },
+    // Soekarno Hatta International (CGK) to Juanda International Airport (SUB)
+    {
+      id: '1234e86c-1325-43f1-be92-ce129e61712c',
+      type: 'ECONOMY',
+      price: 1010980,
+      discount: null,
+      flightNumber: 'LI1351',
+      arrivalTimestamp: '2025-02-10T12:00:00Z',
+      departureTimestamp: '2025-02-10T17:00:00Z',
+      durationMinutes: 300,
+      airlineId: '7261dc0f-7b3f-4795-b349-18e82e69f839',
+      airplaneId: 'd8767ecb-4635-4194-9a8c-478390178fb3',
+      departureAirportId: '947654bd-9806-4a69-a9b6-351824b45da8',
+      destinationAirportId: 'c6d0564e-706a-40b5-b54f-859ad563ae98',
+      createdAt: '2024-12-10T12:00:00Z',
+      updatedAt: '2024-12-10T12:00:00Z'
+    },
+    // Juanda International Airport (SUB) to Soekarno Hatta International (CGK)
+    {
+      id: '1234e86d-1325-43f1-be92-ce129e61712d',
+      type: 'ECONOMY',
+      price: 1050000,
+      discount: null,
+      flightNumber: 'LI1633',
+      arrivalTimestamp: '2025-02-11T12:00:00Z',
+      departureTimestamp: '2025-02-11T17:00:00Z',
+      durationMinutes: 300,
+      airlineId: '7261dc0f-7b3f-4795-b349-18e82e69f839',
+      airplaneId: 'cdb6f274-91f7-4c19-ada6-c9d1ac6b641b',
+      departureAirportId: 'c6d0564e-706a-40b5-b54f-859ad563ae98',
+      destinationAirportId: '947654bd-9806-4a69-a9b6-351824b45da8',
+      createdAt: '2024-12-10T12:00:00Z',
+      updatedAt: '2024-12-10T12:00:00Z'
+    },
+    // Los Angeles International Airport (LAX) to Soekarno Hatta International (CGK)
+    {
+      id: '1234e86e-1325-43f1-be92-ce129e61712e',
+      type: 'FIRST_CLASS',
+      price: 5040872,
+      discount: 20,
+      flightNumber: 'EM6578',
+      arrivalTimestamp: '2025-03-10T12:00:00Z',
+      departureTimestamp: '2025-03-10T17:00:00Z',
+      durationMinutes: 300,
+      airlineId: '267f42e0-f0ac-4e2f-9b31-11a69088868b',
+      airplaneId: '573abca2-1bc7-4635-9948-08be534e5227',
+      departureAirportId: '067b352e-478e-4bb0-a47a-d06f6b35a6bf',
+      destinationAirportId: '947654bd-9806-4a69-a9b6-351824b45da8',
+      createdAt: '2024-12-10T12:00:00Z',
+      updatedAt: '2024-12-10T12:00:00Z'
+    },
+    // Soekarno Hatta International (CGK) to Los Angeles International Airport (LAX)
+    {
+      id: '1234e86f-1325-43f1-be92-ce129e61712f',
+      type: 'FIRST_CLASS',
+      price: 5100528,
+      discount: null,
+      flightNumber: 'EM6634',
+      arrivalTimestamp: '2025-03-11T12:00:00Z',
+      departureTimestamp: '2025-03-11T17:00:00Z',
+      durationMinutes: 300,
+      airlineId: '267f42e0-f0ac-4e2f-9b31-11a69088868b',
+      airplaneId: 'd8767ecb-4635-4194-9a8c-478390178fb3',
+      departureAirportId: '947654bd-9806-4a69-a9b6-351824b45da8',
+      destinationAirportId: '067b352e-478e-4bb0-a47a-d06f6b35a6bf',
+      createdAt: '2024-12-10T12:00:00Z',
+      updatedAt: '2024-12-10T12:00:00Z'
+    },
+    // Schiphol (AMS) to Soekarno Hatta International (CGK)
+    {
+      id: '1234e861-1325-43f1-be92-ce129e617121',
+      type: 'PREMIUM',
+      price: 2050500,
+      discount: null,
+      flightNumber: 'SA5934',
+      arrivalTimestamp: '2025-04-10T12:00:00Z',
+      departureTimestamp: '2025-04-10T17:00:00Z',
+      durationMinutes: 300,
+      airlineId: 'd3f6bf56-1991-4466-8fa8-733cda833aaf',
+      airplaneId: '4b99f2f9-ac08-49fc-ae7b-035ac2dfa1d2',
+      departureAirportId: 'be494d8a-bc14-4bad-94f9-7b9cf35a7883',
+      destinationAirportId: '947654bd-9806-4a69-a9b6-351824b45da8',
+      createdAt: '2024-12-10T12:00:00Z',
+      updatedAt: '2024-12-10T12:00:00Z'
+    },
+    // Soekarno Hatta International (CGK) to Schiphol (AMS)
+    {
+      id: '1234e870-1325-43f1-be92-ce129e617130',
+      type: 'PREMIUM',
+      price: 2340504,
+      discount: null,
+      flightNumber: 'SA5347',
+      arrivalTimestamp: '2025-04-11T12:00:00Z',
+      departureTimestamp: '2025-04-11T17:00:00Z',
+      durationMinutes: 300,
+      airlineId: 'd3f6bf56-1991-4466-8fa8-733cda833aaf',
+      airplaneId: 'cdb6f274-91f7-4c19-ada6-c9d1ac6b641b',
+      departureAirportId: '947654bd-9806-4a69-a9b6-351824b45da8',
+      destinationAirportId: 'be494d8a-bc14-4bad-94f9-7b9cf35a7883',
+      createdAt: '2024-12-10T12:00:00Z',
+      updatedAt: '2024-12-10T12:00:00Z'
+    }
+  ];
+
+  for (const flight of fixedFlights) {
+    await prisma.flight.upsert({
+      where: {
+        id: flight.id
+      },
+      update: flight,
+      create: flight
+    });
+  }
 }
 
 /**
