@@ -18,24 +18,6 @@ const { TransactionValidationMiddleware } =
 
 describe('Transaction Validation Middleware', () => {
   describe('isValidTransactionPayload', () => {
-    // it('should call next() if the passenger type INFANT have no seat', () => {
-    //     const req = {
-    //         body: {
-    //             departureFlightId: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
-    //             returnFlightId: '550e8400-e29b-41d4-a716-446655440000',
-    //             passengers: [
-    //                 {
-    //                     type: PassengerType.INFANT,
-    //                     name: 'John Doe',
-    //                     birthDate: '2024-01-01',
-    //                     identityNumber: '1234567890',
-    //                     identityNationality: 'US',
-    //                     identityExpirationDate: '2030-01-01'
-    //                 }
-    //             ]
-    //         }
-    //     };
-
     it('should call next() if the transaction payload is valid', () => {
       const req = {
         body: {
@@ -51,6 +33,40 @@ describe('Transaction Validation Middleware', () => {
               identityExpirationDate: '2030-01-01',
               departureFlightSeatId: 'd1e2c3f4-5678-90ab-cdef-1234567890ab',
               returnFlightSeatId: 'd1e2c3f4-5678-90ab-cdef-1234567890ac'
+            }
+          ]
+        }
+      };
+      const next = jest.fn();
+
+      TransactionValidationMiddleware.isValidTransactionPayload(req, {}, next);
+
+      expect(next).toHaveBeenCalled();
+    });
+
+    it('should call next() if the transaction payload is valid with baby have no seat', () => {
+      const req = {
+        body: {
+          departureFlightId: 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
+          returnFlightId: '550e8400-e29b-41d4-a716-446655440000',
+          passengers: [
+            {
+              type: PassengerType.ADULT,
+              name: 'John Doe',
+              birthDate: '1980-01-01',
+              identityNumber: '1234567890',
+              identityNationality: 'US',
+              identityExpirationDate: '2030-01-01',
+              departureFlightSeatId: 'd1e2c3f4-5678-90ab-cdef-1234567890ab',
+              returnFlightSeatId: 'd1e2c3f4-5678-90ab-cdef-1234567890ac'
+            },
+            {
+              type: PassengerType.INFANT,
+              name: 'Baby John',
+              birthDate: '2015-01-01',
+              identityNumber: '0000000000000000',
+              identityNationality: 'US',
+              identityExpirationDate: '2030-01-01'
             }
           ]
         }
@@ -226,13 +242,11 @@ describe('Transaction Validation Middleware', () => {
         expect(next).toHaveBeenCalled();
       });
 
-      it('should throw HttpError if the query params are invalid', () => {
+      it('should throw an error if startDate is after endDate', () => {
         const req = {
           query: {
-            bookingCode: 'ABC123',
             startDate: '2024-12-31',
-            endDate: '2024-01-01',
-            page: 1
+            endDate: '2024-01-01'
           }
         };
         const next = jest.fn();
@@ -244,6 +258,79 @@ describe('Transaction Validation Middleware', () => {
             next
           )
         ).toThrow(HttpError);
+        expect(next).not.toHaveBeenCalled();
+      });
+
+      it('should call next() if only startDate is provided', () => {
+        const req = {
+          query: {
+            startDate: '2024-01-01'
+          }
+        };
+        const next = jest.fn();
+
+        TransactionValidationMiddleware.isValidMyTransactionsQueryParams(
+          req,
+          {},
+          next
+        );
+
+        expect(next).toHaveBeenCalled();
+      });
+
+      it('should call next() if only endDate is provided', () => {
+        const req = {
+          query: {
+            endDate: '2024-12-31'
+          }
+        };
+        const next = jest.fn();
+
+        TransactionValidationMiddleware.isValidMyTransactionsQueryParams(
+          req,
+          {},
+          next
+        );
+
+        expect(next).toHaveBeenCalled();
+      });
+
+      it('should throw an error if startDate has an invalid format', () => {
+        const req = {
+          query: {
+            startDate: 'invalid-date',
+            endDate: '2024-12-31'
+          }
+        };
+        const next = jest.fn();
+
+        expect(() =>
+          TransactionValidationMiddleware.isValidMyTransactionsQueryParams(
+            req,
+            {},
+            next
+          )
+        ).toThrow(HttpError);
+        expect(next).not.toHaveBeenCalled();
+      });
+
+      it('should throw an error if endDate has an invalid format', () => {
+        const req = {
+          query: {
+            startDate: '2024-01-01',
+            endDate: 'invalid-date'
+          }
+        };
+        const next = jest.fn();
+
+        expect(() =>
+          TransactionValidationMiddleware.isValidMyTransactionsQueryParams(
+            req,
+            {},
+            next
+          )
+        ).toThrow(HttpError);
+        expect(next).not.toHaveBeenCalled();
       });
     });
   });
