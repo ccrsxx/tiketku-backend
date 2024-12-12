@@ -53,8 +53,8 @@ async function createTransaction(
       flightSeatsToBeBooked.push(departureFlightSeatId);
     }
 
-    if (returnFlightSeatId) {
-      flightPrice += returnFlightData?.price ?? 0;
+    if (returnFlightData && returnFlightSeatId) {
+      flightPrice += returnFlightData.price;
       flightSeatsToBeBooked.push(returnFlightSeatId);
     }
   }
@@ -101,13 +101,14 @@ async function createTransaction(
                   }
                 }
               }),
-              ...(returnFlightSeatId && {
-                returnFlightSeat: {
-                  connect: {
-                    id: returnFlightSeatId
+              ...(returnFlightData &&
+                returnFlightSeatId && {
+                  returnFlightSeat: {
+                    connect: {
+                      id: returnFlightSeatId
+                    }
                   }
-                }
-              })
+                })
             })
           )
         },
@@ -290,6 +291,7 @@ async function getMyTransactions(userId, query) {
     parsedEndDate = new Date(endDate);
   }
 
+  // Check if start date is greater than end date, if true then set end date to null
   if (parsedStartDate && parsedEndDate && parsedStartDate >= parsedEndDate) {
     parsedEndDate = null;
   }
