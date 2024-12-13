@@ -13,7 +13,7 @@ export async function uploadImageToGcs(file) {
 
   await gcs.file(filePath).save(file.buffer);
 
-  const generatedUploadedUrl = `https://storage.cloud.google.com/${appEnv.STORAGE_BUCKET}/${filePath}`;
+  const generatedUploadedUrl = `https://storage.googleapis.com/${appEnv.STORAGE_BUCKET}/${filePath}`;
 
   return generatedUploadedUrl;
 }
