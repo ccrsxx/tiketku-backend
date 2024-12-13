@@ -1,8 +1,11 @@
 model Payment {
-    id     String        @id @default(uuid(7)) @db.Uuid
-    amount Int
-    status PaymentStatus
-    method PaymentMethod
+    id              String         @id @default(uuid(7)) @db.Uuid
+    amount          Int
+    status          PaymentStatus
+    method          PaymentMethod?
+    expiredAt       DateTime       @map("expired_at") @db.Timestamptz
+    snapToken       String         @map("snap_token")
+    snapRedirectUrl String         @map("snap_redirect_url")
 
     transaction Transaction?
 
@@ -14,12 +17,12 @@ model Payment {
 
 enum PaymentStatus {
     PENDING
-    COMPLETED
+    SUCCESS
     FAILED
-    CANCELLED
 }
 
 enum PaymentMethod {
+    QRIS
     CREDIT_CARD
     BANK_TRANSFER
 }

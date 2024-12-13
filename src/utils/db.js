@@ -25,15 +25,34 @@ const omitConfig = {
   },
   airline: omittedTimestampFields,
   airport: omittedTimestampFields,
-  booking: omittedTimestampFields,
+  booking: {
+    ...omittedTimestampFields,
+    passengerId: true,
+    transactionId: true,
+    returnFlightSeatId: true,
+    departureFlightSeatId: true
+  },
   payment: omittedTimestampFields,
   airplane: omittedTimestampFields,
-  passenger: omittedTimestampFields,
+  passenger: {
+    ...omittedTimestampFields,
+    birthDate: true,
+    familyName: true,
+    identityNumber: true,
+    identityNationality: true,
+    identityExpirationDate: true
+  },
   flightSeat: {
     ...omittedTimestampFields,
     flightId: true
   },
-  transaction: omittedTimestampFields,
+  transaction: {
+    ...omittedTimestampFields,
+    userId: true,
+    paymentId: true,
+    returnFlightId: true,
+    departureFlightId: true
+  },
   notification: omittedTimestampFields,
   passwordReset: omittedTimestampFields
 };

@@ -73,7 +73,7 @@ export async function seedAirline() {
   for (const airline of airlines) {
     await prisma.airline.upsert({
       where: { id: airline.id },
-      update: {},
+      update: airline,
       create: airline
     });
   }

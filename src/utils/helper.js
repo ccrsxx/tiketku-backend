@@ -20,3 +20,22 @@ export function toTitleCase(str) {
     (text) => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
   );
 }
+
+/**
+ * @typedef {Object} FirstAndLastName
+ * @property {string | undefined} firstName
+ * @property {string | undefined} lastName
+ */
+
+/**
+ * @param {string} fullName
+ * @returns {FirstAndLastName}
+ */
+export function getFirstAndLastName(fullName) {
+  const splittedName = fullName.trim().split(' ');
+
+  const firstName = splittedName[0];
+  const lastName = splittedName.slice(1).join(' ');
+
+  return { firstName, lastName };
+}

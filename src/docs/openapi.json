@@ -1693,769 +1693,6 @@
         }
       }
     },
-    "/users": {
-      "get": {
-        "tags": ["User"],
-        "summary": "Get users",
-        "description": "Get users",
-        "operationId": "getUsers",
-        "responses": {
-          "200": {
-            "description": "200 - List users",
-            "headers": {
-              "Access-Control-Allow-Credentials": {
-                "schema": {
-                  "type": "string",
-                  "example": "true"
-                }
-              },
-              "Access-Control-Allow-Origin": {
-                "schema": {
-                  "type": "string",
-                  "example": "http://localhost:3000"
-                }
-              },
-              "Connection": {
-                "schema": {
-                  "type": "string",
-                  "example": "keep-alive"
-                }
-              },
-              "Content-Length": {
-                "schema": {
-                  "type": "string",
-                  "example": "522"
-                }
-              },
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Fri, 25 Oct 2024 12:31:09 GMT"
-                }
-              },
-              "ETag": {
-                "schema": {
-                  "type": "string",
-                  "example": "W/\"20a-0rwzNoJPAdzUyD4YJPEi5iuzTqc\""
-                }
-              },
-              "Keep-Alive": {
-                "schema": {
-                  "type": "string",
-                  "example": "timeout=5"
-                }
-              },
-              "Vary": {
-                "schema": {
-                  "type": "string",
-                  "example": "Origin"
-                }
-              },
-              "X-Powered-By": {
-                "schema": {
-                  "type": "string",
-                  "example": "Express"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "account": {
-                            "type": "array",
-                            "items": {},
-                            "example": []
-                          },
-                          "createdAt": {
-                            "type": "string",
-                            "example": "2024-10-25T12:20:22.496Z"
-                          },
-                          "email": {
-                            "type": "string",
-                            "example": "aminrisal@gmail.com"
-                          },
-                          "id": {
-                            "type": "string",
-                            "example": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7db"
-                          },
-                          "name": {
-                            "type": "string",
-                            "example": "Risal Amin"
-                          },
-                          "password": {
-                            "type": "string",
-                            "example": "$2b$10$9Vc3.KEUS00eLNmFMwmYnOoUpKp/cYpDc8oUg0qOwZJ7JaAYRcxma"
-                          },
-                          "profile": {
-                            "type": "array",
-                            "items": {
-                              "type": "object",
-                              "properties": {
-                                "address": {
-                                  "type": "string",
-                                  "example": "Jakarta"
-                                },
-                                "createdAt": {
-                                  "type": "string",
-                                  "example": "2024-10-25T12:20:22.496Z"
-                                },
-                                "id": {
-                                  "type": "string",
-                                  "example": "874fec04-b364-473b-8030-53b439dc3f56"
-                                },
-                                "identityNumber": {
-                                  "type": "string",
-                                  "example": "123456"
-                                },
-                                "identityType": {
-                                  "type": "string",
-                                  "example": "KTP"
-                                },
-                                "updatedAt": {
-                                  "type": "string",
-                                  "example": "2024-10-25T12:20:22.496Z"
-                                },
-                                "userId": {
-                                  "type": "string",
-                                  "example": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7db"
-                                }
-                              }
-                            },
-                            "example": [
-                              {
-                                "address": "Jakarta",
-                                "createdAt": "2024-10-25T12:20:22.496Z",
-                                "id": "874fec04-b364-473b-8030-53b439dc3f56",
-                                "identityNumber": "123456",
-                                "identityType": "KTP",
-                                "updatedAt": "2024-10-25T12:20:22.496Z",
-                                "userId": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7db"
-                              }
-                            ]
-                          },
-                          "updatedAt": {
-                            "type": "string",
-                            "example": "2024-10-25T12:20:22.496Z"
-                          }
-                        }
-                      },
-                      "example": [
-                        {
-                          "account": [],
-                          "createdAt": "2024-10-25T12:20:22.496Z",
-                          "email": "aminrisal@gmail.com",
-                          "id": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7db",
-                          "name": "Risal Amin",
-                          "password": "$2b$10$9Vc3.KEUS00eLNmFMwmYnOoUpKp/cYpDc8oUg0qOwZJ7JaAYRcxma",
-                          "profile": [
-                            {
-                              "address": "Jakarta",
-                              "createdAt": "2024-10-25T12:20:22.496Z",
-                              "id": "874fec04-b364-473b-8030-53b439dc3f56",
-                              "identityNumber": "123456",
-                              "identityType": "KTP",
-                              "updatedAt": "2024-10-25T12:20:22.496Z",
-                              "userId": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7db"
-                            }
-                          ],
-                          "updatedAt": "2024-10-25T12:20:22.496Z"
-                        }
-                      ]
-                    }
-                  }
-                },
-                "examples": {
-                  "200 - List users": {
-                    "value": {
-                      "data": [
-                        {
-                          "account": [],
-                          "createdAt": "2024-10-25T12:20:22.496Z",
-                          "email": "aminrisal@gmail.com",
-                          "id": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7db",
-                          "name": "Risal Amin",
-                          "password": "$2b$10$9Vc3.KEUS00eLNmFMwmYnOoUpKp/cYpDc8oUg0qOwZJ7JaAYRcxma",
-                          "profile": [
-                            {
-                              "address": "Jakarta",
-                              "createdAt": "2024-10-25T12:20:22.496Z",
-                              "id": "874fec04-b364-473b-8030-53b439dc3f56",
-                              "identityNumber": "123456",
-                              "identityType": "KTP",
-                              "updatedAt": "2024-10-25T12:20:22.496Z",
-                              "userId": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7db"
-                            }
-                          ],
-                          "updatedAt": "2024-10-25T12:20:22.496Z"
-                        }
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/users/{id}": {
-      "get": {
-        "tags": ["User"],
-        "summary": "Get user by id",
-        "description": "Get user by id",
-        "operationId": "getUserById",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "amount": {
-                    "type": "number",
-                    "example": 10000
-                  }
-                }
-              },
-              "examples": {
-                "Get user by id": {
-                  "value": {
-                    "amount": 10000
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "200 - Get user",
-            "headers": {
-              "Access-Control-Allow-Credentials": {
-                "schema": {
-                  "type": "string",
-                  "example": "true"
-                }
-              },
-              "Access-Control-Allow-Origin": {
-                "schema": {
-                  "type": "string",
-                  "example": "http://localhost:3000"
-                }
-              },
-              "Connection": {
-                "schema": {
-                  "type": "string",
-                  "example": "keep-alive"
-                }
-              },
-              "Content-Length": {
-                "schema": {
-                  "type": "string",
-                  "example": "520"
-                }
-              },
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Fri, 25 Oct 2024 12:28:30 GMT"
-                }
-              },
-              "ETag": {
-                "schema": {
-                  "type": "string",
-                  "example": "W/\"208-IUbnohFscoREJCTXHmtgi1f/SJM\""
-                }
-              },
-              "Keep-Alive": {
-                "schema": {
-                  "type": "string",
-                  "example": "timeout=5"
-                }
-              },
-              "Vary": {
-                "schema": {
-                  "type": "string",
-                  "example": "Origin"
-                }
-              },
-              "X-Powered-By": {
-                "schema": {
-                  "type": "string",
-                  "example": "Express"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "account": {
-                          "type": "array",
-                          "items": {},
-                          "example": []
-                        },
-                        "createdAt": {
-                          "type": "string",
-                          "example": "2024-10-25T12:20:22.496Z"
-                        },
-                        "email": {
-                          "type": "string",
-                          "example": "aminrisal@gmail.com"
-                        },
-                        "id": {
-                          "type": "string",
-                          "example": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7db"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Risal Amin"
-                        },
-                        "password": {
-                          "type": "string",
-                          "example": "$2b$10$9Vc3.KEUS00eLNmFMwmYnOoUpKp/cYpDc8oUg0qOwZJ7JaAYRcxma"
-                        },
-                        "profile": {
-                          "type": "array",
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "address": {
-                                "type": "string",
-                                "example": "Jakarta"
-                              },
-                              "createdAt": {
-                                "type": "string",
-                                "example": "2024-10-25T12:20:22.496Z"
-                              },
-                              "id": {
-                                "type": "string",
-                                "example": "874fec04-b364-473b-8030-53b439dc3f56"
-                              },
-                              "identityNumber": {
-                                "type": "string",
-                                "example": "123456"
-                              },
-                              "identityType": {
-                                "type": "string",
-                                "example": "KTP"
-                              },
-                              "updatedAt": {
-                                "type": "string",
-                                "example": "2024-10-25T12:20:22.496Z"
-                              },
-                              "userId": {
-                                "type": "string",
-                                "example": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7db"
-                              }
-                            }
-                          },
-                          "example": [
-                            {
-                              "address": "Jakarta",
-                              "createdAt": "2024-10-25T12:20:22.496Z",
-                              "id": "874fec04-b364-473b-8030-53b439dc3f56",
-                              "identityNumber": "123456",
-                              "identityType": "KTP",
-                              "updatedAt": "2024-10-25T12:20:22.496Z",
-                              "userId": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7db"
-                            }
-                          ]
-                        },
-                        "updatedAt": {
-                          "type": "string",
-                          "example": "2024-10-25T12:20:22.496Z"
-                        }
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "200 - Get user": {
-                    "value": {
-                      "data": {
-                        "account": [],
-                        "createdAt": "2024-10-25T12:20:22.496Z",
-                        "email": "aminrisal@gmail.com",
-                        "id": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7db",
-                        "name": "Risal Amin",
-                        "password": "$2b$10$9Vc3.KEUS00eLNmFMwmYnOoUpKp/cYpDc8oUg0qOwZJ7JaAYRcxma",
-                        "profile": [
-                          {
-                            "address": "Jakarta",
-                            "createdAt": "2024-10-25T12:20:22.496Z",
-                            "id": "874fec04-b364-473b-8030-53b439dc3f56",
-                            "identityNumber": "123456",
-                            "identityType": "KTP",
-                            "updatedAt": "2024-10-25T12:20:22.496Z",
-                            "userId": "6d8e0e54-f601-4a7d-b4f8-ef64751ee7db"
-                          }
-                        ],
-                        "updatedAt": "2024-10-25T12:20:22.496Z"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "400 - Invalid ID",
-            "headers": {
-              "Access-Control-Allow-Credentials": {
-                "schema": {
-                  "type": "string",
-                  "example": "true"
-                }
-              },
-              "Access-Control-Allow-Origin": {
-                "schema": {
-                  "type": "string",
-                  "example": "http://localhost:3000"
-                }
-              },
-              "Connection": {
-                "schema": {
-                  "type": "string",
-                  "example": "keep-alive"
-                }
-              },
-              "Content-Length": {
-                "schema": {
-                  "type": "string",
-                  "example": "54"
-                }
-              },
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Fri, 25 Oct 2024 13:02:03 GMT"
-                }
-              },
-              "ETag": {
-                "schema": {
-                  "type": "string",
-                  "example": "W/\"36-uAG2PLHxMEbVkzInNVJnh/Ijboc\""
-                }
-              },
-              "Keep-Alive": {
-                "schema": {
-                  "type": "string",
-                  "example": "timeout=5"
-                }
-              },
-              "Vary": {
-                "schema": {
-                  "type": "string",
-                  "example": "Origin"
-                }
-              },
-              "X-Powered-By": {
-                "schema": {
-                  "type": "string",
-                  "example": "Express"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "Invalid uuid"
-                        }
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "400 - Invalid ID": {
-                    "value": {
-                      "error": {
-                        "message": "Invalid uuid"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "404 - User not found",
-            "headers": {
-              "Access-Control-Allow-Credentials": {
-                "schema": {
-                  "type": "string",
-                  "example": "true"
-                }
-              },
-              "Access-Control-Allow-Origin": {
-                "schema": {
-                  "type": "string",
-                  "example": "http://localhost:3000"
-                }
-              },
-              "Connection": {
-                "schema": {
-                  "type": "string",
-                  "example": "keep-alive"
-                }
-              },
-              "Content-Length": {
-                "schema": {
-                  "type": "string",
-                  "example": "38"
-                }
-              },
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Fri, 25 Oct 2024 12:30:32 GMT"
-                }
-              },
-              "ETag": {
-                "schema": {
-                  "type": "string",
-                  "example": "W/\"26-BsgGbTj6n3ZmvCCse0wan/1YC1c\""
-                }
-              },
-              "Keep-Alive": {
-                "schema": {
-                  "type": "string",
-                  "example": "timeout=5"
-                }
-              },
-              "Vary": {
-                "schema": {
-                  "type": "string",
-                  "example": "Origin"
-                }
-              },
-              "X-Powered-By": {
-                "schema": {
-                  "type": "string",
-                  "example": "Express"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "object",
-                      "properties": {
-                        "message": {
-                          "type": "string",
-                          "example": "User not found"
-                        }
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "404 - User not found": {
-                    "value": {
-                      "error": {
-                        "message": "User not found"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": ["User"],
-        "summary": "Update user by id",
-        "description": "Update user by id",
-        "operationId": "updateUserById",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "example": "denny@mail.com"
-                  },
-                  "image": {
-                    "type": "string",
-                    "example": "https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/a52fd702-f1a7-4651-8251-974b7ec96ad4.jpg"
-                  },
-                  "name": {
-                    "type": "string",
-                    "example": "Denny Caknan"
-                  },
-                  "phoneNumber": {
-                    "type": "string",
-                    "example": "+6281345678923"
-                  }
-                }
-              },
-              "examples": {
-                "Update user by id": {
-                  "value": {
-                    "email": "denny@mail.com",
-                    "image": "https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/a52fd702-f1a7-4651-8251-974b7ec96ad4.jpg",
-                    "name": "Denny Caknan",
-                    "phoneNumber": "+6281345678923"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "201 - Update user by ID",
-            "headers": {
-              "Access-Control-Allow-Credentials": {
-                "schema": {
-                  "type": "string",
-                  "example": "true"
-                }
-              },
-              "Access-Control-Allow-Origin": {
-                "schema": {
-                  "type": "string",
-                  "example": "https://tiketku.risalamin.com"
-                }
-              },
-              "Connection": {
-                "schema": {
-                  "type": "string",
-                  "example": "keep-alive"
-                }
-              },
-              "Content-Length": {
-                "schema": {
-                  "type": "string",
-                  "example": "289"
-                }
-              },
-              "Date": {
-                "schema": {
-                  "type": "string",
-                  "example": "Thu, 05 Dec 2024 15:34:03 GMT"
-                }
-              },
-              "ETag": {
-                "schema": {
-                  "type": "string",
-                  "example": "W/\"121-ZjVEaJdV9qayP9HLecrEJeEPooM\""
-                }
-              },
-              "Keep-Alive": {
-                "schema": {
-                  "type": "string",
-                  "example": "timeout=5"
-                }
-              },
-              "Vary": {
-                "schema": {
-                  "type": "string",
-                  "example": "Origin"
-                }
-              },
-              "X-Powered-By": {
-                "schema": {
-                  "type": "string",
-                  "example": "Express"
-                }
-              }
-            },
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "admin": {
-                          "type": "boolean",
-                          "example": true
-                        },
-                        "email": {
-                          "type": "string",
-                          "example": "denny@mail.com"
-                        },
-                        "id": {
-                          "type": "string",
-                          "example": "3ef88357-fa12-4da1-9db1-9ddd1b089307"
-                        },
-                        "image": {
-                          "type": "string",
-                          "example": "https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/a52fd702-f1a7-4651-8251-974b7ec96ad4.jpg"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Denny Caknan"
-                        },
-                        "phoneNumber": {
-                          "type": "string",
-                          "example": "+6281345678923"
-                        },
-                        "verified": {
-                          "type": "boolean",
-                          "example": false
-                        }
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "201 - Update user by ID": {
-                    "value": {
-                      "data": {
-                        "admin": true,
-                        "email": "denny@mail.com",
-                        "id": "3ef88357-fa12-4da1-9db1-9ddd1b089307",
-                        "image": "https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/a52fd702-f1a7-4651-8251-974b7ec96ad4.jpg",
-                        "name": "Denny Caknan",
-                        "phoneNumber": "+6281345678923",
-                        "verified": false
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "parameters": [
-        {
-          "name": "id",
-          "in": "path",
-          "required": true,
-          "schema": {
-            "type": "string",
-            "example": "3ef88357-fa12-4da1-9db1-9ddd1b089307"
-          }
-        }
-      ]
-    },
     "/users/me": {
       "get": {
         "tags": ["User"],
@@ -2647,6 +1884,216 @@
                   "401 - Invalid token": {
                     "value": {
                       "message": "Invalid authorization token"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "patch": {
+        "tags": ["User"],
+        "summary": "Update current user",
+        "description": "Update current user",
+        "operationId": "updateCurrentUser",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "example": "https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/26f3a700-ab4d-49e2-8aa9-dc33aba1e0a7.png"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Rem rin"
+                  },
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "+628123456789"
+                  }
+                }
+              },
+              "examples": {
+                "Update current user": {
+                  "value": {
+                    "image": "https://storage.cloud.google.com/plane-ticket-be.firebasestorage.app/public/26f3a700-ab4d-49e2-8aa9-dc33aba1e0a7.png",
+                    "name": "Rem rin",
+                    "phoneNumber": "+628123456789"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "201 - Update user by ID",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "https://tiketku.risalamin.com"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "289"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 05 Dec 2024 15:34:03 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"121-ZjVEaJdV9qayP9HLecrEJeEPooM\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "User updated successfully"
+                    }
+                  }
+                },
+                "examples": {
+                  "201 - Update user by ID": {
+                    "value": {
+                      "message": "User updated successfully"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "409 - Phone number already exists",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Access-Control-Allow-Origin": {
+                "schema": {
+                  "type": "string",
+                  "example": "https://tiketku.risalamin.com"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "51"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 10 Dec 2024 10:38:52 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"33-Aaneqqyuv33sbayoyzQELhV3f9c\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Phone number already exists"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "409 - Phone number already exists": {
+                    "value": {
+                      "error": {
+                        "message": "Phone number already exists"
+                      }
                     }
                   }
                 }
@@ -4254,23 +3701,24 @@
         "summary": "Get flight by id",
         "description": "Get flight by id",
         "operationId": "getFlightById",
+        "parameters": [
+          {
+            "name": "returnFlightId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "example": "f3946b73-267c-4bd9-b8be-829e817e4a83"
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": ""
-          },
-          "400": {
-            "description": "400 - Invalid id",
+            "description": "200 - Get flight by id",
             "headers": {
               "Access-Control-Allow-Credentials": {
                 "schema": {
                   "type": "string",
                   "example": "true"
-                }
-              },
-              "Access-Control-Allow-Origin": {
-                "schema": {
-                  "type": "string",
-                  "example": "https://tiketku.risalamin.com"
                 }
               },
               "Connection": {
@@ -4282,19 +3730,1463 @@
               "Content-Length": {
                 "schema": {
                   "type": "string",
-                  "example": "36"
+                  "example": "14466"
                 }
               },
               "Date": {
                 "schema": {
                   "type": "string",
-                  "example": "Sat, 07 Dec 2024 15:21:21 GMT"
+                  "example": "Mon, 09 Dec 2024 15:55:21 GMT"
                 }
               },
               "ETag": {
                 "schema": {
                   "type": "string",
-                  "example": "W/\"24-64umbtkcWsIWD3YwQWzmT6XQPp0\""
+                  "example": "W/\"3882-auf0KF/UYSG2qgppcmNpaythfbc\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "departureFlight": {
+                      "type": "object",
+                      "properties": {
+                        "airline": {
+                          "type": "object",
+                          "properties": {
+                            "code": {
+                              "type": "string",
+                              "example": "KL"
+                            },
+                            "id": {
+                              "type": "string",
+                              "example": "03c22aa6-7ac1-4e2b-ad11-781a0b269deb"
+                            },
+                            "image": {
+                              "type": "string",
+                              "example": "https://ik.imagekit.io/iaqozxfxq/IMG-1718889525326_2LRUP6hEJ.png"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "KLM Royal Dutch"
+                            }
+                          }
+                        },
+                        "airplane": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "4b99f2f9-ac08-49fc-ae7b-035ac2dfa1d2"
+                            },
+                            "maxColumn": {
+                              "type": "number",
+                              "example": 4
+                            },
+                            "maxRow": {
+                              "type": "number",
+                              "example": 10
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Airbus A320"
+                            }
+                          }
+                        },
+                        "arrivalTimestamp": {
+                          "type": "string",
+                          "example": "2024-12-10T12:20:00.000Z"
+                        },
+                        "departureAirport": {
+                          "type": "object",
+                          "properties": {
+                            "city": {
+                              "type": "string",
+                              "example": "Los Angeles"
+                            },
+                            "code": {
+                              "type": "string",
+                              "example": "LAX"
+                            },
+                            "continent": {
+                              "type": "string",
+                              "example": "AMERICA"
+                            },
+                            "id": {
+                              "type": "string",
+                              "example": "067b352e-478e-4bb0-a47a-d06f6b35a6bf"
+                            },
+                            "image": {
+                              "type": "string",
+                              "example": "https://ik.imagekit.io/iaqozxfxq/IMG-1718888534393_NHshwCyEx.jpg"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Los Angeles International Airport"
+                            },
+                            "type": {
+                              "type": "string",
+                              "example": "INTERNATIONAL"
+                            }
+                          }
+                        },
+                        "departureTimestamp": {
+                          "type": "string",
+                          "example": "2024-12-10T07:10:00.000Z"
+                        },
+                        "destinationAirport": {
+                          "type": "object",
+                          "properties": {
+                            "city": {
+                              "type": "string",
+                              "example": "Melbourne "
+                            },
+                            "code": {
+                              "type": "string",
+                              "example": "MEL"
+                            },
+                            "continent": {
+                              "type": "string",
+                              "example": "AUSTRALIA"
+                            },
+                            "id": {
+                              "type": "string",
+                              "example": "f5eeb781-e9cd-4550-877e-be29975a6872"
+                            },
+                            "image": {
+                              "type": "string",
+                              "example": "https://ik.imagekit.io/iaqozxfxq/IMG-1718888434678_0C9pPslPg.jpg"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Melbourne Airport"
+                            },
+                            "type": {
+                              "type": "string",
+                              "example": "INTERNATIONAL"
+                            }
+                          }
+                        },
+                        "discount": {
+                          "nullable": true,
+                          "example": null
+                        },
+                        "flightNumber": {
+                          "type": "string",
+                          "example": "KL6673"
+                        },
+                        "flightSeats": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "column": {
+                                "type": "number",
+                                "example": 1
+                              },
+                              "id": {
+                                "type": "string",
+                                "example": "0193ab16-142f-73c3-99c6-6c21f0218c30"
+                              },
+                              "row": {
+                                "type": "number",
+                                "example": 1
+                              },
+                              "status": {
+                                "type": "string",
+                                "example": "AVAILABLE"
+                              }
+                            }
+                          },
+                          "example": [
+                            {
+                              "column": 1,
+                              "id": "0193ab16-142f-73c3-99c6-6c21f0218c30",
+                              "row": 1,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-142f-73c3-99c6-6c32b5345148",
+                              "row": 1,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-142f-73c3-99c6-6c4f597a81a4",
+                              "row": 1,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-142f-73c3-99c6-6c531b7064fb",
+                              "row": 1,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-142f-73c3-99c6-6c62d8fd2c38",
+                              "row": 2,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-142f-73c3-99c6-6c72dac400ee",
+                              "row": 2,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-142f-73c3-99c6-6c86f7e557e8",
+                              "row": 2,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-142f-73c3-99c6-6c90becfcf2c",
+                              "row": 2,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-142f-73c3-99c6-6cadde825963",
+                              "row": 3,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-142f-73c3-99c6-6cb39b6f9771",
+                              "row": 3,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-142f-73c3-99c6-6cc23f822751",
+                              "row": 3,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-142f-73c3-99c6-6cdb8104d100",
+                              "row": 3,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-142f-73c3-99c6-6ce8d750c90b",
+                              "row": 4,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-142f-73c3-99c6-6cf77209ae65",
+                              "row": 4,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-142f-73c3-99c6-6d054d371fd1",
+                              "row": 4,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-142f-73c3-99c6-6d173769d4ca",
+                              "row": 4,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-142f-73c3-99c6-6d27fcbfbc35",
+                              "row": 5,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-142f-73c3-99c6-6d3029cac77d",
+                              "row": 5,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-142f-73c3-99c6-6d4fb70a9e00",
+                              "row": 5,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-142f-73c3-99c6-6d58879d01ac",
+                              "row": 5,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-142f-73c3-99c6-6d6638df51d3",
+                              "row": 6,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-142f-73c3-99c6-6d726da1d5fc",
+                              "row": 6,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-142f-73c3-99c6-6d8afc40f617",
+                              "row": 6,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-142f-73c3-99c6-6d90d871bc12",
+                              "row": 6,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-142f-73c3-99c6-6dacb680a169",
+                              "row": 7,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-142f-73c3-99c6-6db1fb9c32a5",
+                              "row": 7,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-142f-73c3-99c6-6dc70a900535",
+                              "row": 7,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-142f-73c3-99c6-6dd89347c823",
+                              "row": 7,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-142f-73c3-99c6-6de4e527223f",
+                              "row": 8,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-142f-73c3-99c6-6dfbb461865c",
+                              "row": 8,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-142f-73c3-99c6-6e056e09f9f9",
+                              "row": 8,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-142f-73c3-99c6-6e1c9da143f8",
+                              "row": 8,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-142f-73c3-99c6-6e2c32d33cef",
+                              "row": 9,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-142f-73c3-99c6-6e3e9cef306a",
+                              "row": 9,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-142f-73c3-99c6-6e47a798be0a",
+                              "row": 9,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-142f-73c3-99c6-6e5d130d8852",
+                              "row": 9,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-142f-73c3-99c6-6e6c88977d82",
+                              "row": 10,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-142f-73c3-99c6-6e7687441e1a",
+                              "row": 10,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-142f-73c3-99c6-6e8323f50372",
+                              "row": 10,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-142f-73c3-99c6-6e9d2208d422",
+                              "row": 10,
+                              "status": "AVAILABLE"
+                            }
+                          ]
+                        },
+                        "id": {
+                          "type": "string",
+                          "example": "5234e86b-1325-43f1-be92-ce129e61712c"
+                        },
+                        "price": {
+                          "type": "number",
+                          "example": 6764674
+                        },
+                        "type": {
+                          "type": "string",
+                          "example": "BUSINESS"
+                        }
+                      }
+                    },
+                    "returnFlight": {
+                      "type": "object",
+                      "properties": {
+                        "airline": {
+                          "type": "object",
+                          "properties": {
+                            "code": {
+                              "type": "string",
+                              "example": "QG"
+                            },
+                            "id": {
+                              "type": "string",
+                              "example": "80eabbc8-9124-4f90-8d72-2b215ed01dfd"
+                            },
+                            "image": {
+                              "type": "string",
+                              "example": "https://ik.imagekit.io/iaqozxfxq/IMG-1718978738063_QrRdk5y2P.png"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Citilink"
+                            }
+                          }
+                        },
+                        "airplane": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "4b99f2f9-ac08-49fc-ae7b-035ac2dfa1d2"
+                            },
+                            "maxColumn": {
+                              "type": "number",
+                              "example": 4
+                            },
+                            "maxRow": {
+                              "type": "number",
+                              "example": 10
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Airbus A320"
+                            }
+                          }
+                        },
+                        "arrivalTimestamp": {
+                          "type": "string",
+                          "example": "2024-12-11T17:05:00.000Z"
+                        },
+                        "departureAirport": {
+                          "type": "object",
+                          "properties": {
+                            "city": {
+                              "type": "string",
+                              "example": "Melbourne "
+                            },
+                            "code": {
+                              "type": "string",
+                              "example": "MEL"
+                            },
+                            "continent": {
+                              "type": "string",
+                              "example": "AUSTRALIA"
+                            },
+                            "id": {
+                              "type": "string",
+                              "example": "f5eeb781-e9cd-4550-877e-be29975a6872"
+                            },
+                            "image": {
+                              "type": "string",
+                              "example": "https://ik.imagekit.io/iaqozxfxq/IMG-1718888434678_0C9pPslPg.jpg"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Melbourne Airport"
+                            },
+                            "type": {
+                              "type": "string",
+                              "example": "INTERNATIONAL"
+                            }
+                          }
+                        },
+                        "departureTimestamp": {
+                          "type": "string",
+                          "example": "2024-12-11T13:45:00.000Z"
+                        },
+                        "destinationAirport": {
+                          "type": "object",
+                          "properties": {
+                            "city": {
+                              "type": "string",
+                              "example": "Los Angeles"
+                            },
+                            "code": {
+                              "type": "string",
+                              "example": "LAX"
+                            },
+                            "continent": {
+                              "type": "string",
+                              "example": "AMERICA"
+                            },
+                            "id": {
+                              "type": "string",
+                              "example": "067b352e-478e-4bb0-a47a-d06f6b35a6bf"
+                            },
+                            "image": {
+                              "type": "string",
+                              "example": "https://ik.imagekit.io/iaqozxfxq/IMG-1718888534393_NHshwCyEx.jpg"
+                            },
+                            "name": {
+                              "type": "string",
+                              "example": "Los Angeles International Airport"
+                            },
+                            "type": {
+                              "type": "string",
+                              "example": "INTERNATIONAL"
+                            }
+                          }
+                        },
+                        "discount": {
+                          "nullable": true,
+                          "example": null
+                        },
+                        "flightNumber": {
+                          "type": "string",
+                          "example": "QG1749"
+                        },
+                        "flightSeats": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "column": {
+                                "type": "number",
+                                "example": 1
+                              },
+                              "id": {
+                                "type": "string",
+                                "example": "0193ab16-1458-7ff3-9a43-57e80ba9a3de"
+                              },
+                              "row": {
+                                "type": "number",
+                                "example": 1
+                              },
+                              "status": {
+                                "type": "string",
+                                "example": "AVAILABLE"
+                              }
+                            }
+                          },
+                          "example": [
+                            {
+                              "column": 1,
+                              "id": "0193ab16-1458-7ff3-9a43-57e80ba9a3de",
+                              "row": 1,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-1458-7ff3-9a43-58319f06c16d",
+                              "row": 1,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-1458-7ff3-9a43-587575fd64ee",
+                              "row": 1,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-1458-7ff3-9a43-589c34892f49",
+                              "row": 1,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-1458-7ff3-9a43-58d73f651f9f",
+                              "row": 2,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-1458-7ff3-9a43-59065683b71d",
+                              "row": 2,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-1458-7ff3-9a43-594bff582c52",
+                              "row": 2,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-1458-7ff3-9a43-5982fece4f74",
+                              "row": 2,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-1458-7ff3-9a43-59ced1ed5a04",
+                              "row": 3,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-1458-7ff3-9a43-5a170abcd388",
+                              "row": 3,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-1458-7ff3-9a43-5a508076440c",
+                              "row": 3,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-1458-7ff3-9a43-5a987f61705b",
+                              "row": 3,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-1458-7ff3-9a43-5ad708ab7d02",
+                              "row": 4,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-1458-7ff3-9a43-5b183e1880af",
+                              "row": 4,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-1458-7ff3-9a43-5b5ef2571fa0",
+                              "row": 4,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-1458-7ff3-9a43-5baa0aa24e1d",
+                              "row": 4,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-1458-7ff3-9a43-5be5f920fd98",
+                              "row": 5,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-1458-7ff3-9a43-5c295b277a68",
+                              "row": 5,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-1458-7ff3-9a43-5c61504fa00f",
+                              "row": 5,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-1458-7ff3-9a43-5cbaced364fb",
+                              "row": 5,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-1458-7ff3-9a43-5cf6d29d03c3",
+                              "row": 6,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-1458-7ff3-9a43-5d336c8e47c2",
+                              "row": 6,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-1458-7ff3-9a43-5d782394f5b0",
+                              "row": 6,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-1458-7ff3-9a43-5dac4e0068fa",
+                              "row": 6,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-1458-7ff3-9a43-5df21807f982",
+                              "row": 7,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-1458-7ff3-9a43-5e3389ff86c8",
+                              "row": 7,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-1458-7ff3-9a43-5e7520859c70",
+                              "row": 7,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-1458-7ff3-9a43-5eb58f826064",
+                              "row": 7,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-1458-7ff3-9a43-5ef3ae801cb6",
+                              "row": 8,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-1458-7ff3-9a43-5f3e5e99cd79",
+                              "row": 8,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-1458-7ff3-9a43-5f852aa7a5d0",
+                              "row": 8,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-1458-7ff3-9a43-5fc76e067f97",
+                              "row": 8,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-1458-7ff3-9a43-6008035a5ec0",
+                              "row": 9,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-1458-7ff3-9a43-6036cfbafc2c",
+                              "row": 9,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-1458-7ff3-9a43-606e545bf509",
+                              "row": 9,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-1458-7ff3-9a43-609020c524af",
+                              "row": 9,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 1,
+                              "id": "0193ab16-1458-7ff3-9a43-60c2689fe913",
+                              "row": 10,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 2,
+                              "id": "0193ab16-1458-7ff3-9a43-60fc7f129554",
+                              "row": 10,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 3,
+                              "id": "0193ab16-1458-7ff3-9a43-6114c44e95d6",
+                              "row": 10,
+                              "status": "AVAILABLE"
+                            },
+                            {
+                              "column": 4,
+                              "id": "0193ab16-1458-7ff3-9a43-61352e1a5463",
+                              "row": 10,
+                              "status": "AVAILABLE"
+                            }
+                          ]
+                        },
+                        "id": {
+                          "type": "string",
+                          "example": "f3946b73-267c-4bd9-b8be-829e817e4a83"
+                        },
+                        "price": {
+                          "type": "number",
+                          "example": 1285155
+                        },
+                        "type": {
+                          "type": "string",
+                          "example": "BUSINESS"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "200 - Get flight by id": {
+                    "value": {
+                      "departureFlight": {
+                        "airline": {
+                          "code": "KL",
+                          "id": "03c22aa6-7ac1-4e2b-ad11-781a0b269deb",
+                          "image": "https://ik.imagekit.io/iaqozxfxq/IMG-1718889525326_2LRUP6hEJ.png",
+                          "name": "KLM Royal Dutch"
+                        },
+                        "airplane": {
+                          "id": "4b99f2f9-ac08-49fc-ae7b-035ac2dfa1d2",
+                          "maxColumn": 4,
+                          "maxRow": 10,
+                          "name": "Airbus A320"
+                        },
+                        "arrivalTimestamp": "2024-12-10T12:20:00.000Z",
+                        "departureAirport": {
+                          "city": "Los Angeles",
+                          "code": "LAX",
+                          "continent": "AMERICA",
+                          "id": "067b352e-478e-4bb0-a47a-d06f6b35a6bf",
+                          "image": "https://ik.imagekit.io/iaqozxfxq/IMG-1718888534393_NHshwCyEx.jpg",
+                          "name": "Los Angeles International Airport",
+                          "type": "INTERNATIONAL"
+                        },
+                        "departureTimestamp": "2024-12-10T07:10:00.000Z",
+                        "destinationAirport": {
+                          "city": "Melbourne ",
+                          "code": "MEL",
+                          "continent": "AUSTRALIA",
+                          "id": "f5eeb781-e9cd-4550-877e-be29975a6872",
+                          "image": "https://ik.imagekit.io/iaqozxfxq/IMG-1718888434678_0C9pPslPg.jpg",
+                          "name": "Melbourne Airport",
+                          "type": "INTERNATIONAL"
+                        },
+                        "discount": null,
+                        "flightNumber": "KL6673",
+                        "flightSeats": [
+                          {
+                            "column": 1,
+                            "id": "0193ab16-142f-73c3-99c6-6c21f0218c30",
+                            "row": 1,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-142f-73c3-99c6-6c32b5345148",
+                            "row": 1,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-142f-73c3-99c6-6c4f597a81a4",
+                            "row": 1,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-142f-73c3-99c6-6c531b7064fb",
+                            "row": 1,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-142f-73c3-99c6-6c62d8fd2c38",
+                            "row": 2,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-142f-73c3-99c6-6c72dac400ee",
+                            "row": 2,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-142f-73c3-99c6-6c86f7e557e8",
+                            "row": 2,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-142f-73c3-99c6-6c90becfcf2c",
+                            "row": 2,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-142f-73c3-99c6-6cadde825963",
+                            "row": 3,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-142f-73c3-99c6-6cb39b6f9771",
+                            "row": 3,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-142f-73c3-99c6-6cc23f822751",
+                            "row": 3,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-142f-73c3-99c6-6cdb8104d100",
+                            "row": 3,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-142f-73c3-99c6-6ce8d750c90b",
+                            "row": 4,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-142f-73c3-99c6-6cf77209ae65",
+                            "row": 4,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-142f-73c3-99c6-6d054d371fd1",
+                            "row": 4,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-142f-73c3-99c6-6d173769d4ca",
+                            "row": 4,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-142f-73c3-99c6-6d27fcbfbc35",
+                            "row": 5,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-142f-73c3-99c6-6d3029cac77d",
+                            "row": 5,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-142f-73c3-99c6-6d4fb70a9e00",
+                            "row": 5,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-142f-73c3-99c6-6d58879d01ac",
+                            "row": 5,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-142f-73c3-99c6-6d6638df51d3",
+                            "row": 6,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-142f-73c3-99c6-6d726da1d5fc",
+                            "row": 6,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-142f-73c3-99c6-6d8afc40f617",
+                            "row": 6,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-142f-73c3-99c6-6d90d871bc12",
+                            "row": 6,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-142f-73c3-99c6-6dacb680a169",
+                            "row": 7,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-142f-73c3-99c6-6db1fb9c32a5",
+                            "row": 7,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-142f-73c3-99c6-6dc70a900535",
+                            "row": 7,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-142f-73c3-99c6-6dd89347c823",
+                            "row": 7,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-142f-73c3-99c6-6de4e527223f",
+                            "row": 8,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-142f-73c3-99c6-6dfbb461865c",
+                            "row": 8,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-142f-73c3-99c6-6e056e09f9f9",
+                            "row": 8,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-142f-73c3-99c6-6e1c9da143f8",
+                            "row": 8,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-142f-73c3-99c6-6e2c32d33cef",
+                            "row": 9,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-142f-73c3-99c6-6e3e9cef306a",
+                            "row": 9,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-142f-73c3-99c6-6e47a798be0a",
+                            "row": 9,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-142f-73c3-99c6-6e5d130d8852",
+                            "row": 9,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-142f-73c3-99c6-6e6c88977d82",
+                            "row": 10,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-142f-73c3-99c6-6e7687441e1a",
+                            "row": 10,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-142f-73c3-99c6-6e8323f50372",
+                            "row": 10,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-142f-73c3-99c6-6e9d2208d422",
+                            "row": 10,
+                            "status": "AVAILABLE"
+                          }
+                        ],
+                        "id": "5234e86b-1325-43f1-be92-ce129e61712c",
+                        "price": 6764674,
+                        "type": "BUSINESS"
+                      },
+                      "returnFlight": {
+                        "airline": {
+                          "code": "QG",
+                          "id": "80eabbc8-9124-4f90-8d72-2b215ed01dfd",
+                          "image": "https://ik.imagekit.io/iaqozxfxq/IMG-1718978738063_QrRdk5y2P.png",
+                          "name": "Citilink"
+                        },
+                        "airplane": {
+                          "id": "4b99f2f9-ac08-49fc-ae7b-035ac2dfa1d2",
+                          "maxColumn": 4,
+                          "maxRow": 10,
+                          "name": "Airbus A320"
+                        },
+                        "arrivalTimestamp": "2024-12-11T17:05:00.000Z",
+                        "departureAirport": {
+                          "city": "Melbourne ",
+                          "code": "MEL",
+                          "continent": "AUSTRALIA",
+                          "id": "f5eeb781-e9cd-4550-877e-be29975a6872",
+                          "image": "https://ik.imagekit.io/iaqozxfxq/IMG-1718888434678_0C9pPslPg.jpg",
+                          "name": "Melbourne Airport",
+                          "type": "INTERNATIONAL"
+                        },
+                        "departureTimestamp": "2024-12-11T13:45:00.000Z",
+                        "destinationAirport": {
+                          "city": "Los Angeles",
+                          "code": "LAX",
+                          "continent": "AMERICA",
+                          "id": "067b352e-478e-4bb0-a47a-d06f6b35a6bf",
+                          "image": "https://ik.imagekit.io/iaqozxfxq/IMG-1718888534393_NHshwCyEx.jpg",
+                          "name": "Los Angeles International Airport",
+                          "type": "INTERNATIONAL"
+                        },
+                        "discount": null,
+                        "flightNumber": "QG1749",
+                        "flightSeats": [
+                          {
+                            "column": 1,
+                            "id": "0193ab16-1458-7ff3-9a43-57e80ba9a3de",
+                            "row": 1,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-1458-7ff3-9a43-58319f06c16d",
+                            "row": 1,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-1458-7ff3-9a43-587575fd64ee",
+                            "row": 1,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-1458-7ff3-9a43-589c34892f49",
+                            "row": 1,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-1458-7ff3-9a43-58d73f651f9f",
+                            "row": 2,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-1458-7ff3-9a43-59065683b71d",
+                            "row": 2,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-1458-7ff3-9a43-594bff582c52",
+                            "row": 2,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-1458-7ff3-9a43-5982fece4f74",
+                            "row": 2,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-1458-7ff3-9a43-59ced1ed5a04",
+                            "row": 3,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-1458-7ff3-9a43-5a170abcd388",
+                            "row": 3,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-1458-7ff3-9a43-5a508076440c",
+                            "row": 3,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-1458-7ff3-9a43-5a987f61705b",
+                            "row": 3,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-1458-7ff3-9a43-5ad708ab7d02",
+                            "row": 4,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-1458-7ff3-9a43-5b183e1880af",
+                            "row": 4,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-1458-7ff3-9a43-5b5ef2571fa0",
+                            "row": 4,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-1458-7ff3-9a43-5baa0aa24e1d",
+                            "row": 4,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-1458-7ff3-9a43-5be5f920fd98",
+                            "row": 5,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-1458-7ff3-9a43-5c295b277a68",
+                            "row": 5,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-1458-7ff3-9a43-5c61504fa00f",
+                            "row": 5,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-1458-7ff3-9a43-5cbaced364fb",
+                            "row": 5,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-1458-7ff3-9a43-5cf6d29d03c3",
+                            "row": 6,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-1458-7ff3-9a43-5d336c8e47c2",
+                            "row": 6,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-1458-7ff3-9a43-5d782394f5b0",
+                            "row": 6,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-1458-7ff3-9a43-5dac4e0068fa",
+                            "row": 6,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-1458-7ff3-9a43-5df21807f982",
+                            "row": 7,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-1458-7ff3-9a43-5e3389ff86c8",
+                            "row": 7,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-1458-7ff3-9a43-5e7520859c70",
+                            "row": 7,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-1458-7ff3-9a43-5eb58f826064",
+                            "row": 7,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-1458-7ff3-9a43-5ef3ae801cb6",
+                            "row": 8,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-1458-7ff3-9a43-5f3e5e99cd79",
+                            "row": 8,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-1458-7ff3-9a43-5f852aa7a5d0",
+                            "row": 8,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-1458-7ff3-9a43-5fc76e067f97",
+                            "row": 8,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-1458-7ff3-9a43-6008035a5ec0",
+                            "row": 9,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-1458-7ff3-9a43-6036cfbafc2c",
+                            "row": 9,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-1458-7ff3-9a43-606e545bf509",
+                            "row": 9,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-1458-7ff3-9a43-609020c524af",
+                            "row": 9,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 1,
+                            "id": "0193ab16-1458-7ff3-9a43-60c2689fe913",
+                            "row": 10,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 2,
+                            "id": "0193ab16-1458-7ff3-9a43-60fc7f129554",
+                            "row": 10,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 3,
+                            "id": "0193ab16-1458-7ff3-9a43-6114c44e95d6",
+                            "row": 10,
+                            "status": "AVAILABLE"
+                          },
+                          {
+                            "column": 4,
+                            "id": "0193ab16-1458-7ff3-9a43-61352e1a5463",
+                            "row": 10,
+                            "status": "AVAILABLE"
+                          }
+                        ],
+                        "id": "f3946b73-267c-4bd9-b8be-829e817e4a83",
+                        "price": 1285155,
+                        "type": "BUSINESS"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "400 - Return flight must be different from departure flight / 400 - Return flight must have the same destination as the departure flight",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "92"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Tue, 10 Dec 2024 05:01:05 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"5c-5cvjHh6twunzKJY/UDzXZC+4MdQ\""
                 }
               },
               "Keep-Alive": {
@@ -4326,17 +5218,24 @@
                       "properties": {
                         "message": {
                           "type": "string",
-                          "example": "Invalid uuid"
+                          "example": "Return flight must be different from the departure flight"
                         }
                       }
                     }
                   }
                 },
                 "examples": {
-                  "400 - Invalid id": {
+                  "400 - Return flight must be different from departure flight": {
                     "value": {
                       "error": {
-                        "message": "Invalid uuid"
+                        "message": "Return flight must be different from the departure flight"
+                      }
+                    }
+                  },
+                  "400 - Return flight must have the same destination as the departure flight": {
+                    "value": {
+                      "error": {
+                        "message": "Return flight must have the same destination as the departure flight"
                       }
                     }
                   }
@@ -4345,18 +5244,12 @@
             }
           },
           "404": {
-            "description": "404 - Flight not found",
+            "description": "404 - Flight not found / 404 - Return flight not found",
             "headers": {
               "Access-Control-Allow-Credentials": {
                 "schema": {
                   "type": "string",
                   "example": "true"
-                }
-              },
-              "Access-Control-Allow-Origin": {
-                "schema": {
-                  "type": "string",
-                  "example": "https://tiketku.risalamin.com"
                 }
               },
               "Connection": {
@@ -4368,19 +5261,19 @@
               "Content-Length": {
                 "schema": {
                   "type": "string",
-                  "example": "40"
+                  "example": "47"
                 }
               },
               "Date": {
                 "schema": {
                   "type": "string",
-                  "example": "Fri, 29 Nov 2024 15:21:37 GMT"
+                  "example": "Mon, 09 Dec 2024 16:11:38 GMT"
                 }
               },
               "ETag": {
                 "schema": {
                   "type": "string",
-                  "example": "W/\"28-og/yb4o3qMEpyr4qb6kklBYgP90\""
+                  "example": "W/\"2f-PYEzPtZcKm2TXznJktJMW8p0aC4\""
                 }
               },
               "Keep-Alive": {
@@ -4425,6 +5318,13 @@
                         "message": "Flight not found"
                       }
                     }
+                  },
+                  "404 - Return flight not found": {
+                    "value": {
+                      "error": {
+                        "message": "Return flight not found"
+                      }
+                    }
                   }
                 }
               }
@@ -4439,7 +5339,7 @@
           "required": true,
           "schema": {
             "type": "string",
-            "example": "d54669fd-2675-4c41-9a7f-dea3a7df1941"
+            "example": "5234e86b-1325-43f1-be92-ce129e61712c"
           }
         }
       ]
@@ -4840,10 +5740,10 @@
     },
     "/bookings/me": {
       "get": {
-        "tags": ["Booking"],
-        "summary": "Get my bookings",
-        "description": "Get my bookings",
-        "operationId": "getMyBookings",
+        "tags": ["Transaction"],
+        "summary": "Get my transactions",
+        "description": "Get my transactions",
+        "operationId": "getMyTransactions",
         "parameters": [
           {
             "name": "bookingCode",
@@ -4954,177 +5854,66 @@
                               "properties": {
                                 "departureFlightSeatId": {
                                   "type": "string",
-                                  "example": "01939ad8-83f0-7ef0-bbaf-dfd069d97626"
+                                  "example": "0193ab16-14a6-7ac2-ba86-0c31bcaa5de7"
                                 },
                                 "id": {
                                   "type": "string",
-                                  "example": "01939c15-4593-7ec2-8fec-3229b5a489d1"
+                                  "example": "0193ab22-c714-7c50-ad9d-0b17f9c789f9"
                                 },
                                 "passengerId": {
                                   "type": "string",
-                                  "example": "01939c15-4593-7ec2-8fec-323e0cc8d2b6"
+                                  "example": "0193ab22-c714-7c50-ad9d-0b25a7f9945b"
                                 },
                                 "returnFlightSeatId": {
-                                  "type": "string",
-                                  "example": "01939ad8-840a-7362-9133-d1b8c62f62bf"
+                                  "nullable": true,
+                                  "example": null
                                 },
                                 "transactionId": {
                                   "type": "string",
-                                  "example": "01939c15-4593-7ec2-8fec-31b913bc84aa"
+                                  "example": "0193ab22-c714-7c50-ad9d-0b0584792e9e"
                                 }
                               }
                             },
                             "example": [
                               {
-                                "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-dfd069d97626",
-                                "id": "01939c15-4593-7ec2-8fec-3229b5a489d1",
-                                "passengerId": "01939c15-4593-7ec2-8fec-323e0cc8d2b6",
-                                "returnFlightSeatId": "01939ad8-840a-7362-9133-d1b8c62f62bf",
-                                "transactionId": "01939c15-4593-7ec2-8fec-31b913bc84aa"
-                              },
-                              {
-                                "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e101598130c7",
-                                "id": "01939c15-4593-7ec2-8fec-32041682fb29",
-                                "passengerId": "01939c15-4593-7ec2-8fec-32189d8db860",
-                                "returnFlightSeatId": "01939ad8-840a-7362-9133-d25418ca1c1f",
-                                "transactionId": "01939c15-4593-7ec2-8fec-31b913bc84aa"
-                              },
-                              {
-                                "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-dfd069d97626",
-                                "id": "01939c15-4593-7ec2-8fec-31e6022d42af",
-                                "passengerId": "01939c15-4593-7ec2-8fec-31f6c2b0b69e",
-                                "returnFlightSeatId": "01939ad8-840a-7362-9133-d1b8c62f62bf",
-                                "transactionId": "01939c15-4593-7ec2-8fec-31b913bc84aa"
-                              },
-                              {
-                                "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e101598130c7",
-                                "id": "01939c15-4593-7ec2-8fec-31c88f0164bb",
-                                "passengerId": "01939c15-4593-7ec2-8fec-31d1849bca3c",
-                                "returnFlightSeatId": "01939ad8-840a-7362-9133-d25418ca1c1f",
-                                "transactionId": "01939c15-4593-7ec2-8fec-31b913bc84aa"
+                                "departureFlightSeatId": "0193ab16-14a6-7ac2-ba86-0c31bcaa5de7",
+                                "id": "0193ab22-c714-7c50-ad9d-0b17f9c789f9",
+                                "passengerId": "0193ab22-c714-7c50-ad9d-0b25a7f9945b",
+                                "returnFlightSeatId": null,
+                                "transactionId": "0193ab22-c714-7c50-ad9d-0b0584792e9e"
                               }
                             ]
                           },
                           "code": {
                             "type": "string",
-                            "example": "k4mbjA"
+                            "example": "8FPlPA"
                           },
                           "departureFlight": {
                             "type": "object",
                             "properties": {
-                              "airlineId": {
-                                "type": "string",
-                                "example": "267f42e0-f0ac-4e2f-9b31-11a69088868b"
-                              },
-                              "airplaneId": {
-                                "type": "string",
-                                "example": "573abca2-1bc7-4635-9948-08be534e5227"
-                              },
                               "arrivalTimestamp": {
                                 "type": "string",
-                                "example": "2024-12-06T21:55:00.000Z"
-                              },
-                              "departureAirportId": {
-                                "type": "string",
-                                "example": "016ed705-3c3e-463d-abe9-47dfb395f07f"
+                                "example": "2024-12-13T13:50:00.000Z"
                               },
                               "departureTimestamp": {
                                 "type": "string",
-                                "example": "2024-12-06T18:15:00.000Z"
-                              },
-                              "destinationAirportId": {
-                                "type": "string",
-                                "example": "7e1d9c8c-01b3-400c-a550-99b7ac84fcfd"
+                                "example": "2024-12-13T07:50:00.000Z"
                               },
                               "discount": {
                                 "nullable": true,
                                 "example": null
                               },
+                              "flightNumber": {
+                                "type": "string",
+                                "example": "SQ0098"
+                              },
                               "id": {
                                 "type": "string",
-                                "example": "dd45fa9e-3429-4a36-8d3c-3abae219bced"
+                                "example": "07b2a5c5-4c77-4aaf-a930-4fdecfa0996e"
                               },
                               "price": {
                                 "type": "number",
-                                "example": 4021244
-                              },
-                              "type": {
-                                "type": "string",
-                                "example": "BUSINESS"
-                              }
-                            }
-                          },
-                          "departureFlightId": {
-                            "type": "string",
-                            "example": "dd45fa9e-3429-4a36-8d3c-3abae219bced"
-                          },
-                          "id": {
-                            "type": "string",
-                            "example": "01939c15-4593-7ec2-8fec-31b913bc84aa"
-                          },
-                          "payment": {
-                            "type": "object",
-                            "properties": {
-                              "amount": {
-                                "type": "number",
-                                "example": 9606827
-                              },
-                              "id": {
-                                "type": "string",
-                                "example": "01939c15-4593-7ec2-8fec-3249d53024a9"
-                              },
-                              "method": {
-                                "type": "string",
-                                "example": "CREDIT_CARD"
-                              },
-                              "status": {
-                                "type": "string",
-                                "example": "PENDING"
-                              }
-                            }
-                          },
-                          "paymentId": {
-                            "type": "string",
-                            "example": "01939c15-4593-7ec2-8fec-3249d53024a9"
-                          },
-                          "returnFlight": {
-                            "type": "object",
-                            "properties": {
-                              "airlineId": {
-                                "type": "string",
-                                "example": "267f42e0-f0ac-4e2f-9b31-11a69088868b"
-                              },
-                              "airplaneId": {
-                                "type": "string",
-                                "example": "cdb6f274-91f7-4c19-ada6-c9d1ac6b641b"
-                              },
-                              "arrivalTimestamp": {
-                                "type": "string",
-                                "example": "2024-12-10T09:35:00.000Z"
-                              },
-                              "departureAirportId": {
-                                "type": "string",
-                                "example": "7e1d9c8c-01b3-400c-a550-99b7ac84fcfd"
-                              },
-                              "departureTimestamp": {
-                                "type": "string",
-                                "example": "2024-12-10T05:00:00.000Z"
-                              },
-                              "destinationAirportId": {
-                                "type": "string",
-                                "example": "016ed705-3c3e-463d-abe9-47dfb395f07f"
-                              },
-                              "discount": {
-                                "type": "number",
-                                "example": 47
-                              },
-                              "id": {
-                                "type": "string",
-                                "example": "7921d468-be44-4ce7-8b2f-ad28d9e75d22"
-                              },
-                              "price": {
-                                "type": "number",
-                                "example": 5585583
+                                "example": 2896285
                               },
                               "type": {
                                 "type": "string",
@@ -5132,9 +5921,58 @@
                               }
                             }
                           },
-                          "returnFlightId": {
+                          "departureFlightId": {
                             "type": "string",
-                            "example": "7921d468-be44-4ce7-8b2f-ad28d9e75d22"
+                            "example": "07b2a5c5-4c77-4aaf-a930-4fdecfa0996e"
+                          },
+                          "id": {
+                            "type": "string",
+                            "example": "0193ab22-c714-7c50-ad9d-0b0584792e9e"
+                          },
+                          "payment": {
+                            "type": "object",
+                            "properties": {
+                              "amount": {
+                                "type": "number",
+                                "example": 2896285
+                              },
+                              "expiredAt": {
+                                "type": "string",
+                                "example": "2024-12-09T11:31:43.411Z"
+                              },
+                              "id": {
+                                "type": "string",
+                                "example": "0193ab22-c714-7c50-ad9d-0b3611ae5d15"
+                              },
+                              "method": {
+                                "type": "string",
+                                "example": "BANK_TRANSFER"
+                              },
+                              "snapRedirectUrl": {
+                                "type": "string",
+                                "example": "https://app.sandbox.midtrans.com/snap/v4/redirection/246d20c9-b51c-48d6-adab-a4eab58e7104"
+                              },
+                              "snapToken": {
+                                "type": "string",
+                                "example": "246d20c9-b51c-48d6-adab-a4eab58e7104"
+                              },
+                              "status": {
+                                "type": "string",
+                                "example": "FAILED"
+                              }
+                            }
+                          },
+                          "paymentId": {
+                            "type": "string",
+                            "example": "0193ab22-c714-7c50-ad9d-0b3611ae5d15"
+                          },
+                          "returnFlight": {
+                            "nullable": true,
+                            "example": null
+                          },
+                          "returnFlightId": {
+                            "nullable": true,
+                            "example": null
                           },
                           "userId": {
                             "type": "string",
@@ -5146,205 +5984,73 @@
                         {
                           "bookings": [
                             {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-dfd069d97626",
-                              "id": "01939c15-4593-7ec2-8fec-3229b5a489d1",
-                              "passengerId": "01939c15-4593-7ec2-8fec-323e0cc8d2b6",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d1b8c62f62bf",
-                              "transactionId": "01939c15-4593-7ec2-8fec-31b913bc84aa"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e101598130c7",
-                              "id": "01939c15-4593-7ec2-8fec-32041682fb29",
-                              "passengerId": "01939c15-4593-7ec2-8fec-32189d8db860",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d25418ca1c1f",
-                              "transactionId": "01939c15-4593-7ec2-8fec-31b913bc84aa"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-dfd069d97626",
-                              "id": "01939c15-4593-7ec2-8fec-31e6022d42af",
-                              "passengerId": "01939c15-4593-7ec2-8fec-31f6c2b0b69e",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d1b8c62f62bf",
-                              "transactionId": "01939c15-4593-7ec2-8fec-31b913bc84aa"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e101598130c7",
-                              "id": "01939c15-4593-7ec2-8fec-31c88f0164bb",
-                              "passengerId": "01939c15-4593-7ec2-8fec-31d1849bca3c",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d25418ca1c1f",
-                              "transactionId": "01939c15-4593-7ec2-8fec-31b913bc84aa"
+                              "departureFlightSeatId": "0193ab16-14a6-7ac2-ba86-0c31bcaa5de7",
+                              "id": "0193ab22-c714-7c50-ad9d-0b17f9c789f9",
+                              "passengerId": "0193ab22-c714-7c50-ad9d-0b25a7f9945b",
+                              "returnFlightSeatId": null,
+                              "transactionId": "0193ab22-c714-7c50-ad9d-0b0584792e9e"
                             }
                           ],
-                          "code": "k4mbjA",
+                          "code": "8FPlPA",
                           "departureFlight": {
-                            "airlineId": "267f42e0-f0ac-4e2f-9b31-11a69088868b",
-                            "airplaneId": "573abca2-1bc7-4635-9948-08be534e5227",
-                            "arrivalTimestamp": "2024-12-06T21:55:00.000Z",
-                            "departureAirportId": "016ed705-3c3e-463d-abe9-47dfb395f07f",
-                            "departureTimestamp": "2024-12-06T18:15:00.000Z",
-                            "destinationAirportId": "7e1d9c8c-01b3-400c-a550-99b7ac84fcfd",
+                            "arrivalTimestamp": "2024-12-13T13:50:00.000Z",
+                            "departureTimestamp": "2024-12-13T07:50:00.000Z",
                             "discount": null,
-                            "id": "dd45fa9e-3429-4a36-8d3c-3abae219bced",
-                            "price": 4021244,
-                            "type": "BUSINESS"
-                          },
-                          "departureFlightId": "dd45fa9e-3429-4a36-8d3c-3abae219bced",
-                          "id": "01939c15-4593-7ec2-8fec-31b913bc84aa",
-                          "payment": {
-                            "amount": 9606827,
-                            "id": "01939c15-4593-7ec2-8fec-3249d53024a9",
-                            "method": "CREDIT_CARD",
-                            "status": "PENDING"
-                          },
-                          "paymentId": "01939c15-4593-7ec2-8fec-3249d53024a9",
-                          "returnFlight": {
-                            "airlineId": "267f42e0-f0ac-4e2f-9b31-11a69088868b",
-                            "airplaneId": "cdb6f274-91f7-4c19-ada6-c9d1ac6b641b",
-                            "arrivalTimestamp": "2024-12-10T09:35:00.000Z",
-                            "departureAirportId": "7e1d9c8c-01b3-400c-a550-99b7ac84fcfd",
-                            "departureTimestamp": "2024-12-10T05:00:00.000Z",
-                            "destinationAirportId": "016ed705-3c3e-463d-abe9-47dfb395f07f",
-                            "discount": 47,
-                            "id": "7921d468-be44-4ce7-8b2f-ad28d9e75d22",
-                            "price": 5585583,
+                            "flightNumber": "SQ0098",
+                            "id": "07b2a5c5-4c77-4aaf-a930-4fdecfa0996e",
+                            "price": 2896285,
                             "type": "ECONOMY"
                           },
-                          "returnFlightId": "7921d468-be44-4ce7-8b2f-ad28d9e75d22",
+                          "departureFlightId": "07b2a5c5-4c77-4aaf-a930-4fdecfa0996e",
+                          "id": "0193ab22-c714-7c50-ad9d-0b0584792e9e",
+                          "payment": {
+                            "amount": 2896285,
+                            "expiredAt": "2024-12-09T11:31:43.411Z",
+                            "id": "0193ab22-c714-7c50-ad9d-0b3611ae5d15",
+                            "method": "BANK_TRANSFER",
+                            "snapRedirectUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/246d20c9-b51c-48d6-adab-a4eab58e7104",
+                            "snapToken": "246d20c9-b51c-48d6-adab-a4eab58e7104",
+                            "status": "FAILED"
+                          },
+                          "paymentId": "0193ab22-c714-7c50-ad9d-0b3611ae5d15",
+                          "returnFlight": null,
+                          "returnFlightId": null,
                           "userId": "3ef88357-fa12-4da1-9db1-9ddd1b089308"
                         },
                         {
                           "bookings": [
                             {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-dff885e7cc19",
-                              "id": "01939c1b-e61f-7621-b112-970f3487c8ab",
-                              "passengerId": "01939c1b-e61f-7621-b112-971d8cfb7e15",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d1c657e7ec26",
-                              "transactionId": "01939c1b-e61f-7621-b112-969ae9605a91"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e11aea584b49",
-                              "id": "01939c1b-e61f-7621-b112-96e0f13878a4",
-                              "passengerId": "01939c1b-e61f-7621-b112-96fa3ecb2f13",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d174b2e3532c",
-                              "transactionId": "01939c1b-e61f-7621-b112-969ae9605a91"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-dff885e7cc19",
-                              "id": "01939c1b-e61f-7621-b112-96cded4df949",
-                              "passengerId": "01939c1b-e61f-7621-b112-96daef16f082",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d1c657e7ec26",
-                              "transactionId": "01939c1b-e61f-7621-b112-969ae9605a91"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e11aea584b49",
-                              "id": "01939c1b-e61f-7621-b112-96a82155b48c",
-                              "passengerId": "01939c1b-e61f-7621-b112-96b756f71be6",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d174b2e3532c",
-                              "transactionId": "01939c1b-e61f-7621-b112-969ae9605a91"
+                              "departureFlightSeatId": "0193ab16-14a6-7ac2-ba86-0c31bcaa5de7",
+                              "id": "0193ab29-692d-7263-8110-f669eb5210cf",
+                              "passengerId": "0193ab29-692d-7263-8110-f672f75e1c4a",
+                              "returnFlightSeatId": null,
+                              "transactionId": "0193ab29-692d-7263-8110-f65d8cba84f0"
                             }
                           ],
-                          "code": "-tzhVw",
+                          "code": "9RGeVg",
                           "departureFlight": {
-                            "airlineId": "267f42e0-f0ac-4e2f-9b31-11a69088868b",
-                            "airplaneId": "573abca2-1bc7-4635-9948-08be534e5227",
-                            "arrivalTimestamp": "2024-12-06T21:55:00.000Z",
-                            "departureAirportId": "016ed705-3c3e-463d-abe9-47dfb395f07f",
-                            "departureTimestamp": "2024-12-06T18:15:00.000Z",
-                            "destinationAirportId": "7e1d9c8c-01b3-400c-a550-99b7ac84fcfd",
+                            "arrivalTimestamp": "2024-12-13T13:50:00.000Z",
+                            "departureTimestamp": "2024-12-13T07:50:00.000Z",
                             "discount": null,
-                            "id": "dd45fa9e-3429-4a36-8d3c-3abae219bced",
-                            "price": 4021244,
-                            "type": "BUSINESS"
-                          },
-                          "departureFlightId": "dd45fa9e-3429-4a36-8d3c-3abae219bced",
-                          "id": "01939c1b-e61f-7621-b112-969ae9605a91",
-                          "payment": {
-                            "amount": 9606827,
-                            "id": "01939c1b-e61f-7621-b112-97292577041e",
-                            "method": "CREDIT_CARD",
-                            "status": "PENDING"
-                          },
-                          "paymentId": "01939c1b-e61f-7621-b112-97292577041e",
-                          "returnFlight": {
-                            "airlineId": "267f42e0-f0ac-4e2f-9b31-11a69088868b",
-                            "airplaneId": "cdb6f274-91f7-4c19-ada6-c9d1ac6b641b",
-                            "arrivalTimestamp": "2024-12-10T09:35:00.000Z",
-                            "departureAirportId": "7e1d9c8c-01b3-400c-a550-99b7ac84fcfd",
-                            "departureTimestamp": "2024-12-10T05:00:00.000Z",
-                            "destinationAirportId": "016ed705-3c3e-463d-abe9-47dfb395f07f",
-                            "discount": 47,
-                            "id": "7921d468-be44-4ce7-8b2f-ad28d9e75d22",
-                            "price": 5585583,
+                            "flightNumber": "SQ0098",
+                            "id": "07b2a5c5-4c77-4aaf-a930-4fdecfa0996e",
+                            "price": 2896285,
                             "type": "ECONOMY"
                           },
-                          "returnFlightId": "7921d468-be44-4ce7-8b2f-ad28d9e75d22",
-                          "userId": "3ef88357-fa12-4da1-9db1-9ddd1b089308"
-                        },
-                        {
-                          "bookings": [
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e435df616609",
-                              "id": "01939c1f-3ea4-7f63-9ff4-2ff92b7e18c8",
-                              "passengerId": "01939c1f-3ea4-7f63-9ff4-3009e2e0c0f9",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d19698957258",
-                              "transactionId": "01939c1f-3ea4-7f63-9ff4-2f8c661d9f81"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e27b50f44ad2",
-                              "id": "01939c1f-3ea4-7f63-9ff4-2fd01cd600d7",
-                              "passengerId": "01939c1f-3ea4-7f63-9ff4-2fee031a0b89",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d303f7ebf323",
-                              "transactionId": "01939c1f-3ea4-7f63-9ff4-2f8c661d9f81"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e435df616609",
-                              "id": "01939c1f-3ea4-7f63-9ff4-2fb31015ffbf",
-                              "passengerId": "01939c1f-3ea4-7f63-9ff4-2fc78fbdd3f4",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d19698957258",
-                              "transactionId": "01939c1f-3ea4-7f63-9ff4-2f8c661d9f81"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e27b50f44ad2",
-                              "id": "01939c1f-3ea4-7f63-9ff4-2f94c9c41a02",
-                              "passengerId": "01939c1f-3ea4-7f63-9ff4-2fa40df8b481",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d303f7ebf323",
-                              "transactionId": "01939c1f-3ea4-7f63-9ff4-2f8c661d9f81"
-                            }
-                          ],
-                          "code": "8naqpg",
-                          "departureFlight": {
-                            "airlineId": "267f42e0-f0ac-4e2f-9b31-11a69088868b",
-                            "airplaneId": "573abca2-1bc7-4635-9948-08be534e5227",
-                            "arrivalTimestamp": "2024-12-06T21:55:00.000Z",
-                            "departureAirportId": "016ed705-3c3e-463d-abe9-47dfb395f07f",
-                            "departureTimestamp": "2024-12-06T18:15:00.000Z",
-                            "destinationAirportId": "7e1d9c8c-01b3-400c-a550-99b7ac84fcfd",
-                            "discount": null,
-                            "id": "dd45fa9e-3429-4a36-8d3c-3abae219bced",
-                            "price": 4021244,
-                            "type": "BUSINESS"
-                          },
-                          "departureFlightId": "dd45fa9e-3429-4a36-8d3c-3abae219bced",
-                          "id": "01939c1f-3ea4-7f63-9ff4-2f8c661d9f81",
+                          "departureFlightId": "07b2a5c5-4c77-4aaf-a930-4fdecfa0996e",
+                          "id": "0193ab29-692d-7263-8110-f65d8cba84f0",
                           "payment": {
-                            "amount": 9606827,
-                            "id": "01939c1f-3ea4-7f63-9ff4-301b9edcaa3d",
-                            "method": "CREDIT_CARD",
-                            "status": "PENDING"
+                            "amount": 2896285,
+                            "expiredAt": "2024-12-09T11:38:58.124Z",
+                            "id": "0193ab29-692d-7263-8110-f68a445d25b0",
+                            "method": "BANK_TRANSFER",
+                            "snapRedirectUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/5a198a3d-d360-47ab-8954-47a09c3e5cb9",
+                            "snapToken": "5a198a3d-d360-47ab-8954-47a09c3e5cb9",
+                            "status": "SUCCESS"
                           },
-                          "paymentId": "01939c1f-3ea4-7f63-9ff4-301b9edcaa3d",
-                          "returnFlight": {
-                            "airlineId": "267f42e0-f0ac-4e2f-9b31-11a69088868b",
-                            "airplaneId": "cdb6f274-91f7-4c19-ada6-c9d1ac6b641b",
-                            "arrivalTimestamp": "2024-12-10T09:35:00.000Z",
-                            "departureAirportId": "7e1d9c8c-01b3-400c-a550-99b7ac84fcfd",
-                            "departureTimestamp": "2024-12-10T05:00:00.000Z",
-                            "destinationAirportId": "016ed705-3c3e-463d-abe9-47dfb395f07f",
-                            "discount": 47,
-                            "id": "7921d468-be44-4ce7-8b2f-ad28d9e75d22",
-                            "price": 5585583,
-                            "type": "ECONOMY"
-                          },
-                          "returnFlightId": "7921d468-be44-4ce7-8b2f-ad28d9e75d22",
+                          "paymentId": "0193ab29-692d-7263-8110-f68a445d25b0",
+                          "returnFlight": null,
+                          "returnFlightId": null,
                           "userId": "3ef88357-fa12-4da1-9db1-9ddd1b089308"
                         }
                       ]
@@ -5366,7 +6072,7 @@
                         },
                         "recordCount": {
                           "type": "number",
-                          "example": 3
+                          "example": 2
                         }
                       }
                     }
@@ -5379,205 +6085,73 @@
                         {
                           "bookings": [
                             {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-dfd069d97626",
-                              "id": "01939c15-4593-7ec2-8fec-3229b5a489d1",
-                              "passengerId": "01939c15-4593-7ec2-8fec-323e0cc8d2b6",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d1b8c62f62bf",
-                              "transactionId": "01939c15-4593-7ec2-8fec-31b913bc84aa"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e101598130c7",
-                              "id": "01939c15-4593-7ec2-8fec-32041682fb29",
-                              "passengerId": "01939c15-4593-7ec2-8fec-32189d8db860",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d25418ca1c1f",
-                              "transactionId": "01939c15-4593-7ec2-8fec-31b913bc84aa"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-dfd069d97626",
-                              "id": "01939c15-4593-7ec2-8fec-31e6022d42af",
-                              "passengerId": "01939c15-4593-7ec2-8fec-31f6c2b0b69e",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d1b8c62f62bf",
-                              "transactionId": "01939c15-4593-7ec2-8fec-31b913bc84aa"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e101598130c7",
-                              "id": "01939c15-4593-7ec2-8fec-31c88f0164bb",
-                              "passengerId": "01939c15-4593-7ec2-8fec-31d1849bca3c",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d25418ca1c1f",
-                              "transactionId": "01939c15-4593-7ec2-8fec-31b913bc84aa"
+                              "departureFlightSeatId": "0193ab16-14a6-7ac2-ba86-0c31bcaa5de7",
+                              "id": "0193ab22-c714-7c50-ad9d-0b17f9c789f9",
+                              "passengerId": "0193ab22-c714-7c50-ad9d-0b25a7f9945b",
+                              "returnFlightSeatId": null,
+                              "transactionId": "0193ab22-c714-7c50-ad9d-0b0584792e9e"
                             }
                           ],
-                          "code": "k4mbjA",
+                          "code": "8FPlPA",
                           "departureFlight": {
-                            "airlineId": "267f42e0-f0ac-4e2f-9b31-11a69088868b",
-                            "airplaneId": "573abca2-1bc7-4635-9948-08be534e5227",
-                            "arrivalTimestamp": "2024-12-06T21:55:00.000Z",
-                            "departureAirportId": "016ed705-3c3e-463d-abe9-47dfb395f07f",
-                            "departureTimestamp": "2024-12-06T18:15:00.000Z",
-                            "destinationAirportId": "7e1d9c8c-01b3-400c-a550-99b7ac84fcfd",
+                            "arrivalTimestamp": "2024-12-13T13:50:00.000Z",
+                            "departureTimestamp": "2024-12-13T07:50:00.000Z",
                             "discount": null,
-                            "id": "dd45fa9e-3429-4a36-8d3c-3abae219bced",
-                            "price": 4021244,
-                            "type": "BUSINESS"
-                          },
-                          "departureFlightId": "dd45fa9e-3429-4a36-8d3c-3abae219bced",
-                          "id": "01939c15-4593-7ec2-8fec-31b913bc84aa",
-                          "payment": {
-                            "amount": 9606827,
-                            "id": "01939c15-4593-7ec2-8fec-3249d53024a9",
-                            "method": "CREDIT_CARD",
-                            "status": "PENDING"
-                          },
-                          "paymentId": "01939c15-4593-7ec2-8fec-3249d53024a9",
-                          "returnFlight": {
-                            "airlineId": "267f42e0-f0ac-4e2f-9b31-11a69088868b",
-                            "airplaneId": "cdb6f274-91f7-4c19-ada6-c9d1ac6b641b",
-                            "arrivalTimestamp": "2024-12-10T09:35:00.000Z",
-                            "departureAirportId": "7e1d9c8c-01b3-400c-a550-99b7ac84fcfd",
-                            "departureTimestamp": "2024-12-10T05:00:00.000Z",
-                            "destinationAirportId": "016ed705-3c3e-463d-abe9-47dfb395f07f",
-                            "discount": 47,
-                            "id": "7921d468-be44-4ce7-8b2f-ad28d9e75d22",
-                            "price": 5585583,
+                            "flightNumber": "SQ0098",
+                            "id": "07b2a5c5-4c77-4aaf-a930-4fdecfa0996e",
+                            "price": 2896285,
                             "type": "ECONOMY"
                           },
-                          "returnFlightId": "7921d468-be44-4ce7-8b2f-ad28d9e75d22",
+                          "departureFlightId": "07b2a5c5-4c77-4aaf-a930-4fdecfa0996e",
+                          "id": "0193ab22-c714-7c50-ad9d-0b0584792e9e",
+                          "payment": {
+                            "amount": 2896285,
+                            "expiredAt": "2024-12-09T11:31:43.411Z",
+                            "id": "0193ab22-c714-7c50-ad9d-0b3611ae5d15",
+                            "method": "BANK_TRANSFER",
+                            "snapRedirectUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/246d20c9-b51c-48d6-adab-a4eab58e7104",
+                            "snapToken": "246d20c9-b51c-48d6-adab-a4eab58e7104",
+                            "status": "FAILED"
+                          },
+                          "paymentId": "0193ab22-c714-7c50-ad9d-0b3611ae5d15",
+                          "returnFlight": null,
+                          "returnFlightId": null,
                           "userId": "3ef88357-fa12-4da1-9db1-9ddd1b089308"
                         },
                         {
                           "bookings": [
                             {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-dff885e7cc19",
-                              "id": "01939c1b-e61f-7621-b112-970f3487c8ab",
-                              "passengerId": "01939c1b-e61f-7621-b112-971d8cfb7e15",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d1c657e7ec26",
-                              "transactionId": "01939c1b-e61f-7621-b112-969ae9605a91"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e11aea584b49",
-                              "id": "01939c1b-e61f-7621-b112-96e0f13878a4",
-                              "passengerId": "01939c1b-e61f-7621-b112-96fa3ecb2f13",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d174b2e3532c",
-                              "transactionId": "01939c1b-e61f-7621-b112-969ae9605a91"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-dff885e7cc19",
-                              "id": "01939c1b-e61f-7621-b112-96cded4df949",
-                              "passengerId": "01939c1b-e61f-7621-b112-96daef16f082",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d1c657e7ec26",
-                              "transactionId": "01939c1b-e61f-7621-b112-969ae9605a91"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e11aea584b49",
-                              "id": "01939c1b-e61f-7621-b112-96a82155b48c",
-                              "passengerId": "01939c1b-e61f-7621-b112-96b756f71be6",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d174b2e3532c",
-                              "transactionId": "01939c1b-e61f-7621-b112-969ae9605a91"
+                              "departureFlightSeatId": "0193ab16-14a6-7ac2-ba86-0c31bcaa5de7",
+                              "id": "0193ab29-692d-7263-8110-f669eb5210cf",
+                              "passengerId": "0193ab29-692d-7263-8110-f672f75e1c4a",
+                              "returnFlightSeatId": null,
+                              "transactionId": "0193ab29-692d-7263-8110-f65d8cba84f0"
                             }
                           ],
-                          "code": "-tzhVw",
+                          "code": "9RGeVg",
                           "departureFlight": {
-                            "airlineId": "267f42e0-f0ac-4e2f-9b31-11a69088868b",
-                            "airplaneId": "573abca2-1bc7-4635-9948-08be534e5227",
-                            "arrivalTimestamp": "2024-12-06T21:55:00.000Z",
-                            "departureAirportId": "016ed705-3c3e-463d-abe9-47dfb395f07f",
-                            "departureTimestamp": "2024-12-06T18:15:00.000Z",
-                            "destinationAirportId": "7e1d9c8c-01b3-400c-a550-99b7ac84fcfd",
+                            "arrivalTimestamp": "2024-12-13T13:50:00.000Z",
+                            "departureTimestamp": "2024-12-13T07:50:00.000Z",
                             "discount": null,
-                            "id": "dd45fa9e-3429-4a36-8d3c-3abae219bced",
-                            "price": 4021244,
-                            "type": "BUSINESS"
-                          },
-                          "departureFlightId": "dd45fa9e-3429-4a36-8d3c-3abae219bced",
-                          "id": "01939c1b-e61f-7621-b112-969ae9605a91",
-                          "payment": {
-                            "amount": 9606827,
-                            "id": "01939c1b-e61f-7621-b112-97292577041e",
-                            "method": "CREDIT_CARD",
-                            "status": "PENDING"
-                          },
-                          "paymentId": "01939c1b-e61f-7621-b112-97292577041e",
-                          "returnFlight": {
-                            "airlineId": "267f42e0-f0ac-4e2f-9b31-11a69088868b",
-                            "airplaneId": "cdb6f274-91f7-4c19-ada6-c9d1ac6b641b",
-                            "arrivalTimestamp": "2024-12-10T09:35:00.000Z",
-                            "departureAirportId": "7e1d9c8c-01b3-400c-a550-99b7ac84fcfd",
-                            "departureTimestamp": "2024-12-10T05:00:00.000Z",
-                            "destinationAirportId": "016ed705-3c3e-463d-abe9-47dfb395f07f",
-                            "discount": 47,
-                            "id": "7921d468-be44-4ce7-8b2f-ad28d9e75d22",
-                            "price": 5585583,
+                            "flightNumber": "SQ0098",
+                            "id": "07b2a5c5-4c77-4aaf-a930-4fdecfa0996e",
+                            "price": 2896285,
                             "type": "ECONOMY"
                           },
-                          "returnFlightId": "7921d468-be44-4ce7-8b2f-ad28d9e75d22",
-                          "userId": "3ef88357-fa12-4da1-9db1-9ddd1b089308"
-                        },
-                        {
-                          "bookings": [
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e435df616609",
-                              "id": "01939c1f-3ea4-7f63-9ff4-2ff92b7e18c8",
-                              "passengerId": "01939c1f-3ea4-7f63-9ff4-3009e2e0c0f9",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d19698957258",
-                              "transactionId": "01939c1f-3ea4-7f63-9ff4-2f8c661d9f81"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e27b50f44ad2",
-                              "id": "01939c1f-3ea4-7f63-9ff4-2fd01cd600d7",
-                              "passengerId": "01939c1f-3ea4-7f63-9ff4-2fee031a0b89",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d303f7ebf323",
-                              "transactionId": "01939c1f-3ea4-7f63-9ff4-2f8c661d9f81"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e435df616609",
-                              "id": "01939c1f-3ea4-7f63-9ff4-2fb31015ffbf",
-                              "passengerId": "01939c1f-3ea4-7f63-9ff4-2fc78fbdd3f4",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d19698957258",
-                              "transactionId": "01939c1f-3ea4-7f63-9ff4-2f8c661d9f81"
-                            },
-                            {
-                              "departureFlightSeatId": "01939ad8-83f0-7ef0-bbaf-e27b50f44ad2",
-                              "id": "01939c1f-3ea4-7f63-9ff4-2f94c9c41a02",
-                              "passengerId": "01939c1f-3ea4-7f63-9ff4-2fa40df8b481",
-                              "returnFlightSeatId": "01939ad8-840a-7362-9133-d303f7ebf323",
-                              "transactionId": "01939c1f-3ea4-7f63-9ff4-2f8c661d9f81"
-                            }
-                          ],
-                          "code": "8naqpg",
-                          "departureFlight": {
-                            "airlineId": "267f42e0-f0ac-4e2f-9b31-11a69088868b",
-                            "airplaneId": "573abca2-1bc7-4635-9948-08be534e5227",
-                            "arrivalTimestamp": "2024-12-06T21:55:00.000Z",
-                            "departureAirportId": "016ed705-3c3e-463d-abe9-47dfb395f07f",
-                            "departureTimestamp": "2024-12-06T18:15:00.000Z",
-                            "destinationAirportId": "7e1d9c8c-01b3-400c-a550-99b7ac84fcfd",
-                            "discount": null,
-                            "id": "dd45fa9e-3429-4a36-8d3c-3abae219bced",
-                            "price": 4021244,
-                            "type": "BUSINESS"
-                          },
-                          "departureFlightId": "dd45fa9e-3429-4a36-8d3c-3abae219bced",
-                          "id": "01939c1f-3ea4-7f63-9ff4-2f8c661d9f81",
+                          "departureFlightId": "07b2a5c5-4c77-4aaf-a930-4fdecfa0996e",
+                          "id": "0193ab29-692d-7263-8110-f65d8cba84f0",
                           "payment": {
-                            "amount": 9606827,
-                            "id": "01939c1f-3ea4-7f63-9ff4-301b9edcaa3d",
-                            "method": "CREDIT_CARD",
-                            "status": "PENDING"
+                            "amount": 2896285,
+                            "expiredAt": "2024-12-09T11:38:58.124Z",
+                            "id": "0193ab29-692d-7263-8110-f68a445d25b0",
+                            "method": "BANK_TRANSFER",
+                            "snapRedirectUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/5a198a3d-d360-47ab-8954-47a09c3e5cb9",
+                            "snapToken": "5a198a3d-d360-47ab-8954-47a09c3e5cb9",
+                            "status": "SUCCESS"
                           },
-                          "paymentId": "01939c1f-3ea4-7f63-9ff4-301b9edcaa3d",
-                          "returnFlight": {
-                            "airlineId": "267f42e0-f0ac-4e2f-9b31-11a69088868b",
-                            "airplaneId": "cdb6f274-91f7-4c19-ada6-c9d1ac6b641b",
-                            "arrivalTimestamp": "2024-12-10T09:35:00.000Z",
-                            "departureAirportId": "7e1d9c8c-01b3-400c-a550-99b7ac84fcfd",
-                            "departureTimestamp": "2024-12-10T05:00:00.000Z",
-                            "destinationAirportId": "016ed705-3c3e-463d-abe9-47dfb395f07f",
-                            "discount": 47,
-                            "id": "7921d468-be44-4ce7-8b2f-ad28d9e75d22",
-                            "price": 5585583,
-                            "type": "ECONOMY"
-                          },
-                          "returnFlightId": "7921d468-be44-4ce7-8b2f-ad28d9e75d22",
+                          "paymentId": "0193ab29-692d-7263-8110-f68a445d25b0",
+                          "returnFlight": null,
+                          "returnFlightId": null,
                           "userId": "3ef88357-fa12-4da1-9db1-9ddd1b089308"
                         }
                       ],
@@ -5585,7 +6159,7 @@
                         "limit": 10,
                         "page": 1,
                         "pageCount": 1,
-                        "recordCount": 3
+                        "recordCount": 2
                       }
                     }
                   }
@@ -5700,160 +6274,298 @@
         ]
       }
     },
-    "/bookings": {
+    "/transactions/{id}": {
+      "get": {
+        "tags": ["Transaction"],
+        "summary": "Get transaction by id",
+        "description": "Get transaction by id",
+        "operationId": "getTransactionById",
+        "responses": {
+          "200": {
+            "description": "200 - Get transaction",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "637"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 09 Dec 2024 13:31:38 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"27d-IuABNd2vvWpM7RHWmS4RivxpHWU\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string",
+                          "example": "8FPlPA"
+                        },
+                        "departureFlight": {
+                          "type": "object",
+                          "properties": {
+                            "arrivalTimestamp": {
+                              "type": "string",
+                              "example": "2024-12-13T13:50:00.000Z"
+                            },
+                            "departureTimestamp": {
+                              "type": "string",
+                              "example": "2024-12-13T07:50:00.000Z"
+                            },
+                            "discount": {
+                              "nullable": true,
+                              "example": null
+                            },
+                            "flightNumber": {
+                              "type": "string",
+                              "example": "SQ0098"
+                            },
+                            "id": {
+                              "type": "string",
+                              "example": "07b2a5c5-4c77-4aaf-a930-4fdecfa0996e"
+                            },
+                            "price": {
+                              "type": "number",
+                              "example": 2896285
+                            },
+                            "type": {
+                              "type": "string",
+                              "example": "ECONOMY"
+                            }
+                          }
+                        },
+                        "id": {
+                          "type": "string",
+                          "example": "0193ab22-c714-7c50-ad9d-0b0584792e9e"
+                        },
+                        "payment": {
+                          "type": "object",
+                          "properties": {
+                            "amount": {
+                              "type": "number",
+                              "example": 2896285
+                            },
+                            "expiredAt": {
+                              "type": "string",
+                              "example": "2024-12-09T11:31:43.411Z"
+                            },
+                            "id": {
+                              "type": "string",
+                              "example": "0193ab22-c714-7c50-ad9d-0b3611ae5d15"
+                            },
+                            "method": {
+                              "type": "string",
+                              "example": "BANK_TRANSFER"
+                            },
+                            "snapRedirectUrl": {
+                              "type": "string",
+                              "example": "https://app.sandbox.midtrans.com/snap/v4/redirection/246d20c9-b51c-48d6-adab-a4eab58e7104"
+                            },
+                            "snapToken": {
+                              "type": "string",
+                              "example": "246d20c9-b51c-48d6-adab-a4eab58e7104"
+                            },
+                            "status": {
+                              "type": "string",
+                              "example": "FAILED"
+                            }
+                          }
+                        },
+                        "returnFlight": {
+                          "nullable": true,
+                          "example": null
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "200 - Get transaction": {
+                    "value": {
+                      "data": {
+                        "code": "8FPlPA",
+                        "departureFlight": {
+                          "arrivalTimestamp": "2024-12-13T13:50:00.000Z",
+                          "departureTimestamp": "2024-12-13T07:50:00.000Z",
+                          "discount": null,
+                          "flightNumber": "SQ0098",
+                          "id": "07b2a5c5-4c77-4aaf-a930-4fdecfa0996e",
+                          "price": 2896285,
+                          "type": "ECONOMY"
+                        },
+                        "id": "0193ab22-c714-7c50-ad9d-0b0584792e9e",
+                        "payment": {
+                          "amount": 2896285,
+                          "expiredAt": "2024-12-09T11:31:43.411Z",
+                          "id": "0193ab22-c714-7c50-ad9d-0b3611ae5d15",
+                          "method": "BANK_TRANSFER",
+                          "snapRedirectUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/246d20c9-b51c-48d6-adab-a4eab58e7104",
+                          "snapToken": "246d20c9-b51c-48d6-adab-a4eab58e7104",
+                          "status": "FAILED"
+                        },
+                        "returnFlight": null
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "404 - Transaction not found",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "45"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 09 Dec 2024 13:35:05 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"2d-+LBbfWq2XCbE+JSav2zK+XZDRvg\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Transaction not found"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "404 - Transaction not found": {
+                    "value": {
+                      "error": {
+                        "message": "Transaction not found"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "0193ab22-c714-7c50-ad9d-0b0584792e9e"
+          }
+        }
+      ]
+    },
+    "/transactions": {
       "post": {
-        "tags": ["Booking"],
-        "summary": "Create new booking",
-        "description": "Create new booking",
-        "operationId": "createNewBooking",
+        "tags": ["Transaction"],
+        "summary": "Create transaction",
+        "description": "Create transaction",
+        "operationId": "createTransaction",
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "departureFlightId": {
-                    "type": "string",
-                    "example": "fae320b2-9cbe-4df9-8eda-7121fd456b29"
-                  },
-                  "passengers": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "birthDate": {
-                          "type": "string",
-                          "example": "2001-01-01"
-                        },
-                        "departureFlightSeat": {
-                          "type": "object",
-                          "properties": {
-                            "column": {
-                              "type": "number",
-                              "example": 2
-                            },
-                            "row": {
-                              "type": "number",
-                              "example": 3
-                            }
-                          }
-                        },
-                        "identityExpirationDate": {
-                          "type": "string",
-                          "example": "2030-01-01"
-                        },
-                        "identityNationality": {
-                          "type": "string",
-                          "example": "Indonesia"
-                        },
-                        "identityNumber": {
-                          "type": "string",
-                          "example": "177013"
-                        },
-                        "name": {
-                          "type": "string",
-                          "example": "Emilia"
-                        },
-                        "returnFlightSeat": {
-                          "type": "object",
-                          "properties": {
-                            "column": {
-                              "type": "number",
-                              "example": 2
-                            },
-                            "row": {
-                              "type": "number",
-                              "example": 3
-                            }
-                          }
-                        },
-                        "type": {
-                          "type": "string",
-                          "example": "ADULT"
-                        }
-                      }
-                    },
-                    "example": [
-                      {
-                        "birthDate": "2001-01-01",
-                        "departureFlightSeat": {
-                          "column": 2,
-                          "row": 3
-                        },
-                        "identityExpirationDate": "2030-01-01",
-                        "identityNationality": "Indonesia",
-                        "identityNumber": "177013",
-                        "name": "Emilia",
-                        "returnFlightSeat": {
-                          "column": 2,
-                          "row": 3
-                        },
-                        "type": "ADULT"
-                      },
-                      {
-                        "birthDate": "2001-01-01",
-                        "departureFlightSeat": {
-                          "column": 4,
-                          "row": 3
-                        },
-                        "identityExpirationDate": "2030-01-01",
-                        "identityNationality": "Indonesia",
-                        "identityNumber": "177013",
-                        "name": "Emilia",
-                        "returnFlightSeat": {
-                          "column": 4,
-                          "row": 3
-                        },
-                        "type": "ADULT"
-                      }
-                    ]
-                  },
-                  "returnFlightId": {
-                    "type": "string",
-                    "example": "dd45fa9e-3429-4a36-8d3c-3abae219bced"
-                  }
-                }
-              },
               "examples": {
-                "Create new booking": {
-                  "value": {
-                    "departureFlightId": "fae320b2-9cbe-4df9-8eda-7121fd456b29",
-                    "passengers": [
-                      {
-                        "birthDate": "2001-01-01",
-                        "departureFlightSeat": {
-                          "column": 2,
-                          "row": 3
-                        },
-                        "identityExpirationDate": "2030-01-01",
-                        "identityNationality": "Indonesia",
-                        "identityNumber": "177013",
-                        "name": "Emilia",
-                        "returnFlightSeat": {
-                          "column": 2,
-                          "row": 3
-                        },
-                        "type": "ADULT"
-                      },
-                      {
-                        "birthDate": "2001-01-01",
-                        "departureFlightSeat": {
-                          "column": 4,
-                          "row": 3
-                        },
-                        "identityExpirationDate": "2030-01-01",
-                        "identityNationality": "Indonesia",
-                        "identityNumber": "177013",
-                        "name": "Emilia",
-                        "returnFlightSeat": {
-                          "column": 4,
-                          "row": 3
-                        },
-                        "type": "ADULT"
-                      }
-                    ],
-                    "returnFlightId": "dd45fa9e-3429-4a36-8d3c-3abae219bced"
-                  }
+                "Create transaction": {
+                  "value": "{\r\n    \"departureFlightId\": \"5234e86b-1325-43f1-be92-ce129e61712c\",\r\n    // Optional\r\n    \"returnFlightId\": \"f3946b73-267c-4bd9-b8be-829e817e4a83\",\r\n    \"passengers\": [\r\n        {\r\n            \"type\": \"ADULT\",\r\n            \"name\": \"Emilia\",\r\n            \"birthDate\": \"2001-01-01\",\r\n            \"identityNumber\": \"12345\",\r\n            \"identityExpirationDate\": \"2030-01-01\",\r\n            \"identityNationality\": \"Indonesia\",\r\n            \"departureFlightSeatId\": \"0193ab16-142f-73c3-99c6-6d054d371fd1\",\r\n            // optional\r\n            \"returnFlightSeatId\": \"0193ab16-1458-7ff3-9a43-5a170abcd388\"\r\n        }\r\n        // {\r\n        //     \"type\": \"ADULT\",\r\n        //     \"name\": \"Emilia\",\r\n        //     \"birthDate\": \"2001-01-01\",\r\n        //     \"identityNumber\": \"12345\",\r\n        //     \"identityExpirationDate\": \"2030-01-01\",\r\n        //     \"identityNationality\": \"Indonesia\",\r\n        //     \"departureFlightSeatId\": \"0193ab16-142f-73c3-99c6-6cf77209ae65\",\r\n        //     // optional\r\n        //     \"returnFlightSeatId\": \"0193ab16-1458-7ff3-9a43-589c34892f49\"\r\n        // }\r\n    ]\r\n}"
                 }
               }
             }
@@ -5861,7 +6573,7 @@
         },
         "responses": {
           "201": {
-            "description": "201 - Booking created successfully",
+            "description": "201 - Transaction created successfully",
             "headers": {
               "Access-Control-Allow-Credentials": {
                 "schema": {
@@ -5923,16 +6635,33 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Booking created successfully"
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "snapRedirectUrl": {
+                          "type": "string",
+                          "example": "https://app.sandbox.midtrans.com/snap/v4/redirection/4918a07f-a497-4bde-8c72-12e7e85971e6"
+                        },
+                        "snapToken": {
+                          "type": "string",
+                          "example": "4918a07f-a497-4bde-8c72-12e7e85971e6"
+                        },
+                        "transactionId": {
+                          "type": "string",
+                          "example": "0193ac0a-8b94-70d3-ad02-be0e02d62691"
+                        }
+                      }
                     }
                   }
                 },
                 "examples": {
-                  "201 - Booking created successfully": {
+                  "201 - Transaction created successfully": {
                     "value": {
-                      "message": "Booking created successfully"
+                      "data": {
+                        "snapRedirectUrl": "https://app.sandbox.midtrans.com/snap/v4/redirection/4918a07f-a497-4bde-8c72-12e7e85971e6",
+                        "snapToken": "4918a07f-a497-4bde-8c72-12e7e85971e6",
+                        "transactionId": "0193ac0a-8b94-70d3-ad02-be0e02d62691"
+                      }
                     }
                   }
                 }
@@ -6256,6 +6985,445 @@
         ]
       }
     },
+    "/transactions/{id}/cancel": {
+      "post": {
+        "tags": ["Transaction"],
+        "summary": "Cancel transaction",
+        "description": "Cancel transaction",
+        "operationId": "cancelTransaction",
+        "responses": {
+          "200": {
+            "description": "200 - Transaction has been cancelled",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "43"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 09 Dec 2024 15:22:22 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"2b-sXD/ps3jWPD5oZv6w+J386sac0c\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Transaction has been canceled"
+                    }
+                  }
+                },
+                "examples": {
+                  "200 - Transaction has been cancelled": {
+                    "value": {
+                      "message": "Transaction has been canceled"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "404 - Transaction not found",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "45"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 09 Dec 2024 15:04:51 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"2d-+LBbfWq2XCbE+JSav2zK+XZDRvg\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Transaction not found"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "404 - Transaction not found": {
+                    "value": {
+                      "error": {
+                        "message": "Transaction not found"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "409 - Transaction already success or failed",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "61"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 09 Dec 2024 15:38:07 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"3d-H7ePPt/Jkz4Dp9SOTZ7/8iz4ppg\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Transaction already success or failed"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "409 - Transaction already success or failed": {
+                    "value": {
+                      "error": {
+                        "message": "Transaction already success or failed"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "0193ab22-c714-7c50-ad9d-0b0584792e9e"
+          }
+        }
+      ]
+    },
+    "/transactions/notification": {
+      "post": {
+        "tags": ["Transaction"],
+        "summary": "Manage midtrans notification (internal)",
+        "description": "Manage midtrans notification (internal)",
+        "operationId": "manageMidtransNotificationInternal",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "transaction_id": {
+                    "type": "string",
+                    "example": "cf0a5780-3208-4431-98cf-fa8248c0baca"
+                  }
+                }
+              },
+              "examples": {
+                "Manage midtrans notification (internal)": {
+                  "value": {
+                    "transaction_id": "cf0a5780-3208-4431-98cf-fa8248c0baca"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "200 - Notification successfully handled",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "56"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sun, 08 Dec 2024 16:08:51 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"38-dS8ESIqAPDQvmc2BziQaSsGIeUA\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Midtrans notification successfully handled"
+                    }
+                  }
+                },
+                "examples": {
+                  "200 - Notification successfully handled": {
+                    "value": {
+                      "message": "Midtrans notification successfully handled"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "404 - Midtrans transaction not found",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "50"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Mon, 09 Dec 2024 09:58:24 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"32-Jv/7NrTZS2dKVMhqZbHMOYinzD0\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Transaction doesn't exist."
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "404 - Midtrans transaction not found": {
+                    "value": {
+                      "error": {
+                        "message": "Transaction doesn't exist."
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/upload/image": {
       "post": {
         "tags": ["Upload"],
@@ -6534,7 +7702,7 @@
     },
     "/notifications": {
       "get": {
-        "tags": ["Notifications"],
+        "tags": ["Notification"],
         "summary": "Get notifications",
         "description": "Get notifications",
         "operationId": "getNotifications",
@@ -6783,7 +7951,7 @@
     },
     "/notifications/read-all": {
       "post": {
-        "tags": ["Notifications"],
+        "tags": ["Notification"],
         "summary": "Read all notifications",
         "description": "Read all notifications",
         "operationId": "readAllNotifications",
@@ -6963,7 +8131,7 @@
     },
     "/notifications/{id}": {
       "post": {
-        "tags": ["Notifications"],
+        "tags": ["Notification"],
         "summary": "Read notification by id",
         "description": "Read notification by id",
         "operationId": "readNotificationById",
@@ -7313,7 +8481,7 @@
         ]
       },
       "delete": {
-        "tags": ["Notifications"],
+        "tags": ["Notification"],
         "summary": "Deleted notification by id",
         "description": "Deleted notification by id",
         "operationId": "deletedNotificationById",
@@ -7873,13 +9041,13 @@
       "name": "Airport"
     },
     {
-      "name": "Booking"
+      "name": "Transaction"
     },
     {
       "name": "Upload"
     },
     {
-      "name": "Notifications"
+      "name": "Notification"
     },
     {
       "name": "Misc"

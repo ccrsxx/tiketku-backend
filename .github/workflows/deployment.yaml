@@ -77,4 +77,6 @@ jobs:
             EMAIL_API_KEY=${{ secrets.EMAIL_API_KEY }}
             VALID_ORIGINS=${{ secrets.VALID_ORIGINS }}
             STORAGE_BUCKET=${{ secrets.STORAGE_BUCKET }}
+            MIDTRANS_CLIENT_KEY=${{ secrets.MIDTRANS_CLIENT_KEY }}
+            MIDTRANS_SERVER_KEY=${{ secrets.MIDTRANS_SERVER_KEY }}
           env_vars_update_strategy: 'overwrite'

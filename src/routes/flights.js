@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { FlightController } from '../controllers/flight.js';
-import { FlightValidationMiddleware } from '../middlewares/validation/flight.js';
 import { CommonValidationMiddleware } from '../middlewares/validation/common.js';
 
 /** @param {Router} app */
@@ -9,17 +8,9 @@ export default (app) => {
 
   app.use('/flights', router);
 
-  router.get(
-    '/',
-    FlightValidationMiddleware.isValidFlightQueryParams,
-    FlightController.getFlights
-  );
+  router.get('/', FlightController.getFlights);
 
-  router.get(
-    '/favorites',
-    FlightValidationMiddleware.isValidFavoriteFlightQueryParams,
-    FlightController.getFavoriteFlights
-  );
+  router.get('/favorites', FlightController.getFavoriteFlights);
 
   router.get(
     '/:id',

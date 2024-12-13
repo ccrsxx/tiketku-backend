@@ -58,6 +58,8 @@ describe('Environment configuration', () => {
     process.env.IMAGEKIT_PRIVATE_KEY = 'private';
     process.env.IMAGEKIT_URL_ENDPOINT = 'https://ik.imagekit.io';
     process.env.GOOGLE_APPLICATION_CREDENTIALS = '/path/to/credentials.json';
+    process.env.MIDTRANS_SERVER_KEY = 'SB-Mid-server';
+    process.env.MIDTRANS_CLIENT_KEY = 'SB-Mid-client';
   }
 
   async function setupEnvironment() {

@@ -3,17 +3,8 @@
 import { z } from 'zod';
 import { HttpError } from '../../utils/error.js';
 import { PassengerType } from '@prisma/client';
-import {
-  formatZodError,
-  validStringSchema,
-  validPageCountSchema
-} from '../../utils/validation.js';
+import { formatZodError, validStringSchema } from '../../utils/validation.js';
 import { toTitleCase } from '../../utils/helper.js';
-
-const validFlightSeatPayload = z.object({
-  row: z.number().int().positive(),
-  column: z.number().int().positive()
-});
 
 const ValidPassengerPayload = z
   .object({
@@ -24,36 +15,34 @@ const ValidPassengerPayload = z
     identityNumber: validStringSchema,
     identityNationality: validStringSchema,
     identityExpirationDate: z.string().date(),
-    departureFlightSeat: validFlightSeatPayload.optional(),
-    returnFlightSeat: validFlightSeatPayload.optional()
+    departureFlightSeatId: z.string().uuid().optional(),
+    returnFlightSeatId: z.string().uuid().optional()
   })
   .refine(
-    ({ type, departureFlightSeat }) =>
-      type === 'INFANT' ? true : Boolean(departureFlightSeat),
+    ({ type, departureFlightSeatId }) =>
+      type === 'INFANT' ? true : Boolean(departureFlightSeatId),
     {
       message: 'Departure flight seat is required for adults and children'
     }
   );
 
-const validBookingPayload = z.object({
+const validTransactionPayload = z.object({
   departureFlightId: z.string().uuid(),
   returnFlightId: z.string().uuid().optional(),
   passengers: z.array(ValidPassengerPayload)
 });
 
-/** @typedef {z.infer<typeof validFlightSeatPayload>} ValidFlightSeatPayload */
-
 /** @typedef {z.infer<typeof ValidPassengerPayload>} ValidPassengerPayload */
 
-/** @typedef {z.infer<typeof validBookingPayload>} ValidBookingPayload */
+/** @typedef {z.infer<typeof validTransactionPayload>} ValidTransactionPayload */
 
 /**
  * @param {Request} req
  * @param {Response} _res
  * @param {NextFunction} next
  */
-function isValidBookingPayload(req, _res, next) {
-  const { data, error } = validBookingPayload.safeParse(req.body);
+function isValidTransactionPayload(req, _res, next) {
+  const { data, error } = validTransactionPayload.safeParse(req.body);
 
   if (error) {
     throw new HttpError(400, formatZodError(error));
@@ -71,20 +60,19 @@ function isValidBookingPayload(req, _res, next) {
   for (const flightType of /** @type {const} */ (['departure', 'return'])) {
     const formattedFlightType = toTitleCase(flightType);
 
-    /** @type {ValidFlightSeatPayload[]} */
+    /** @type {string[]} */
     const parsedFlightSeats = [];
 
-    for (const { returnFlightSeat, departureFlightSeat } of data.passengers) {
-      /** @type {ValidBookingPayload['passengers'][0]['departureFlightSeat']} */
+    for (const {
+      returnFlightSeatId,
+      departureFlightSeatId
+    } of data.passengers) {
       const flightSeat =
-        flightType === 'departure' ? departureFlightSeat : returnFlightSeat;
+        flightType === 'departure' ? departureFlightSeatId : returnFlightSeatId;
 
       if (!flightSeat) continue;
 
-      const flightSeatExists = parsedFlightSeats.find(
-        ({ row, column }) =>
-          row === flightSeat.row && column === flightSeat.column
-      );
+      const flightSeatExists = parsedFlightSeats.includes(flightSeat);
 
       if (flightSeatExists) {
         throw new HttpError(400, {
@@ -117,45 +105,6 @@ function isValidBookingPayload(req, _res, next) {
   next();
 }
 
-const validMyBookingsQueryParams = z
-  .object({
-    bookingCode: z.string().trim().length(6).optional(),
-    startDate: z.string().date().optional(),
-    endDate: z.string().date().optional(),
-    page: validPageCountSchema.optional()
-  })
-  .refine(
-    ({ startDate, endDate }) => {
-      if (!startDate || !endDate) return true;
-
-      return startDate < endDate;
-    },
-    {
-      message: 'Start date must be before end date'
-    }
-  );
-
-/** @typedef {z.infer<typeof validMyBookingsQueryParams>} ValidMyBookingsQueryParams */
-
-/**
- * @param {Request<unknown, unknown, unknown, ValidMyBookingsQueryParams>} req
- * @param {Response} _res
- * @param {NextFunction} next
- */
-function isValidMyBookingQueryParams(req, _res, next) {
-  const { error } = validMyBookingsQueryParams.safeParse(req.query);
-
-  if (error) {
-    throw new HttpError(
-      400,
-      formatZodError(error, { errorMessage: 'Invalid query params' })
-    );
-  }
-
-  next();
-}
-
-export const BookingValidationMiddleware = {
-  isValidBookingPayload,
-  isValidMyBookingQueryParams
+export const TransactionValidationMiddleware = {
+  isValidTransactionPayload
 };

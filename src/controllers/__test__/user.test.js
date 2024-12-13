@@ -40,22 +40,6 @@ const { UserService } = /** @type {UserServiceMock} */ (
 );
 
 describe('User controller', () => {
-  describe('Get user', () => {
-    it('should get a user', async () => {
-      const user = { id: '1', name: 'User' };
-
-      UserService.getUser.mockImplementation(() => user);
-
-      const { req, res } = setupExpressMock({ req: { params: { id: '1' } } });
-
-      await UserController.getUser(req, res);
-
-      expect(UserService.getUser).toHaveBeenCalledWith('1');
-      expect(res.status).toHaveBeenCalledWith(200);
-      expect(res.json).toHaveBeenCalledWith({ data: user });
-    });
-  });
-
   describe('Get current user', () => {
     it('should get the current user', async () => {
       const user = { id: '1', name: 'User' };
@@ -66,22 +50,6 @@ describe('User controller', () => {
 
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({ data: user });
-    });
-  });
-
-  describe('Get users', () => {
-    it('should get users', async () => {
-      const users = [{ id: '1', name: 'User' }];
-
-      UserService.getUsers.mockImplementation(() => users);
-
-      const { req, res } = setupExpressMock();
-
-      await UserController.getUsers(req, res);
-
-      expect(UserService.getUsers).toHaveBeenCalled();
-      expect(res.status).toHaveBeenCalledWith(200);
-      expect(res.json).toHaveBeenCalledWith({ data: users });
     });
   });
 
