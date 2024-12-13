@@ -3,7 +3,8 @@ import { TransactionService } from '../services/transaction.js';
 /** @import {User} from '@prisma/client' */
 /** @import {Request,Response} from 'express' */
 /** @import {OmittedModel} from '../utils/db.js' */
-/** @import {ValidTransactionPayload,ValidMyTransactionsQueryParams} from '../middlewares/validation/transaction.js' */
+/** @import {ValidTransactionPayload} from '../middlewares/validation/transaction.js' */
+/** @import {ValidMyTransactionsQueryParams} from '../services/transaction.js' */
 
 /**
  * @param {Request<unknown, unknown, ValidTransactionPayload>} req
