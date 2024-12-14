@@ -29,7 +29,7 @@
     "db:studio": "dotenv -e .env.local -- prisma studio",
     "db:deploy": "dotenv -e .env.local -- prisma migrate deploy",
     "db:migrate": "dotenv -e .env.local -- prisma migrate dev",
-    "db:generate": "dotenv -e .env.local -- prisma generate --no-hints",
+    "db:generate": "dotenv -e .env.local -- prisma generate --sql --no-hints",
     "db:migrate:create-only": "dotenv -e .env.local -- prisma migrate dev --create-only",
     "prepare": "husky || true"
   },

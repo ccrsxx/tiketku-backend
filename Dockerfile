@@ -5,8 +5,6 @@ FROM node:20-alpine3.20 AS build
 WORKDIR /app
 
 # Copy application dependency manifests to the container image
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# Copying this separately prevents re-running npm install on every code change
 COPY package*.json .
 
 # Install dependencies
@@ -32,17 +30,20 @@ WORKDIR /app
 # Copy application dependency manifests to the container image
 COPY package*.json .
 
-# Copy the prisma schema and migrations
-COPY src/utils/prisma src/utils/prisma
-
 # Install dependencies
 RUN npm ci --omit=dev
 
 # Copy the entrypoint script
 COPY entrypoint.sh .
 
-# Copy the build output to the image
+# Copy the prisma schema and migrations
+COPY src/utils/prisma src/utils/prisma
+
+# Copy the build output to the production image
 COPY --from=build /app/build .
+
+# Copy the generated prisma client
+COPY --from=build /app/node_modules/.prisma node_modules/.prisma
 
 # Run the web service on container startup
 ENTRYPOINT ["./entrypoint.sh"]
