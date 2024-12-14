@@ -29,10 +29,12 @@ const paymentMethodMap = {
 
 /**
  * @param {PaymentType} paymentType
- * @returns {PaymentMethod}
+ * @returns {PaymentMethod | null}
  */
 function validatePaymentMethod(paymentType) {
-  return paymentMethodMap[/** @type {SelectedPaymentType} */ (paymentType)];
+  return (
+    paymentMethodMap[/** @type {SelectedPaymentType} */ (paymentType)] ?? null
+  );
 }
 
 const MidtransError = midtransClient.MidtransError;
