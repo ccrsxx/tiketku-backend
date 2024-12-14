@@ -10,6 +10,10 @@ jobs:
   type-check:
     name: Type check
     runs-on: ubuntu-latest
+    env:
+      DIRECT_URL: ${{ secrets.DIRECT_URL }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -23,9 +27,6 @@ jobs:
 
       - name: Generate prisma client
         run: npm run db:generate
-        env:
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Check types
         run: npm run type-check
