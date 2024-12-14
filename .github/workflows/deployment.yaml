@@ -8,6 +8,7 @@ on:
 jobs:
   ci:
     uses: ./.github/workflows/ci.yaml
+    secrets: inherit
 
   codecov:
     uses: ./.github/workflows/codecov.yaml
