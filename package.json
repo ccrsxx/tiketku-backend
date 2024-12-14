@@ -24,6 +24,7 @@
     "openapi:generate:commit": "npm run openapi:generate && git add ./src/docs/openapi.json",
     "db:seed": "dotenv -e .env.local -- prisma db seed",
     "db:push": "dotenv -e .env.local -- prisma db push",
+    "db:watch": "dotenv -e .env.local -- prisma generate --sql --watch",
     "db:reset": "dotenv -e .env.local -- prisma migrate reset --force",
     "db:studio": "dotenv -e .env.local -- prisma studio",
     "db:deploy": "dotenv -e .env.local -- prisma migrate deploy",

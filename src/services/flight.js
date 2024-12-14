@@ -1,9 +1,17 @@
 import { z } from 'zod';
 import { prisma } from '../utils/db.js';
 import { HttpError } from '../utils/error.js';
-import { MAX_CURSOR_LIMIT } from '../utils/pagination.js';
+import {
+  MAX_OFFSET_LIMIT,
+  MAX_CURSOR_LIMIT,
+  generateOffsetPaginationMeta
+} from '../utils/pagination.js';
 import { Continent, FlightClassType } from '@prisma/client';
-import { validCursorSchema } from '../utils/validation.js';
+import {
+  validCursorSchema,
+  validPageCountSchema
+} from '../utils/validation.js';
+import * as typedSql from '@prisma/client/sql';
 
 /** @import {Prisma} from '@prisma/client' */
 /** @import {OmittedModel} from '../utils/db.js' */
@@ -121,8 +129,9 @@ const validFlightQueryParams = z.object({
     .string()
     .transform((value) => z.string().uuid().safeParse(value).data)
     .optional(),
-  nextCursor: validCursorSchema
-    .transform((value) => validCursorSchema.safeParse(value).data)
+  page: z
+    .string()
+    .transform((value) => validPageCountSchema.safeParse(value).data)
     .optional()
 });
 
@@ -132,8 +141,8 @@ const validFlightQueryParams = z.object({
 async function getFlights(query) {
   const {
     type,
+    page,
     sortBy,
-    nextCursor,
     departureDate,
     departureAirportId,
     destinationAirportId
@@ -150,6 +159,36 @@ async function getFlights(query) {
 
     nextDayAfterDepartureDate = new Date(departureParsedDate);
     nextDayAfterDepartureDate.setDate(nextDayAfterDepartureDate.getDate() + 1);
+  }
+
+  /** @type {Prisma.FlightWhereInput} */
+  const flightWhereFilter = {
+    type,
+    departureAirportId,
+    destinationAirportId,
+    ...(departureParsedDate && {
+      departureTimestamp: {
+        gte: departureParsedDate,
+        lte: /** @type {Date} */ (nextDayAfterDepartureDate)
+      }
+    })
+  };
+
+  const flightsCount = await prisma.flight.count({
+    where: flightWhereFilter
+  });
+
+  const paginationMeta = generateOffsetPaginationMeta({
+    page,
+    limit: MAX_OFFSET_LIMIT,
+    recordCount: flightsCount
+  });
+
+  if (paginationMeta.offPageLimit) {
+    return {
+      meta: paginationMeta.meta,
+      flights: []
+    };
   }
 
   /** @type {Prisma.FlightOrderByWithRelationInput} */
@@ -191,22 +230,9 @@ async function getFlights(query) {
   }
 
   const flights = await prisma.flight.findMany({
-    where: {
-      type,
-      departureAirportId,
-      destinationAirportId,
-      ...(departureParsedDate && {
-        departureTimestamp: {
-          gte: departureParsedDate,
-          lte: /** @type {Date} */ (nextDayAfterDepartureDate)
-        }
-      })
-    },
     take: MAX_CURSOR_LIMIT,
-    ...(nextCursor && {
-      cursor: { id: nextCursor },
-      skip: 1
-    }),
+    skip: paginationMeta.offset,
+    where: flightWhereFilter,
     orderBy: orderByClause,
     include: {
       airline: true,
@@ -216,14 +242,9 @@ async function getFlights(query) {
     }
   });
 
-  const parsedNextCursor = flights[MAX_CURSOR_LIMIT - 1]?.id ?? null;
-
   return {
     flights,
-    meta: {
-      limit: MAX_CURSOR_LIMIT,
-      nextCursor: parsedNextCursor
-    }
+    meta: paginationMeta.meta
   };
 }
 
@@ -232,8 +253,13 @@ const validFavoriteFlightQueryParams = z.object({
     .string()
     .transform((value) => z.nativeEnum(Continent).safeParse(value).data)
     .optional(),
-  nextCursor: validCursorSchema
+  nextCursorId: z
+    .string()
     .transform((value) => validCursorSchema.safeParse(value).data)
+    .optional(),
+  nextCursorPrice: z
+    .string()
+    .transform((value) => z.coerce.number().safeParse(value).data)
     .optional()
 });
 
@@ -241,40 +267,26 @@ const validFavoriteFlightQueryParams = z.object({
 
 /** @param {ValidFavoriteFlightQueryParams} query */
 async function getFavoriteFlights(query) {
-  const { continent, nextCursor } =
+  const { continent, nextCursorId, nextCursorPrice } =
     validFavoriteFlightQueryParams.safeParse(query).data ?? {};
 
-  const flights = await prisma.flight.findMany({
-    ...(continent && {
-      where: {
-        destinationAirport: {
-          continent
-        }
-      }
-    }),
-    ...(nextCursor && {
-      cursor: { id: nextCursor },
-      skip: 1
-    }),
-    orderBy: {
-      id: 'asc'
-    },
-    take: MAX_CURSOR_LIMIT,
-    include: {
-      departureAirport: true,
-      destinationAirport: true
-    },
-    // Select only unique flights sorted by lowest starting price
-    distinct: ['departureAirportId', 'destinationAirportId']
-  });
+  const flights = await prisma.$queryRawTyped(
+    typedSql.getFavoriteFlights(
+      nextCursorId ?? '00000000-0000-0000-0000-000000000000',
+      nextCursorPrice ?? 0,
+      // @ts-expect-error
+      continent ?? null
+    )
+  );
 
-  const parsedNextCursor = flights[MAX_CURSOR_LIMIT - 1]?.id ?? null;
+  const { id = null, price = null } = flights[MAX_CURSOR_LIMIT - 1] ?? {};
 
   return {
     flights,
     meta: {
       limit: MAX_CURSOR_LIMIT,
-      nextCursor: parsedNextCursor
+      nextCursorId: id,
+      nextCursorPrice: price
     }
   };
 }
