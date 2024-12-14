@@ -191,10 +191,8 @@ async function getFlights(query) {
     };
   }
 
-  /** @type {Prisma.FlightOrderByWithRelationInput} */
-  let orderByClause = {
-    id: 'asc'
-  };
+  /** @type {Prisma.FlightOrderByWithRelationInput | undefined} */
+  let orderByClause;
 
   switch (sortBy) {
     case 'cheapestPrice':
