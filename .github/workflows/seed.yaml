@@ -1,10 +1,12 @@
-name: Migration
+name: Seed
 
-on: workflow_call
+on: workflow_dispatch
 
 jobs:
-  migration:
-    name: Migrate database
+  seed:
+    if: github.actor == 'ccrsxx'
+
+    name: Seed database
     runs-on: ubuntu-latest
 
     steps:
@@ -18,8 +20,8 @@ jobs:
       - name: Download deps
         run: npm ci
 
-      - name: Migrate database
-        run: npm run db:deploy
+      - name: Seed database
+        run: npm run db:seed
         env:
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
