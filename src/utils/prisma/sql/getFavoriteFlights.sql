@@ -60,15 +60,15 @@ FROM
     JOIN airport AS departure_a ON dcf.departure_airport_id = departure_a.id
     JOIN airport AS destination_a ON dcf.destination_airport_id = destination_a.id
 WHERE
-    (dcf.price, dcf.id) > ($2, $1::UUID)
+    (dcf.price, dcf.id) > ($3, $2::UUID)
     AND (
         (
-            $3::"Continent" IS NULL
-            OR destination_a.continent = $3::"Continent"
+            $4::"Continent" IS NULL
+            OR destination_a.continent = $4::"Continent"
         )
     )
 ORDER BY
     dcf.price ASC,
     dcf.id ASC
 LIMIT
-    10;
+    $1;
