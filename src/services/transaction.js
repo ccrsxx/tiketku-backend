@@ -10,10 +10,12 @@ import {
   MAX_OFFSET_LIMIT,
   generateOffsetPaginationMeta
 } from '../utils/pagination.js';
+import { z } from 'zod';
+import { validPageCountSchema } from '../utils/validation.js';
 
 /** @import {Prisma,Flight} from '@prisma/client' */
 /** @import {OmittedModel} from '../utils/db.js' */
-/** @import {ValidTransactionPayload,ValidPassengerPayload,ValidMyTransactionsQueryParams} from '../middlewares/validation/transaction.js' */
+/** @import {ValidTransactionPayload,ValidPassengerPayload} from '../middlewares/validation/transaction.js' */
 
 /**
  * @param {OmittedModel<'user'>} user
@@ -51,8 +53,8 @@ async function createTransaction(
       flightSeatsToBeBooked.push(departureFlightSeatId);
     }
 
-    if (returnFlightSeatId) {
-      flightPrice += returnFlightData?.price ?? 0;
+    if (returnFlightData && returnFlightSeatId) {
+      flightPrice += returnFlightData.price;
       flightSeatsToBeBooked.push(returnFlightSeatId);
     }
   }
@@ -99,13 +101,14 @@ async function createTransaction(
                   }
                 }
               }),
-              ...(returnFlightSeatId && {
-                returnFlightSeat: {
-                  connect: {
-                    id: returnFlightSeatId
+              ...(returnFlightData &&
+                returnFlightSeatId && {
+                  returnFlightSeat: {
+                    connect: {
+                      id: returnFlightSeatId
+                    }
                   }
-                }
-              })
+                })
             })
           )
         },
@@ -249,14 +252,50 @@ async function checkFlightAvailability(
   return flight;
 }
 
+const validMyTransactionsQueryParams = z.object({
+  bookingCode: z
+    .string()
+    .transform((value) => z.string().trim().length(6).safeParse(value).data)
+    .optional(),
+  startDate: z
+    .string()
+    .transform((value) => z.string().date().safeParse(value).data)
+    .optional(),
+  endDate: z
+    .string()
+    .transform((value) => z.string().date().safeParse(value).data)
+    .optional(),
+  page: validPageCountSchema
+    .transform((value) => validPageCountSchema.safeParse(value).data)
+    .optional()
+});
+
+/** @typedef {z.infer<typeof validMyTransactionsQueryParams>} ValidMyTransactionsQueryParams */
+
 /**
  * @param {string} userId
  * @param {ValidMyTransactionsQueryParams} query
  */
-async function getMyTransactions(
-  userId,
-  { bookingCode, startDate, endDate, page }
-) {
+async function getMyTransactions(userId, query) {
+  const { bookingCode, startDate, endDate, page } =
+    validMyTransactionsQueryParams.safeParse(query).data ?? {};
+
+  let parsedStartDate = null;
+  let parsedEndDate = null;
+
+  if (startDate) {
+    parsedStartDate = new Date(startDate);
+  }
+
+  if (endDate) {
+    parsedEndDate = new Date(endDate);
+  }
+
+  // Check if start date is greater than end date, if true then set end date to null
+  if (parsedStartDate && parsedEndDate && parsedStartDate >= parsedEndDate) {
+    parsedEndDate = null;
+  }
+
   /** @type {Prisma.TransactionWhereInput} */
   const transactionWhereFilter = {
     userId,

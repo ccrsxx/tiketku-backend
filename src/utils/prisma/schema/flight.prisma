@@ -6,6 +6,7 @@ model Flight {
     flightNumber       String          @map("flight_number")
     arrivalTimestamp   DateTime        @map("arrival_timestamp") @db.Timestamptz()
     departureTimestamp DateTime        @map("departure_timestamp") @db.Timestamptz()
+    durationMinutes    Int             @map("duration_minutes")
 
     airlineId            String @map("airline_id") @db.Uuid
     airplaneId           String @map("airplane_id") @db.Uuid

@@ -24,6 +24,13 @@ export async function manageMidtransNotification(payload) {
     `Transaction notification received. Order ID: ${orderId}. Transaction status: ${transactionStatus}. Fraud status: ${fraudStatus}`
   );
 
+  const validPaymentMethod = midtrans.validatePaymentMethod(paymentType);
+
+  if (!validPaymentMethod) {
+    logger.error(`Invalid payment method: ${paymentType}`);
+    return;
+  }
+
   const transaction = await prisma.transaction.findUnique({
     where: {
       id: orderId
@@ -77,13 +84,6 @@ export async function manageMidtransNotification(payload) {
 
   if (!bookingFlightSeats.length) {
     logger.error(`No flight seats found for transaction: ${orderId}`);
-    return;
-  }
-
-  const validPaymentMethod = midtrans.validatePaymentMethod(paymentType);
-
-  if (!validPaymentMethod) {
-    logger.error(`Invalid payment method: ${paymentType}`);
     return;
   }
 

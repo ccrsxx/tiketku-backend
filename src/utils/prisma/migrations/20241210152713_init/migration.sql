@@ -107,6 +107,7 @@ CREATE TABLE "flight" (
     "flight_number" TEXT NOT NULL,
     "arrival_timestamp" TIMESTAMPTZ NOT NULL,
     "departure_timestamp" TIMESTAMPTZ NOT NULL,
+    "duration_minutes" INTEGER NOT NULL,
     "airline_id" UUID NOT NULL,
     "airplane_id" UUID NOT NULL,
     "departure_airport_id" UUID NOT NULL,
