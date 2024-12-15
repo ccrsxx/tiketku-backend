@@ -38,5 +38,11 @@ export default (app) => {
     TransactionController.cancelTransaction
   );
 
+  router.post(
+    '/:id/print',
+    CommonValidationMiddleware.isValidParamsIdUuid,
+    TransactionController.sendTransactionTicketEmail
+  );
+
   router.post('/notification', MidtransController.manageMidtransNotification);
 };

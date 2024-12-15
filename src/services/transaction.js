@@ -1,6 +1,7 @@
 import { prisma } from '../utils/db.js';
 import { midtrans } from '../utils/midtrans.js';
 import { HttpError } from '../utils/error.js';
+import { sendTransactionTicketEmail } from '../utils/emails/mail.js';
 import {
   toTitleCase,
   generateRandomToken,
@@ -477,9 +478,118 @@ async function cancelTransaction(userId, transactionId) {
   ]);
 }
 
+/** @param {string} id */
+async function sendTransactionTicket(id) {
+  const transaction = await prisma.transaction.findUnique({
+    where: {
+      id
+    },
+    include: {
+      payment: true,
+      user: true,
+      bookings: {
+        include: {
+          passenger: true
+        }
+      },
+      returnFlight: {
+        include: {
+          airline: true,
+          departureAirport: true,
+          destinationAirport: true
+        }
+      },
+      departureFlight: {
+        include: {
+          airline: true,
+          departureAirport: true,
+          destinationAirport: true
+        }
+      }
+    }
+  });
+
+  if (!transaction) {
+    throw new HttpError(404, {
+      message: 'Transaction not found'
+    });
+  }
+
+  if (transaction.returnFlight) {
+    await sendTransactionTicketEmail({
+      email: 'koffy696@gmail.com',
+      name: transaction.user.name,
+      code: transaction.departureFlight.flightNumber,
+      departureCity: transaction.departureFlight.departureAirport.city,
+      destinationCity: transaction.departureFlight.destinationAirport.city,
+      departureAirport: transaction.departureFlight.departureAirport.name,
+      destinationAirport: transaction.departureFlight.destinationAirport.name,
+      date: transaction.departureFlight.departureTimestamp
+        .toISOString()
+        .split('T')[0],
+      departureTime: transaction.departureFlight.departureTimestamp
+        .toISOString()
+        .split('T')[1]
+        .split('.')[0],
+      arrivalTime: transaction.departureFlight.arrivalTimestamp
+        .toISOString()
+        .split('T')[1]
+        .split('.')[0],
+      passengers: transaction.bookings.map((booking) => ({
+        name: booking.passenger.name,
+        type: booking.passenger.type
+      })),
+      returnFlight: {
+        departureCity: transaction.returnFlight.departureAirport.city,
+        destinationCity: transaction.returnFlight.destinationAirport.city,
+        departureAirport: transaction.returnFlight.departureAirport.name,
+        destinationAirport: transaction.returnFlight.destinationAirport.name,
+        code: transaction.returnFlight.flightNumber,
+        date: transaction.returnFlight.departureTimestamp
+          .toISOString()
+          .split('T')[0],
+        departureTime: transaction.returnFlight.departureTimestamp
+          .toISOString()
+          .split('T')[1]
+          .split('.')[0],
+        arrivalTime: transaction.returnFlight.arrivalTimestamp
+          .toISOString()
+          .split('T')[1]
+          .split('.')[0]
+      }
+    });
+  } else {
+    await sendTransactionTicketEmail({
+      email: 'koffy696@gmail.com',
+      name: transaction.user.name,
+      code: transaction.departureFlight.flightNumber,
+      departureCity: transaction.departureFlight.departureAirport.city,
+      destinationCity: transaction.departureFlight.destinationAirport.city,
+      departureAirport: transaction.departureFlight.departureAirport.name,
+      destinationAirport: transaction.departureFlight.destinationAirport.name,
+      date: transaction.departureFlight.departureTimestamp
+        .toISOString()
+        .split('T')[0],
+      departureTime: transaction.departureFlight.departureTimestamp
+        .toISOString()
+        .split('T')[1]
+        .split('.')[0],
+      arrivalTime: transaction.departureFlight.arrivalTimestamp
+        .toISOString()
+        .split('T')[1]
+        .split('.')[0],
+      passengers: transaction.bookings.map((booking) => ({
+        name: booking.passenger.name,
+        type: booking.passenger.type
+      }))
+    });
+  }
+}
+
 export const TransactionService = {
   getTransaction,
   getMyTransactions,
   createTransaction,
-  cancelTransaction
+  cancelTransaction,
+  sendTransactionTicket
 };

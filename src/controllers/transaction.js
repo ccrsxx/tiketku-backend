@@ -60,9 +60,20 @@ async function getMyTransactions(req, res) {
   res.status(200).json({ meta, data: transactions });
 }
 
+/**
+ * @param {Request<{ id: string }>} req
+ * @param {Response} res
+ */
+async function sendTransactionTicketEmail(req, res) {
+  await TransactionService.sendTransactionTicket(req.params.id);
+
+  res.status(200).json({ message: 'Transaction ticket email sent' });
+}
+
 export const TransactionController = {
   getTransaction,
   getMyTransactions,
   createTransaction,
-  cancelTransaction
+  cancelTransaction,
+  sendTransactionTicketEmail
 };

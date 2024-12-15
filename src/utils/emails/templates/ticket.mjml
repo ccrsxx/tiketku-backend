@@ -1,0 +1,103 @@
+<mjml>
+  <mj-body background-color="white">
+    <mj-include path="./common/header.mjml" />
+    <mj-section>
+      <mj-column>
+        <mj-text font-size="16px" font-family="helvetica" color="#955BCE">
+          <mj-text
+            font-size="24px"
+            font-family="helvetica"
+            font-weight="bold"
+            align="center"
+            color="#955BCE"
+            ><h2>Your E-Ticket is now available.</h2></mj-text
+          >
+          <p><strong>Yth. {{name}}.</strong></p>
+          <p>
+            Your flight reservation has been successfully confirmed. Your
+            e-ticket is in the attachment.
+          </p>
+        </mj-text>
+        <mj-text font-family="helvetica" font-weight="bold" color="#955BCE"
+          ><h3>Flight details</h3></mj-text
+        >
+        <mj-table>
+          <tr
+            style="
+              border-bottom: 1px solid #ecedee;
+              text-align: left;
+              padding: 15px 0;
+            "
+          >
+            <th style="padding: 0 15px 0 0">Departure Flight</th>
+            <th style="padding: 0 15px">
+              {{departureCity}} - {{destinationCity}}
+            </th>
+          </tr>
+          <tr>
+            <td style="padding: 0 15px 0 0"><h3>{{code}}</h3></td>
+            <td style="padding: 0 15px">
+              <h4><strong>{{date}}</strong></h4>
+              <br />
+              <strong>{{departureTime}}</strong> -
+              <strong>{{departureCity}} ({{ departureAirport }})</strong>
+              <br />
+              <strong>{{ arrivalTime }}</strong> -
+              <strong>{{destinationCity}} ({{ destinationAirport }})</strong>
+            </td>
+          </tr>
+        </mj-table>
+
+        <mj-raw>{% if var:returnFlight !== undefined %} </mj-raw>
+        <mj-text font-family="helvetica" font-weight="bold" color="#955BCE">
+          <h3>Return Flight Details</h3>
+        </mj-text>
+
+        <mj-table>
+          <tr
+            style="
+              border-bottom: 1px solid #ecedee;
+              text-align: left;
+              padding: 15px 0;
+            "
+          >
+            <th style="padding: 0 15px 0 0">Return Flight</th>
+            <th style="padding: 0 15px">
+              {{returnFlight.departureCity}} - {{returnFlight.destinationCity}}
+            </th>
+          </tr>
+          <tr>
+            <td style="padding: 0 15px 0 0"><h3>{{returnFlight.code}}</h3></td>
+            <td style="padding: 0 15px">
+              <h4><strong>{{returnFlight.date}}</strong></h4>
+              <br />
+              <strong>{{returnFlight.departureTime}}</strong> -
+              <strong
+                >{{returnFlight.departureCity}}
+                ({{returnFlight.departureAirport}})</strong
+              >
+              <br />
+              <strong>{{returnFlight.arrivalTime}}</strong> -
+              <strong
+                >{{returnFlight.destinationCity}}
+                ({{returnFlight.destinationAirport}})</strong
+              >
+            </td>
+          </tr>
+        </mj-table>
+        <mj-raw> {% elseif var:returnFlight === undefined %} </mj-raw>
+        <mj-text>cek aja</mj-text>
+        <mj-raw> {% endif %} </mj-raw>
+
+        <mj-text font-size="16px" font-family="helvetica" color="#955BCE">
+          <p><strong>Passenger Name :</strong></p>
+
+          {{#each passengers}}
+          <p>{{this.name}} - {{this.type}}</p>
+          {{/each}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-include path="./common/footer.mjml" />
+  </mj-body>
+</mjml>

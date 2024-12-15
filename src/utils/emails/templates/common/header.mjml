@@ -2,8 +2,8 @@
   <mj-column>
     <mj-image
       width="120px"
-      src="https://raw.githubusercontent.com/ccrsxx/f-bee24001186-km7-ra-bank_rest_api-ch4/refs/heads/main/src/utils/emails/assets/emilia.jpg"
+      src="https://storage.googleapis.com/plane-ticket-be.firebasestorage.app/public/98bb419a-7d81-454d-8fbc-2ea6d5cccc6f.png"
     />
-    <mj-divider border-color="violet" />
+    <mj-divider border-color="#955BCE" />
   </mj-column>
 </mj-section>
