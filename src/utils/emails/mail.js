@@ -81,14 +81,15 @@ export async function sendOtpEmail({ otp, name, email }) {
 
 /**
  * @typedef {Object} FlightInfo
- * @property {string} departureCity
- * @property {string} destinationCity
- * @property {string} departureAirport
- * @property {string} destinationAirport
- * @property {string} code
- * @property {string} date
- * @property {string} departureTime
- * @property {string} arrivalTime
+ * @property {string} [departureCity]
+ * @property {string} [destinationCity]
+ * @property {string} [departureAirport]
+ * @property {string} [destinationAirport]
+ * @property {string} [flightNumber]
+ * @property {string} [date]
+ * @property {string} [departureTime]
+ * @property {string} [arrivalTime]
+ * @property {number} [durationMinutes]
  */
 
 /**
@@ -101,16 +102,9 @@ export async function sendOtpEmail({ otp, name, email }) {
  * @typedef {Object} TransactionTicketEmailProps
  * @property {string} email
  * @property {string} name
- * @property {string} code
- * @property {string} departureCity
- * @property {string} destinationCity
- * @property {string} departureAirport
- * @property {string} destinationAirport
- * @property {string} date
- * @property {string} departureTime
- * @property {string} arrivalTime
  * @property {PassengerInfo[]} passengers
- * @property {FlightInfo} [returnFlight]
+ * @property {FlightInfo} departureFlight
+ * @property {FlightInfo | null} [returnFlight]
  */
 
 /**
@@ -120,65 +114,27 @@ export async function sendOtpEmail({ otp, name, email }) {
 export async function sendTransactionTicketEmail({
   email,
   name,
-  code,
-  departureCity,
-  destinationCity,
-  departureAirport,
-  destinationAirport,
-  date,
-  departureTime,
-  arrivalTime,
   passengers,
+  departureFlight,
   returnFlight
 }) {
   /**
    * @typedef {Object} TransactionTicketContext
    * @property {string} name
-   * @property {string} code
-   * @property {string} departureCity
-   * @property {string} destinationCity
-   * @property {string} departureAirport
-   * @property {string} destinationAirport
-   * @property {string} date
-   * @property {string} departureTime
-   * @property {string} arrivalTime
    * @property {PassengerInfo[]} passengers
-   * @property {FlightInfo} [returnFlight]
+   * @property {FlightInfo} departureFlight
+   * @property {FlightInfo | null} [returnFlight]
    */
 
   /** @type {HandlebarsTemplateDelegate<TransactionTicketContext>} */
   const emailTemplate = await createEmailTemplate('ticket');
 
-  let parsedEmailTemplate;
-
-  if (returnFlight === undefined) {
-    parsedEmailTemplate = emailTemplate({
-      name,
-      code,
-      departureCity,
-      destinationCity,
-      departureAirport,
-      destinationAirport,
-      date,
-      departureTime,
-      arrivalTime,
-      passengers
-    });
-  } else {
-    parsedEmailTemplate = emailTemplate({
-      name,
-      code,
-      departureCity,
-      destinationCity,
-      departureAirport,
-      destinationAirport,
-      date,
-      departureTime,
-      arrivalTime,
-      passengers,
-      returnFlight
-    });
-  }
+  const parsedEmailTemplate = emailTemplate({
+    name,
+    passengers,
+    departureFlight,
+    returnFlight
+  });
 
   await client.sendMail({
     from: appEnv.EMAIL_ADDRESS,

@@ -515,75 +515,60 @@ async function sendTransactionTicket(id) {
     });
   }
 
-  if (transaction.returnFlight) {
-    await sendTransactionTicketEmail({
-      email: 'koffy696@gmail.com',
-      name: transaction.user.name,
-      code: transaction.departureFlight.flightNumber,
-      departureCity: transaction.departureFlight.departureAirport.city,
-      destinationCity: transaction.departureFlight.destinationAirport.city,
-      departureAirport: transaction.departureFlight.departureAirport.name,
-      destinationAirport: transaction.departureFlight.destinationAirport.name,
-      date: transaction.departureFlight.departureTimestamp
-        .toISOString()
-        .split('T')[0],
-      departureTime: transaction.departureFlight.departureTimestamp
-        .toISOString()
-        .split('T')[1]
-        .split('.')[0],
-      arrivalTime: transaction.departureFlight.arrivalTimestamp
-        .toISOString()
-        .split('T')[1]
-        .split('.')[0],
-      passengers: transaction.bookings.map((booking) => ({
-        name: booking.passenger.name,
-        type: booking.passenger.type
-      })),
-      returnFlight: {
-        departureCity: transaction.returnFlight.departureAirport.city,
-        destinationCity: transaction.returnFlight.destinationAirport.city,
-        departureAirport: transaction.returnFlight.departureAirport.name,
-        destinationAirport: transaction.returnFlight.destinationAirport.name,
-        code: transaction.returnFlight.flightNumber,
-        date: transaction.returnFlight.departureTimestamp
-          .toISOString()
-          .split('T')[0],
-        departureTime: transaction.returnFlight.departureTimestamp
-          .toISOString()
-          .split('T')[1]
-          .split('.')[0],
-        arrivalTime: transaction.returnFlight.arrivalTimestamp
-          .toISOString()
-          .split('T')[1]
-          .split('.')[0]
-      }
-    });
-  } else {
-    await sendTransactionTicketEmail({
-      email: 'koffy696@gmail.com',
-      name: transaction.user.name,
-      code: transaction.departureFlight.flightNumber,
-      departureCity: transaction.departureFlight.departureAirport.city,
-      destinationCity: transaction.departureFlight.destinationAirport.city,
-      departureAirport: transaction.departureFlight.departureAirport.name,
-      destinationAirport: transaction.departureFlight.destinationAirport.name,
-      date: transaction.departureFlight.departureTimestamp
-        .toISOString()
-        .split('T')[0],
-      departureTime: transaction.departureFlight.departureTimestamp
-        .toISOString()
-        .split('T')[1]
-        .split('.')[0],
-      arrivalTime: transaction.departureFlight.arrivalTimestamp
-        .toISOString()
-        .split('T')[1]
-        .split('.')[0],
-      passengers: transaction.bookings.map((booking) => ({
-        name: booking.passenger.name,
-        type: booking.passenger.type
-      }))
+  if (transaction.payment.status !== 'SUCCESS') {
+    throw new HttpError(409, {
+      message: 'Transaction payment status should be SUCCESS to send ticket'
     });
   }
+
+  await sendTransactionTicketEmail({
+    email: transaction.user.email,
+    name: transaction.user.name,
+    passengers: transaction.bookings.map((booking) => ({
+      name: booking.passenger.name,
+      type: booking.passenger.type
+    })),
+    departureFlight: {
+      departureCity: transaction.departureFlight.departureAirport.city,
+      destinationCity: transaction.departureFlight.destinationAirport.city,
+      departureAirport: transaction.departureFlight.departureAirport.name,
+      destinationAirport: transaction.departureFlight.destinationAirport.name,
+      flightNumber: transaction.departureFlight.flightNumber,
+      durationMinutes: transaction.departureFlight.durationMinutes,
+      date: transaction.departureFlight.departureTimestamp
+        .toISOString()
+        .split('T')[0],
+      departureTime: transaction.departureFlight.departureTimestamp
+        .toISOString()
+        .split('T')[1]
+        .split('.')[0],
+      arrivalTime: transaction.departureFlight.arrivalTimestamp
+        .toISOString()
+        .split('T')[1]
+        .split('.')[0]
+    },
+    returnFlight: transaction.returnFlight
+      ? {
+          departureCity: transaction.returnFlight?.departureAirport.city,
+          destinationCity: transaction.returnFlight?.destinationAirport.city,
+          departureAirport: transaction.returnFlight?.departureAirport.name,
+          destinationAirport: transaction.returnFlight?.destinationAirport.name,
+          flightNumber: transaction.returnFlight?.flightNumber,
+          durationMinutes: transaction.returnFlight?.durationMinutes,
+          date: transaction.returnFlight?.departureTimestamp
+            .toISOString()
+            .split('T')[0],
+          departureTime: transaction.returnFlight?.departureTimestamp
+            .toISOString()
+            .split('T')[1]
+            .split('.')[0],
+          arrivalTime: transaction.returnFlight?.arrivalTimestamp
+            .toISOString()
+            .split('T')[1]
+            .split('.')[0]
+        }
+      : null
+  });
 }
 
 export const TransactionService = {
