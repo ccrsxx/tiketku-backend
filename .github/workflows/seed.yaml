@@ -4,7 +4,8 @@ on: workflow_dispatch
 
 jobs:
   seed:
-    if: github.actor == 'ccrsxx'
+    # Only run this job if the push was made by owner on the main branch
+    if: github.actor == 'ccrsxx' && github.ref == 'refs/heads/main'
 
     name: Seed database
     runs-on: ubuntu-latest
