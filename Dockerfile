@@ -13,16 +13,12 @@ RUN npm ci
 # Copy local code to the container image
 COPY . .
 
-# Setup build args for environment variables
-ARG DIRECT_URL
-ARG DATABASE_URL
-
-# Add environment variables based on build args
-ENV DIRECT_URL ${DIRECT_URL}
-ENV DATABASE_URL ${DATABASE_URL}
-
-# Build the app
-RUN npm run build
+# Build the application
+RUN --mount=type=secret,id=direct_url \
+    --mount=type=secret,id=database_url \
+    DIRECT_URL=$(cat /run/secrets/direct_url) \
+    DATABASE_URL=$(cat /run/secrets/database_url) \
+    npm run build
 
 # ---
 
