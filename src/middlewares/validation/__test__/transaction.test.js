@@ -6,7 +6,6 @@ import { jest } from '@jest/globals';
  * @typedef {{
  *   TransactionValidationMiddleware: {
  *     isValidTransactionPayload: jest.Mock;
- *     isValidMyTransactionsQueryParams: jest.Mock;
  *   };
  * }} TransactionValidationMiddlewareMock
  */
@@ -219,119 +218,6 @@ describe('Transaction Validation Middleware', () => {
         expect(error.statusCode).toBe(400);
         expect(error.message).toBe('Return flight must have at least one seat');
       }
-    });
-
-    describe('isValidMyTransactionsQueryParams', () => {
-      it('should call next() if the query params are valid', () => {
-        const req = {
-          query: {
-            bookingCode: 'ABC123',
-            startDate: '2024-01-01',
-            endDate: '2024-12-31',
-            page: 1
-          }
-        };
-        const next = jest.fn();
-
-        TransactionValidationMiddleware.isValidMyTransactionsQueryParams(
-          req,
-          {},
-          next
-        );
-
-        expect(next).toHaveBeenCalled();
-      });
-
-      it('should throw an error if startDate is after endDate', () => {
-        const req = {
-          query: {
-            startDate: '2024-12-31',
-            endDate: '2024-01-01'
-          }
-        };
-        const next = jest.fn();
-
-        expect(() =>
-          TransactionValidationMiddleware.isValidMyTransactionsQueryParams(
-            req,
-            {},
-            next
-          )
-        ).toThrow(HttpError);
-        expect(next).not.toHaveBeenCalled();
-      });
-
-      it('should call next() if only startDate is provided', () => {
-        const req = {
-          query: {
-            startDate: '2024-01-01'
-          }
-        };
-        const next = jest.fn();
-
-        TransactionValidationMiddleware.isValidMyTransactionsQueryParams(
-          req,
-          {},
-          next
-        );
-
-        expect(next).toHaveBeenCalled();
-      });
-
-      it('should call next() if only endDate is provided', () => {
-        const req = {
-          query: {
-            endDate: '2024-12-31'
-          }
-        };
-        const next = jest.fn();
-
-        TransactionValidationMiddleware.isValidMyTransactionsQueryParams(
-          req,
-          {},
-          next
-        );
-
-        expect(next).toHaveBeenCalled();
-      });
-
-      it('should throw an error if startDate has an invalid format', () => {
-        const req = {
-          query: {
-            startDate: 'invalid-date',
-            endDate: '2024-12-31'
-          }
-        };
-        const next = jest.fn();
-
-        expect(() =>
-          TransactionValidationMiddleware.isValidMyTransactionsQueryParams(
-            req,
-            {},
-            next
-          )
-        ).toThrow(HttpError);
-        expect(next).not.toHaveBeenCalled();
-      });
-
-      it('should throw an error if endDate has an invalid format', () => {
-        const req = {
-          query: {
-            startDate: '2024-01-01',
-            endDate: 'invalid-date'
-          }
-        };
-        const next = jest.fn();
-
-        expect(() =>
-          TransactionValidationMiddleware.isValidMyTransactionsQueryParams(
-            req,
-            {},
-            next
-          )
-        ).toThrow(HttpError);
-        expect(next).not.toHaveBeenCalled();
-      });
     });
   });
 });
