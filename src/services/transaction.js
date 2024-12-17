@@ -1,6 +1,7 @@
 import { prisma } from '../utils/db.js';
 import { midtrans } from '../utils/midtrans.js';
 import { HttpError } from '../utils/error.js';
+import { sendTransactionTicketEmail } from '../utils/emails/mail.js';
 import {
   toTitleCase,
   generateRandomToken,
@@ -477,9 +478,59 @@ async function cancelTransaction(userId, transactionId) {
   ]);
 }
 
+/**
+ * @param {string} userId
+ * @param {string} transactionId
+ */
+async function sendTransactionTicket(userId, transactionId) {
+  const transaction = await prisma.transaction.findUnique({
+    where: {
+      id: transactionId,
+      userId: userId,
+      payment: {
+        status: 'SUCCESS'
+      }
+    },
+    include: {
+      user: true,
+      payment: true,
+      bookings: {
+        include: {
+          passenger: true
+        }
+      },
+      returnFlight: {
+        include: {
+          airline: true,
+          airplane: true,
+          departureAirport: true,
+          destinationAirport: true
+        }
+      },
+      departureFlight: {
+        include: {
+          airline: true,
+          airplane: true,
+          departureAirport: true,
+          destinationAirport: true
+        }
+      }
+    }
+  });
+
+  if (!transaction) {
+    throw new HttpError(404, {
+      message: 'Transaction not found'
+    });
+  }
+
+  await sendTransactionTicketEmail(transaction);
+}
+
 export const TransactionService = {
   getTransaction,
   getMyTransactions,
   createTransaction,
-  cancelTransaction
+  cancelTransaction,
+  sendTransactionTicket
 };
