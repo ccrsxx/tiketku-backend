@@ -1,17 +1,30 @@
-import { generateRandomToken, generateRandomOTP, toTitleCase, getFirstAndLastName } from '../helper';
+import {
+  generateRandomToken,
+  generateRandomOTP,
+  toTitleCase,
+  getFirstAndLastName
+} from '../helper';
 import { jest, describe, expect } from '@jest/globals';
 
 /**
  * @typedef {import('../helper').generateRandomToken} GenerateRandomTokenMock
+ *
  * @typedef {import('../helper').generateRandomOTP} GenerateRandomOtpMock
+ *
  * @typedef {import('../helper').toTitleCase} ToTitleCaseMock
+ *
  * @typedef {import('../helper').getFirstAndLastName} GetFirstAndLastNameMock
  */
 
 jest.unstable_mockModule(
   '../helper',
   () =>
-    /** @type {GenerateRandomTokenMock & GenerateRandomOtpMock & ToTitleCaseMock & GetFirstAndLastNameMock} */ ({
+    /**
+     * @type {GenerateRandomTokenMock &
+     *   GenerateRandomOtpMock &
+     *   ToTitleCaseMock &
+     *   GetFirstAndLastNameMock}
+     */ ({
       generateRandomToken: jest.fn(),
       generateRandomOTP: jest.fn(),
       toTitleCase: jest.fn(),

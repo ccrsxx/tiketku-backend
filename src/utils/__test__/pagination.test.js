@@ -14,6 +14,7 @@ import { generateOffsetPaginationMeta } from '../pagination.js';
 describe('generateOffsetPaginationMeta', () => {
   /**
    * Helper function to generate pagination inputs
+   *
    * @param {PaginationTestOptions} options
    * @returns {GeneratedOffsetPaginationMeta}
    */

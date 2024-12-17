@@ -4,29 +4,37 @@ import { getFunctionThrownError } from '../../utils/jest.js';
 import { HttpError } from '../../utils/error.js';
 import { setupExpressMock } from '../../utils/jest.js';
 
-/** @typedef {{
+/**
+ * @typedef {{
  *   UploadService: Record<
  *     keyof import('../../services/upload.js')['UploadService'],
  *     jest.Mock
- *   >
- * }} UploadServiceMock */
+ *   >;
+ * }} UploadServiceMock
+ */
 
-/** @typedef {{
+/**
+ * @typedef {{
  *   UploadMiddleware: Record<
  *     keyof import('../upload.js')['UploadMiddleware'],
  *     jest.Mock
- *   >
- * }} UploadMiddlewareMock */
+ *   >;
+ * }} UploadMiddlewareMock
+ */
 
 jest.unstable_mockModule('../../utils/multer.js', () => ({
   uploadToMemory: jest.fn()
 }));
 
-jest.unstable_mockModule('../../services/upload.js', () => /** @type {UploadServiceMock} */ ({
-  UploadService: {
-    uploadImageToGcs: jest.fn()
-  }
-}));
+jest.unstable_mockModule(
+  '../../services/upload.js',
+  () =>
+    /** @type {UploadServiceMock} */ ({
+      UploadService: {
+        uploadImageToGcs: jest.fn()
+      }
+    })
+);
 
 const { uploadToMemory } = await import('../../utils/multer.js');
 const { UploadMiddleware } = /** @type {UploadMiddlewareMock} */ (
@@ -143,7 +151,9 @@ describe('UploadMiddleware', () => {
       const error = new Error('Upload failed');
       UploadService.uploadImageToGcs.mockRejectedValue(error);
 
-      const thrownError = await getFunctionThrownError(() => UploadMiddleware.uploadImageToGcs(req, res, next));
+      const thrownError = await getFunctionThrownError(() =>
+        UploadMiddleware.uploadImageToGcs(req, res, next)
+      );
 
       expect(thrownError).toBe(error);
     });
