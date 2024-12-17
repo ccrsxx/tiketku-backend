@@ -1,7 +1,7 @@
 <mjml>
   <mj-include path="./common/head.mjml" />
   <mj-body css-class="body-wrapper">
-    <mj-wrapper css-class="wrapper">
+    <mj-wrapper css-class="main-wrapper">
       <mj-include path="./common/header.mjml" />
       <mj-section padding-bottom="0">
         <mj-column>
@@ -19,7 +19,7 @@
         </mj-column>
       </mj-section>
       <mj-section padding="0 24px">
-        <mj-column css-class="wrapper">
+        <mj-column css-class="main-wrapper">
           <mj-table>
             <tr style="text-align: left; border-bottom: 1px solid #955bce">
               <th width="144px">

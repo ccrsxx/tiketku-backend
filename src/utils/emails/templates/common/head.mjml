@@ -6,14 +6,10 @@
       background-color: #f9f9f9;
     }
 
-    .wrapper {
+    .main-wrapper {
       border: 1px solid #955bce;
       border-radius: 0.5rem;
       background-color: white;
-    }
-
-    .wrapper.container {
-      margin: 2rem auto !important;
     }
   </mj-style>
   <mj-attributes>
