@@ -1,0 +1,169 @@
+<mjml>
+  <mj-include path="./common/head.mjml" />
+  <mj-body css-class="body-wrapper">
+    <mj-wrapper css-class="main-wrapper">
+      <mj-include path="./common/header.mjml" />
+      <mj-section padding-bottom="0">
+        <mj-column>
+          <mj-text font-size="16px" mj-class="accent-text-color">
+            <p style="font-weight: bold">Hi. {{name}}.</p>
+            <p>Your flight reservation has been successfully confirmed.</p>
+          </mj-text>
+          <mj-text
+            mj-class="accent-text-color"
+            font-size="16px"
+            font-weight="bold"
+          >
+            <p>FLIGHT DETAILS</p>
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-section padding="0 24px">
+        <mj-column css-class="main-wrapper">
+          <mj-table>
+            <tr style="text-align: left; border-bottom: 1px solid #955bce">
+              <th width="144px">
+                <mj-text>
+                  <p style="font-weight: bold">DEPARTURE FLIGHT</p>
+                </mj-text>
+              </th>
+              <th>
+                <mj-text>
+                  <p style="font-weight: bold; text-transform: uppercase">
+                    {{df.departureAirport.city}} -
+                    {{df.destinationAirport.city}}
+                  </p>
+                </mj-text>
+              </th>
+            </tr>
+            <tr>
+              <td style="vertical-align: top">
+                <mj-text>
+                  <p style="margin-bottom: 0">Booking Code:</p>
+                  <p
+                    style="
+                      color: #955bce;
+                      font-size: 24px;
+                      margin-top: 0;
+                      font-weight: bold;
+                    "
+                  >
+                    {{bookingCode}}
+                  </p>
+                </mj-text>
+                <mj-text>
+                  <p style="margin: 0">{{df.airline.name}}</p>
+                  <p style="margin: 0">{{df.airplane.name}}</p>
+                </mj-text>
+              </td>
+              <td style="vertical-align: top">
+                <mj-text>
+                  <p style="margin-bottom: 0">{{df.formattedDepartureDate}}</p>
+                  <p style="margin: 0">
+                    {{df.formattedDepartureTime}} - {{df.formattedArrivalTime}}
+                    ({{df.formattedRelativeTime}})
+                  </p>
+                </mj-text>
+                <mj-text>
+                  <p style="margin-bottom: 0">
+                    {{df.formattedDepartureTime}} - {{df.departureAirport.city}}
+                    ({{df.departureAirport.code}})
+                  </p>
+                  <p style="margin: 0">{{df.departureAirport.name}}</p>
+                </mj-text>
+                <mj-text>
+                  <p style="margin-bottom: 0">
+                    {{df.formattedArrivalTime}} - {{df.destinationAirport.city}}
+                    ({{df.destinationAirport.code}})
+                  </p>
+                  <p style="margin: 0">{{df.destinationAirport.name}}</p>
+                </mj-text>
+              </td>
+            </tr>
+          </mj-table>
+        </mj-column>
+      </mj-section>
+      <mj-raw>{{#if rf}}</mj-raw>
+      <mj-section padding="16px 24px 0 24px">
+        <mj-column css-class="main-wrapper">
+          <mj-table>
+            <tr style="text-align: left; border-bottom: 1px solid #955bce">
+              <th width="144px" font-weight="bold">
+                <mj-text>
+                  <p style="font-weight: bold">RETURN FLIGHT</p>
+                </mj-text>
+              </th>
+              <th>
+                <mj-text>
+                  <p style="font-weight: bold; text-transform: uppercase">
+                    {{rf.departureAirport.city}} -
+                    {{rf.destinationAirport.city}}
+                  </p>
+                </mj-text>
+              </th>
+            </tr>
+            <tr>
+              <td style="vertical-align: top">
+                <mj-text>
+                  <p style="margin-bottom: 0">Booking Code:</p>
+                  <p
+                    style="
+                      color: #955bce;
+                      font-size: 24px;
+                      margin-top: 0;
+                      font-weight: bold;
+                    "
+                  >
+                    {{bookingCode}}
+                  </p>
+                </mj-text>
+                <mj-text>
+                  <p style="margin: 0">{{rf.airline.name}}</p>
+                  <p style="margin: 0">{{rf.airplane.name}}</p>
+                </mj-text>
+              </td>
+              <td style="vertical-align: top">
+                <mj-text>
+                  <p style="margin-bottom: 0">{{rf.formattedDepartureDate}}</p>
+                  <p style="margin: 0">
+                    {{rf.formattedDepartureTime}} - {{rf.formattedArrivalTime}}
+                    ({{rf.formattedRelativeTime}})
+                  </p>
+                </mj-text>
+                <mj-text>
+                  <p style="margin-bottom: 0">
+                    {{rf.formattedDepartureTime}} - {{rf.departureAirport.city}}
+                    ({{rf.departureAirport.code}})
+                  </p>
+                  <p style="margin: 0">{{rf.departureAirport.name}}</p>
+                </mj-text>
+                <mj-text>
+                  <p style="margin-bottom: 0">
+                    {{rf.formattedArrivalTime}} - {{rf.destinationAirport.city}}
+                    ({{rf.destinationAirport.code}})
+                  </p>
+                  <p style="margin: 0">{{rf.destinationAirport.name}}</p>
+                </mj-text>
+              </td>
+            </tr>
+          </mj-table>
+        </mj-column>
+      </mj-section>
+      <mj-raw>{{/if}}</mj-raw>
+      <mj-section>
+        <mj-column>
+          <mj-text font-size="16px" mj-class="accent-text-color">
+            <p style="font-weight: bold">PASSENGERS:</p>
+            {{#each bookings}}
+            <p>
+              {{increment @index}}. {{this.passenger.name}}
+              ({{this.passenger.type}})
+            </p>
+            {{/each}}
+          </mj-text>
+        </mj-column>
+      </mj-section>
+      <mj-include path="./common/footer.mjml" />
+    </mj-wrapper>
+  </mj-body>
+</mjml>

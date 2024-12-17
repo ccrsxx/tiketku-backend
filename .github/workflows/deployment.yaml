@@ -59,8 +59,11 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ env.DOCKER_IMAGE_TAG }} . --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} --build-arg DIRECT_URL=${{ secrets.DIRECT_URL }}
+          docker build -t ${{ env.DOCKER_IMAGE_TAG }} --secret id=direct_url,env=DIRECT_URL --secret id=database_url,env=DATABASE_URL  .
           docker push ${{ env.DOCKER_IMAGE_TAG }}
+        env:
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2

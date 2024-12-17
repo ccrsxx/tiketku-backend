@@ -270,6 +270,7 @@ async function getFavoriteFlights(query) {
 
   const flights = await prisma.$queryRawTyped(
     typedSql.getFavoriteFlights(
+      MAX_CURSOR_LIMIT,
       nextCursorId ?? '00000000-0000-0000-0000-000000000000',
       nextCursorPrice ?? 0,
       // @ts-expect-error
