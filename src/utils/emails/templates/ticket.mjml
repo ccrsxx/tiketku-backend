@@ -85,7 +85,7 @@
       </mj-section>
       <mj-raw>{{#if rf}}</mj-raw>
       <mj-section padding="16px 24px 0 24px">
-        <mj-column css-class="wrapper">
+        <mj-column css-class="main-wrapper">
           <mj-table>
             <tr style="text-align: left; border-bottom: 1px solid #955bce">
               <th width="144px" font-weight="bold">
