@@ -183,7 +183,7 @@ describe('FlightService', () => {
 
       expect(result.flights[0].departureTimestamp.getTime()).toBeLessThan(
         result.flights[1].departureTimestamp.getTime()
-      ); // Waktu keberangkatan harus terurut dari yang paling awal
+      );
     });
 
     it('should sort by latestDeparture', async () => {
