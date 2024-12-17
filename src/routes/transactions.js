@@ -41,6 +41,7 @@ export default (app) => {
   router.post(
     '/:id/print',
     CommonValidationMiddleware.isValidParamsIdUuid,
+    AuthMiddleware.isAuthorized,
     TransactionController.sendTransactionTicketEmail
   );
 

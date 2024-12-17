@@ -478,15 +478,22 @@ async function cancelTransaction(userId, transactionId) {
   ]);
 }
 
-/** @param {string} id */
-async function sendTransactionTicket(id) {
+/**
+ * @param {string} userId
+ * @param {string} transactionId
+ */
+async function sendTransactionTicket(userId, transactionId) {
   const transaction = await prisma.transaction.findUnique({
     where: {
-      id
+      id: transactionId,
+      userId: userId,
+      payment: {
+        status: 'SUCCESS'
+      }
     },
     include: {
-      payment: true,
       user: true,
+      payment: true,
       bookings: {
         include: {
           passenger: true
@@ -495,6 +502,7 @@ async function sendTransactionTicket(id) {
       returnFlight: {
         include: {
           airline: true,
+          airplane: true,
           departureAirport: true,
           destinationAirport: true
         }
@@ -502,6 +510,7 @@ async function sendTransactionTicket(id) {
       departureFlight: {
         include: {
           airline: true,
+          airplane: true,
           departureAirport: true,
           destinationAirport: true
         }
@@ -515,60 +524,7 @@ async function sendTransactionTicket(id) {
     });
   }
 
-  if (transaction.payment.status !== 'SUCCESS') {
-    throw new HttpError(409, {
-      message: 'Transaction payment status should be SUCCESS to send ticket'
-    });
-  }
-
-  await sendTransactionTicketEmail({
-    email: transaction.user.email,
-    name: transaction.user.name,
-    passengers: transaction.bookings.map((booking) => ({
-      name: booking.passenger.name,
-      type: booking.passenger.type
-    })),
-    departureFlight: {
-      departureCity: transaction.departureFlight.departureAirport.city,
-      destinationCity: transaction.departureFlight.destinationAirport.city,
-      departureAirport: transaction.departureFlight.departureAirport.name,
-      destinationAirport: transaction.departureFlight.destinationAirport.name,
-      flightNumber: transaction.departureFlight.flightNumber,
-      durationMinutes: transaction.departureFlight.durationMinutes,
-      date: transaction.departureFlight.departureTimestamp
-        .toISOString()
-        .split('T')[0],
-      departureTime: transaction.departureFlight.departureTimestamp
-        .toISOString()
-        .split('T')[1]
-        .split('.')[0],
-      arrivalTime: transaction.departureFlight.arrivalTimestamp
-        .toISOString()
-        .split('T')[1]
-        .split('.')[0]
-    },
-    returnFlight: transaction.returnFlight
-      ? {
-          departureCity: transaction.returnFlight?.departureAirport.city,
-          destinationCity: transaction.returnFlight?.destinationAirport.city,
-          departureAirport: transaction.returnFlight?.departureAirport.name,
-          destinationAirport: transaction.returnFlight?.destinationAirport.name,
-          flightNumber: transaction.returnFlight?.flightNumber,
-          durationMinutes: transaction.returnFlight?.durationMinutes,
-          date: transaction.returnFlight?.departureTimestamp
-            .toISOString()
-            .split('T')[0],
-          departureTime: transaction.returnFlight?.departureTimestamp
-            .toISOString()
-            .split('T')[1]
-            .split('.')[0],
-          arrivalTime: transaction.returnFlight?.arrivalTimestamp
-            .toISOString()
-            .split('T')[1]
-            .split('.')[0]
-        }
-      : null
-  });
+  await sendTransactionTicketEmail(transaction);
 }
 
 export const TransactionService = {

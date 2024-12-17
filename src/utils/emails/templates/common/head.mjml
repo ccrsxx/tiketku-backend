@@ -1,0 +1,24 @@
+<mj-head>
+  <!-- prettier-ignore -->
+  <mj-style>
+    .body-wrapper {
+      padding: 1rem 0;
+      background-color: #f9f9f9;
+    }
+
+    .wrapper {
+      border: 1px solid #955bce;
+      border-radius: 0.5rem;
+      background-color: white;
+    }
+    .wrapper.container {
+      margin: 2rem auto !important;
+    }
+  </mj-style>
+  <mj-attributes>
+    <mj-all font-family="Helvetica" />
+    <mj-class name="accent-text-color" color="#955BCE" />
+    <mj-class name="accent-border-color" border-color="#955BCE" />
+    <mj-class name="accent-background-color" background-color="#955BCE" />
+  </mj-attributes>
+</mj-head>

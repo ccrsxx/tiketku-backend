@@ -62,12 +62,17 @@ async function getMyTransactions(req, res) {
 
 /**
  * @param {Request<{ id: string }>} req
- * @param {Response} res
+ * @param {Response<unknown, { user: User }>} res
  */
 async function sendTransactionTicketEmail(req, res) {
-  await TransactionService.sendTransactionTicket(req.params.id);
+  await TransactionService.sendTransactionTicket(
+    res.locals.user.id,
+    req.params.id
+  );
 
-  res.status(200).json({ message: 'Transaction ticket email sent' });
+  res
+    .status(200)
+    .json({ message: 'Transaction ticket email sent successfully' });
 }
 
 export const TransactionController = {

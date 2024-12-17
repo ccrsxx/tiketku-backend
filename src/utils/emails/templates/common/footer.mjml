@@ -1,7 +1,7 @@
 <mj-section>
   <mj-column>
-    <mj-divider border-color="#955BCE" />
-    <mj-text color="#955BCE" align="center">
+    <mj-divider mj-class="accent-border-color" />
+    <mj-text mj-class="accent-text-color" align="center">
       <p>&copy; 2024 TiketKu. All rights reserved.</p>
     </mj-text>
   </mj-column>
