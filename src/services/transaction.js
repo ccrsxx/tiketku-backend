@@ -60,10 +60,6 @@ async function createTransaction(
     }
   }
 
-  const next15MinutesDate = new Date();
-
-  next15MinutesDate.setMinutes(next15MinutesDate.getMinutes() + 15);
-
   const createdTransaction = await prisma.$transaction(async (tx) => {
     const transactionCreation = await tx.transaction.create({
       data: {
@@ -119,7 +115,8 @@ async function createTransaction(
             status: 'PENDING',
             snapToken: '',
             snapRedirectUrl: '',
-            expiredAt: next15MinutesDate
+            expiredAt: new Date(),
+            expiredAtWithoutMethod: new Date()
           }
         }
       },
@@ -146,12 +143,21 @@ async function createTransaction(
       }
     });
 
+    const next5MinutesDate = new Date();
+
+    next5MinutesDate.setMinutes(next5MinutesDate.getMinutes() + 5);
+
+    const next15MinutesDate = new Date();
+
+    next15MinutesDate.setMinutes(next15MinutesDate.getMinutes() + 15);
+
     await tx.payment.update({
       where: {
         id: transactionCreation.paymentId
       },
       data: {
         expiredAt: next15MinutesDate,
+        expiredAtWithoutMethod: next5MinutesDate,
         snapToken: transactionResponse.token,
         snapRedirectUrl: transactionResponse.redirect_url
       }

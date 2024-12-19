@@ -8,9 +8,19 @@ async function invalidatePendingTransactions() {
     where: {
       payment: {
         status: 'PENDING',
-        expiredAt: {
-          lte: new Date()
-        }
+        OR: [
+          {
+            expiredAt: {
+              lte: new Date()
+            }
+          },
+          {
+            method: null,
+            expiredAtWithoutMethod: {
+              lte: new Date()
+            }
+          }
+        ]
       }
     },
     include: {
