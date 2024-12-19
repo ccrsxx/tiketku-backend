@@ -37,9 +37,10 @@ const { WebhookMidtransService } = /** @type {WebhookMidtransServiceMock} */ (
   await import('../../services/webhook/midtrans.js')
 );
 
-const { WebhookTransactionService } = /** @type {WebhookTransactionServiceMock} */ (
-  await import('../../services/webhook/transaction.js')
-);
+const { WebhookTransactionService } =
+  /** @type {WebhookTransactionServiceMock} */ (
+    await import('../../services/webhook/transaction.js')
+  );
 
 describe('WebhookController', () => {
   describe('manageMidtransNotification', () => {
@@ -54,7 +55,9 @@ describe('WebhookController', () => {
 
       await WebhookController.manageMidtransNotification(req, res);
 
-      expect(WebhookMidtransService.manageMidtransNotification).toHaveBeenCalledWith(req.body);
+      expect(
+        WebhookMidtransService.manageMidtransNotification
+      ).toHaveBeenCalledWith(req.body);
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
         message: 'Midtrans notification successfully handled'
@@ -65,9 +68,13 @@ describe('WebhookController', () => {
       const { req, res } = setupExpressMock();
       const error = new Error('Service error');
 
-      WebhookMidtransService.manageMidtransNotification.mockRejectedValue(error);
+      WebhookMidtransService.manageMidtransNotification.mockRejectedValue(
+        error
+      );
 
-      await expect(WebhookController.manageMidtransNotification(req, res)).rejects.toThrow(error);
+      await expect(
+        WebhookController.manageMidtransNotification(req, res)
+      ).rejects.toThrow(error);
     });
   });
 
@@ -79,7 +86,9 @@ describe('WebhookController', () => {
 
       await WebhookController.invalidatePendingTransactions(req, res);
 
-      expect(WebhookTransactionService.invalidatePendingTransactions).toHaveBeenCalled();
+      expect(
+        WebhookTransactionService.invalidatePendingTransactions
+      ).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
         message: 'Pending payments invalidated'
@@ -90,9 +99,13 @@ describe('WebhookController', () => {
       const { req, res } = setupExpressMock();
       const error = new Error('Service error');
 
-      WebhookTransactionService.invalidatePendingTransactions.mockRejectedValue(error);
+      WebhookTransactionService.invalidatePendingTransactions.mockRejectedValue(
+        error
+      );
 
-      await expect(WebhookController.invalidatePendingTransactions(req, res)).rejects.toThrow(error);
+      await expect(
+        WebhookController.invalidatePendingTransactions(req, res)
+      ).rejects.toThrow(error);
     });
   });
 });
