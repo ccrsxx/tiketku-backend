@@ -42,6 +42,34 @@ export async function manageMidtransNotification(payload) {
           returnFlightSeatId: false,
           departureFlightSeatId: false
         }
+      },
+      departureFlight: {
+        include: {
+          departureAirport: {
+            select: {
+              code: true
+            }
+          },
+          destinationAirport: {
+            select: {
+              code: true
+            }
+          }
+        }
+      },
+      returnFlight: {
+        include: {
+          departureAirport: {
+            select: {
+              code: true
+            }
+          },
+          destinationAirport: {
+            select: {
+              code: true
+            }
+          }
+        }
       }
     },
     omit: {
@@ -149,7 +177,11 @@ export async function manageMidtransNotification(payload) {
       data: {
         userId: transaction.userId,
         name: 'Notifikasi',
-        description: 'Pembayaran berhasil!'
+        description:
+          `Pembayaran berhasil untuk tiket dengan kode ${transaction.code}. Dengan keberangkatan dari ${transaction.departureFlight.departureAirport.code} menuju ${transaction.departureFlight.destinationAirport.code}` +
+          (transaction.returnFlight
+            ? ` dan penerbangan kembali dari ${transaction.returnFlight?.departureAirport.code} menuju ${transaction.returnFlight?.destinationAirport.code}`
+            : '')
       }
     });
 
@@ -192,7 +224,11 @@ export async function manageMidtransNotification(payload) {
       data: {
         userId: transaction.userId,
         name: 'Notifikasi',
-        description: 'Pembayaran gagal!'
+        description:
+          `Pembayaran gagal untuk tiket dengan kode ${transaction.code}. Dengan keberangkatan dari ${transaction.departureFlight.departureAirport.code} menuju ${transaction.departureFlight.destinationAirport.code}` +
+          (transaction.returnFlight
+            ? ` dan penerbangan kembali dari ${transaction.returnFlight?.departureAirport.code} menuju ${transaction.returnFlight?.destinationAirport.code}`
+            : '')
       }
     });
 
