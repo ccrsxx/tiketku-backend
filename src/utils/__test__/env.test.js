@@ -54,12 +54,13 @@ describe('Environment configuration', () => {
     process.env.EMAIL_API_KEY = 'secret';
     process.env.VALID_ORIGINS = 'http://localhost:3000';
     process.env.STORAGE_BUCKET = 'storage_bucket';
+    process.env.WEBHOOK_SECRET = 'secret';
     process.env.IMAGEKIT_PUBLIC_KEY = 'public';
+    process.env.MIDTRANS_SERVER_KEY = 'SB-Mid-server';
+    process.env.MIDTRANS_CLIENT_KEY = 'SB-Mid-client';
     process.env.IMAGEKIT_PRIVATE_KEY = 'private';
     process.env.IMAGEKIT_URL_ENDPOINT = 'https://ik.imagekit.io';
     process.env.GOOGLE_APPLICATION_CREDENTIALS = '/path/to/credentials.json';
-    process.env.MIDTRANS_SERVER_KEY = 'SB-Mid-server';
-    process.env.MIDTRANS_CLIENT_KEY = 'SB-Mid-client';
   }
 
   async function setupEnvironment() {

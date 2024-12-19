@@ -80,6 +80,7 @@ jobs:
             EMAIL_ADDRESS=${{ secrets.EMAIL_ADDRESS }}
             EMAIL_API_KEY=${{ secrets.EMAIL_API_KEY }}
             VALID_ORIGINS=${{ secrets.VALID_ORIGINS }}
+            WEBHOOK_SECRET=${{ secrets.WEBHOOK_SECRET }}
             STORAGE_BUCKET=${{ secrets.STORAGE_BUCKET }}
             MIDTRANS_CLIENT_KEY=${{ secrets.MIDTRANS_CLIENT_KEY }}
             MIDTRANS_SERVER_KEY=${{ secrets.MIDTRANS_SERVER_KEY }}
