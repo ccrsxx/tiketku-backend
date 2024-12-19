@@ -1,9 +1,8 @@
 import { Router } from 'express';
 import { AuthMiddleware } from '../middlewares/auth.js';
 import { TransactionController } from '../controllers/transaction.js';
-import { TransactionValidationMiddleware } from '../middlewares/validation/transaction.js';
-import { MidtransController } from '../controllers/midtrans.js';
 import { CommonValidationMiddleware } from '../middlewares/validation/common.js';
+import { TransactionValidationMiddleware } from '../middlewares/validation/transaction.js';
 
 /** @param {Router} app */
 export default (app) => {
@@ -44,6 +43,4 @@ export default (app) => {
     AuthMiddleware.isAuthorized,
     TransactionController.sendTransactionTicketEmail
   );
-
-  router.post('/notification', MidtransController.manageMidtransNotification);
 };

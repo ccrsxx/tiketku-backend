@@ -181,6 +181,7 @@ async function createTransaction(
         id: transactionCreation.paymentId
       },
       data: {
+        expiredAt: next15MinutesDate,
         snapToken: transactionResponse.token,
         snapRedirectUrl: transactionResponse.redirect_url
       }

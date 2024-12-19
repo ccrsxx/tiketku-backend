@@ -23,11 +23,14 @@ import { setupExpressMock } from '../../utils/jest.js';
  * }} AuthServiceMock
  */
 
+const oldAuthService = await import('../../services/auth.js');
+
 jest.unstable_mockModule(
   '../../services/auth.js',
   () =>
     /** @type {AuthServiceMock} */ ({
       AuthService: {
+        ...oldAuthService.AuthService,
         verifyToken: jest.fn()
       }
     })

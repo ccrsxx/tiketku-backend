@@ -5,6 +5,7 @@ import users from './users.js';
 import upload from './upload.js';
 import flights from './flights.js';
 import airports from './airports.js';
+import webhooks from './webhooks.js';
 import transactions from './transactions.js';
 import notifications from './notifications.js';
 
@@ -19,6 +20,7 @@ export default (app) => {
   upload(app);
   flights(app);
   airports(app);
+  webhooks(app);
   transactions(app);
   notifications(app);
 };

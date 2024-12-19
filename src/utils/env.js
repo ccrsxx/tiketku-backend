@@ -14,6 +14,7 @@ const envSchema = z.object({
   EMAIL_ADDRESS: validStringSchema,
   EMAIL_API_KEY: validStringSchema,
   VALID_ORIGINS: validStringSchema,
+  WEBHOOK_SECRET: validStringSchema,
   STORAGE_BUCKET: validStringSchema,
   MIDTRANS_CLIENT_KEY: validStringSchema,
   MIDTRANS_SERVER_KEY: validStringSchema
