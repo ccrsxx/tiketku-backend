@@ -3,6 +3,21 @@ import { FlightClassType, Continent } from '@prisma/client';
 import { jest } from '@jest/globals';
 import { generatePrismaMock } from '../../utils/jest.js';
 
+/**
+ * @typedef {{
+ *   default: Record<keyof import('../../utils/db.js'), jest.Mock>;
+ * }} GeneratedPrismaMock
+ */
+
+/**
+ * @typedef {{
+ *   FlightService: Record<
+ *     keyof import('../flight.js')['FlightService'],
+ *     jest.Mock
+ *   >;
+ * }} FlightServiceMock
+ */
+
 jest.unstable_mockModule('../../utils/db.js', generatePrismaMock);
 
 jest.unstable_mockModule('../../utils/db.js', () => ({

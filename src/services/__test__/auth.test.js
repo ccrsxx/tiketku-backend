@@ -62,7 +62,10 @@ jest.unstable_mockModule('../../utils/db.js', () => ({
       update: jest.fn()
     },
     passwordReset: {
-      findFirst: jest.fn()
+      findFirst: jest.fn(),
+      updateMany: jest.fn(),
+      create: jest.fn(),
+      update: jest.fn()
     },
     $transaction: jest.fn()
   }
@@ -267,12 +270,51 @@ describe('Auth service', () => {
     it('should send password reset email if user exists', async () => {
       const email = 'test@email.com';
       const token = 'resetToken';
-      const user = { name: 'Test User', email };
+      const user = { id: 'userId', name: 'Test User', email };
 
-      await sendResetPasswordEmail({
-        name: user.name,
-        email: user.email,
-        token
+      prisma.user.findUnique.mockResolvedValue(user);
+
+      prisma.passwordReset.updateMany.mockResolvedValue({ count: 1 });
+
+      const nextHourDate = new Date();
+
+      nextHourDate.setHours(nextHourDate.getHours() + 1);
+
+      prisma.passwordReset.create.mockResolvedValue({
+        used: false,
+        token,
+        userId: user.id,
+        expiredAt: nextHourDate
+      });
+
+      prisma.$transaction.mockImplementation((callback) => callback(prisma));
+
+      await AuthService.sendPasswordResetEmail(email);
+
+      expect(prisma.user.findUnique).toHaveBeenCalledWith({
+        where: { email }
+      });
+
+      expect(prisma.passwordReset.updateMany).toHaveBeenCalledWith({
+        where: {
+          userId: user.id,
+          used: false,
+          expiredAt: {
+            gte: expect.any(Date)
+          }
+        },
+        data: {
+          used: true
+        }
+      });
+
+      expect(prisma.passwordReset.create).toHaveBeenCalledWith({
+        data: {
+          used: false,
+          token: expect.any(String),
+          userId: user.id,
+          expiredAt: expect.any(Date)
+        }
       });
 
       expect(sendResetPasswordEmail).toHaveBeenCalledWith({
