@@ -43,6 +43,9 @@ export async function manageMidtransNotification(payload) {
           departureFlightSeatId: false
         }
       }
+    },
+    omit: {
+      userId: false
     }
   });
 
@@ -142,9 +145,18 @@ export async function manageMidtransNotification(payload) {
       }
     });
 
+    const addNotificationAction = prisma.notification.create({
+      data: {
+        userId: transaction.userId,
+        name: 'Notifikasi',
+        description: 'Pembayaran berhasil!'
+      }
+    });
+
     await prisma.$transaction([
       updateTransactionAction,
-      updateFlightSeatsAction
+      updateFlightSeatsAction,
+      addNotificationAction
     ]);
 
     logger.info(`Transaction ${orderId} succeeded`);
@@ -176,9 +188,18 @@ export async function manageMidtransNotification(payload) {
       }
     });
 
+    const addNotificationAction = prisma.notification.create({
+      data: {
+        userId: transaction.userId,
+        name: 'Notifikasi',
+        description: 'Pembayaran gagal!'
+      }
+    });
+
     await prisma.$transaction([
       updateTransactionAction,
-      updateFlightSeatsAction
+      updateFlightSeatsAction,
+      addNotificationAction
     ]);
 
     logger.info(`Transaction ${orderId} failed`);

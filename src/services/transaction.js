@@ -167,6 +167,14 @@ async function createTransaction(
       }
     });
 
+    await tx.notification.create({
+      data: {
+        userId: user.id,
+        name: 'Notifikasi',
+        description: 'Booking berhasil, silahkan selesaikan pembayaran'
+      }
+    });
+
     return {
       transactionId: transactionCreation.id,
       snapToken: transactionResponse.token,
