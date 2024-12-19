@@ -1,7 +1,7 @@
-import { midtrans } from '../utils/midtrans.js';
-import { logger } from '../loaders/pino.js';
-import { prisma } from '../utils/db.js';
-import { HttpError } from '../utils/error.js';
+import { midtrans } from '../../utils/midtrans.js';
+import { logger } from '../../loaders/pino.js';
+import { prisma } from '../../utils/db.js';
+import { HttpError } from '../../utils/error.js';
 
 /** @import {NotificationPayload} from 'midtrans-client' */
 
@@ -90,19 +90,6 @@ export async function manageMidtransNotification(payload) {
   /**
    * Refactored logic for handling midtrans notification. Reference:
    * https://docs.midtrans.com/docs/https-notification-webhooks#example-on-handling-http-notifications
-   */
-
-  /**
-   * TODO: Handle page expiry when user hasn't choose a payment method
-   *
-   * Currently, midtrans doesn't send a notification when the user hasn't choose
-   * a payment method and the page expires.
-   *
-   * It can be handled by running a cron job to check the transaction status
-   * that is still pending and the expired time has passed.
-   *
-   * If so, update the transaction status to 'FAILED' and make the flight seats
-   * available again.
    */
 
   const isSuccess =
@@ -230,6 +217,6 @@ export async function checkMidtransTransactionValidity(transactionId) {
   }
 }
 
-export const MidtransService = {
+export const WebhookMidtransService = {
   manageMidtransNotification
 };
