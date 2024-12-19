@@ -57,20 +57,7 @@ export async function manageMidtransNotification(payload) {
           }
         }
       },
-      returnFlight: {
-        include: {
-          departureAirport: {
-            select: {
-              code: true
-            }
-          },
-          destinationAirport: {
-            select: {
-              code: true
-            }
-          }
-        }
-      }
+      returnFlight: {}
     },
     omit: {
       userId: false
@@ -166,9 +153,7 @@ export async function manageMidtransNotification(payload) {
         name: 'Notifikasi',
         description:
           `Pembayaran berhasil untuk tiket dengan kode ${transaction.code}. Dengan keberangkatan dari ${transaction.departureFlight.departureAirport.code} menuju ${transaction.departureFlight.destinationAirport.code}` +
-          (transaction.returnFlight
-            ? ` dan penerbangan kembali dari ${transaction.returnFlight?.departureAirport.code} menuju ${transaction.returnFlight?.destinationAirport.code}`
-            : '')
+          (transaction.returnFlight ? ' (PP).' : '.')
       }
     });
 
@@ -213,9 +198,7 @@ export async function manageMidtransNotification(payload) {
         name: 'Notifikasi',
         description:
           `Pembayaran gagal untuk tiket dengan kode ${transaction.code}. Dengan keberangkatan dari ${transaction.departureFlight.departureAirport.code} menuju ${transaction.departureFlight.destinationAirport.code}` +
-          (transaction.returnFlight
-            ? ` dan penerbangan kembali dari ${transaction.returnFlight?.departureAirport.code} menuju ${transaction.returnFlight?.destinationAirport.code}`
-            : '')
+          (transaction.returnFlight ? ' (PP).' : '.')
       }
     });
 
