@@ -24,6 +24,7 @@ describe('NotificationService', () => {
 
       expect(prisma.notification.findMany).toHaveBeenCalledWith({
         where: { userId },
+        omit: { createdAt: false },
         orderBy: { createdAt: 'desc' }
       });
 
