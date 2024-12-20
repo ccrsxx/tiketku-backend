@@ -3,7 +3,7 @@ import { generatePrismaMock } from '../../utils/jest.js';
 import { HttpError } from '../../utils/error.js';
 
 jest.unstable_mockModule('../../utils/db.js', generatePrismaMock);
-jest.unstable_mockModule('../../utils/emails/mail.js', () => ({
+jest.unstable_mockModule('../../utils/emails/core/otp.js', () => ({
   sendOtpEmail: jest.fn()
 }));
 
@@ -11,7 +11,7 @@ const { prisma } =
   /** @type {import('../../utils/jest.js').GeneratedPrismaMock} */ (
     /** @type {unknown} */ (await import('../../utils/db.js'))
   );
-const { sendOtpEmail } = await import('../../utils/emails/mail.js');
+const { sendOtpEmail } = await import('../../utils/emails/core/otp.js');
 const { OtpService } = await import('../otp.js');
 
 describe('OtpService', () => {
