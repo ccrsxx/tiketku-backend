@@ -68,10 +68,106 @@ describe('FlightService', () => {
       });
     });
 
+    it('should get return flight details', async () => {
+      const departureMockFlight = {
+        id: '1',
+        airline: {},
+        airplane: {},
+        flightSeats: [
+          { row: 1, column: 1 },
+          { row: 1, column: 2 },
+          { row: 5, column: 1 }
+        ],
+        departureAirport: { id: 'dep1' },
+        destinationAirport: { id: 'dest1' }
+      };
+
+      const returnMockFlight = {
+        id: '1234e86b-1325-43f1-be92-ce129e61712b',
+        airline: {},
+        airplane: {},
+        flightSeats: [
+          { row: 1, column: 1 },
+          { row: 1, column: 2 },
+          { row: 5, column: 1 }
+        ],
+        departureAirport: { id: 'dest1' },
+        destinationAirport: { id: 'dep1' }
+      };
+
+      prisma.flight.findUnique
+        .mockImplementationOnce(() => Promise.resolve(departureMockFlight))
+        .mockImplementationOnce(() => Promise.resolve(returnMockFlight));
+
+      const result = await FlightService.getFlight('1', {
+        returnFlightId: returnMockFlight.id
+      });
+
+      expect(result).toEqual({
+        departureFlight: departureMockFlight,
+        returnFlight: returnMockFlight
+      });
+    });
+
     it('should throw error if flight not found', async () => {
       prisma.flight.findUnique.mockResolvedValueOnce(null);
 
       await expect(FlightService.getFlight('1', {})).rejects.toThrow(HttpError);
+    });
+
+    it('should throw error if return flight not found', async () => {
+      prisma.flight.findUnique
+        .mockImplementationOnce(() => Promise.resolve('1'))
+        .mockImplementationOnce(() => Promise.resolve(null));
+
+      await expect(
+        FlightService.getFlight('1', {
+          returnFlightId: '1234e86b-1325-43f1-be92-ce129e61712c'
+        })
+      ).rejects.toThrow(
+        new HttpError(404, { message: 'Return flight not found' })
+      );
+    });
+
+    it('should throw error if return flight has different destination', async () => {
+      const departureMockFlight = {
+        id: '1',
+        airline: {},
+        airplane: {},
+        flightSeats: [
+          { row: 10, column: 2 },
+          { row: 5, column: 1 }
+        ],
+        departureAirport: { id: 'dep1' },
+        destinationAirport: { id: 'dest1' }
+      };
+
+      const returnMockFlight = {
+        id: '1234e86b-1325-43f1-be92-ce129e61712b',
+        airline: {},
+        airplane: {},
+        flightSeats: [
+          { row: 10, column: 2 },
+          { row: 5, column: 1 }
+        ],
+        departureAirport: { id: 'dest2' },
+        destinationAirport: { id: 'dep1' }
+      };
+
+      prisma.flight.findUnique
+        .mockImplementationOnce(() => Promise.resolve(departureMockFlight))
+        .mockImplementationOnce(() => Promise.resolve(returnMockFlight));
+
+      await expect(
+        FlightService.getFlight('1', {
+          returnFlightId: '1234e86b-1325-43f1-be92-ce129e61712b'
+        })
+      ).rejects.toThrow(
+        new HttpError(400, {
+          message:
+            'Return flight must have the same destination as the departure flight'
+        })
+      );
     });
 
     it('should sort flight seats by row and column', async () => {

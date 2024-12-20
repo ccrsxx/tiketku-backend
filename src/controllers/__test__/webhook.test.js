@@ -2,118 +2,110 @@ import { jest } from '@jest/globals';
 import { setupExpressMock } from '../../utils/jest.js';
 
 /**
- * @typedef {{
- *   WebhookController: Record<
- *     keyof import('../webhook.js')['WebhookController'],
- *     jest.Mock
- *   >;
- * }} WebhookControllerMock
+ * @typedef {Object} WebhookControllerMock
+ * @property {jest.Mock} manageMidtransNotification
+ * @property {jest.Mock} invalidatePendingTransactions
  */
 
 /**
- * @typedef {{
- *   WebhookMidtransService: Record<
- *     keyof import('../../services/webhook/midtrans.js')['MidtransService'],
- *     jest.Mock
- *   >;
- * }} WebhookMidtransServiceMock
+ * @typedef {Object} WebhookMidtransServiceMock
+ * @property {jest.Mock} manageMidtransNotification
  */
 
 /**
- * @typedef {{
- *   WebhookTransactionService: Record<
- *     keyof import('../../services/webhook/transaction.js')['TransactionService'],
- *     jest.Mock
- *   >;
- * }} WebhookTransactionServiceMock
+ * @typedef {Object} WebhookTransactionServiceMock
+ * @property {jest.Mock} invalidatePendingTransactions
  */
 
-jest.unstable_mockModule(
-  '../../services/webhook/midtrans.js',
-  () =>
-    /** @type {WebhookMidtransServiceMock} */ ({
-      WebhookMidtransService: {
-        manageMidtransNotification: jest.fn()
-      }
-    })
-);
+jest.unstable_mockModule('../../services/webhook/midtrans.js', () => ({
+  WebhookMidtransService: {
+    manageMidtransNotification: jest.fn()
+  }
+}));
 
-jest.unstable_mockModule(
-  '../../services/webhook/transaction.js',
-  () =>
-    /** @type {WebhookTransactionServiceMock} */ ({
-      WebhookTransactionService: {
-        invalidatePendingTransactions: jest.fn()
-      }
-    })
-);
+jest.unstable_mockModule('../../services/webhook/transaction.js', () => ({
+  WebhookTransactionService: {
+    invalidatePendingTransactions: jest.fn()
+  }
+}));
 
 const { WebhookController } = /** @type {WebhookControllerMock} */ (
-  /** @type {unknown} */ (await import('../webhook.js'))
+  await import('../webhook.js')
 );
 
 const { WebhookMidtransService } = /** @type {WebhookMidtransServiceMock} */ (
-  /** @type {unknown} */ (await import('../../services/webhook/midtrans.js'))
+  await import('../../services/webhook/midtrans.js')
 );
 
 const { WebhookTransactionService } =
   /** @type {WebhookTransactionServiceMock} */ (
-    /** @type {unknown} */ (
-      await import('../../services/webhook/transaction.js')
-    )
+    await import('../../services/webhook/transaction.js')
   );
 
-describe('Midtrans controller', () => {
+describe('WebhookController', () => {
   describe('manageMidtransNotification', () => {
-    it('should handle Midtrans notification successfully', async () => {
-      const notificationPayload = {
-        transaction_id: 'txn_123',
-        order_id: 'order_123',
-        transaction_status: 'settlement',
-        gross_amount: '1000000'
+    it('should handle midtrans notification successfully', async () => {
+      const { req, res } = setupExpressMock();
+      req.body = {
+        transaction_status: 'capture',
+        order_id: 'test-order-123'
       };
 
-      WebhookMidtransService.manageMidtransNotification.mockImplementation(() =>
-        Promise.resolve()
-      );
-
-      const { req, res } = setupExpressMock({
-        req: { body: notificationPayload }
-      });
+      WebhookMidtransService.manageMidtransNotification.mockResolvedValue();
 
       await WebhookController.manageMidtransNotification(req, res);
 
       expect(
         WebhookMidtransService.manageMidtransNotification
-      ).toHaveBeenCalledWith(notificationPayload);
+      ).toHaveBeenCalledWith(req.body);
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
         message: 'Midtrans notification successfully handled'
       });
     });
+
+    it('should handle service errors', async () => {
+      const { req, res } = setupExpressMock();
+      const error = new Error('Service error');
+
+      WebhookMidtransService.manageMidtransNotification.mockRejectedValue(
+        error
+      );
+
+      await expect(
+        WebhookController.manageMidtransNotification(req, res)
+      ).rejects.toThrow(error);
+    });
   });
 
   describe('invalidatePendingTransactions', () => {
-    it('should invalidate pending transactions and respond with success', async () => {
-      // Mock the service to resolve successfully
-      WebhookTransactionService.invalidatePendingTransactions.mockImplementation(
-        () => Promise.resolve()
-      );
-
-      // Mock Express req and res objects
+    it('should invalidate pending transactions successfully', async () => {
       const { req, res } = setupExpressMock();
 
-      // Call the controller method
+      WebhookTransactionService.invalidatePendingTransactions.mockResolvedValue();
+
       await WebhookController.invalidatePendingTransactions(req, res);
 
-      // Assertions
       expect(
         WebhookTransactionService.invalidatePendingTransactions
-      ).toHaveBeenCalledTimes(1);
+      ).toHaveBeenCalled();
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
         message: 'Pending payments invalidated'
       });
+    });
+
+    it('should handle service errors when invalidating transactions', async () => {
+      const { req, res } = setupExpressMock();
+      const error = new Error('Service error');
+
+      WebhookTransactionService.invalidatePendingTransactions.mockRejectedValue(
+        error
+      );
+
+      await expect(
+        WebhookController.invalidatePendingTransactions(req, res)
+      ).rejects.toThrow(error);
     });
   });
 });

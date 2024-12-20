@@ -24,7 +24,8 @@ jest.unstable_mockModule('../../services/transaction.js', () => ({
     createTransaction: jest.fn(),
     getTransaction: jest.fn(),
     cancelTransaction: jest.fn(),
-    getMyTransactions: jest.fn()
+    getMyTransactions: jest.fn(),
+    sendTransactionTicket: jest.fn()
   }
 }));
 
@@ -120,6 +121,28 @@ describe('Transaction controller', () => {
       );
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({ meta, data: transactions });
+    });
+  });
+
+  describe('sendTransactionTicketEmail', () => {
+    it('should send a transaction ticket email', async () => {
+      const { req, res } = setupExpressMock();
+
+      TransactionService.sendTransactionTicket.mockResolvedValue(undefined);
+
+      req.params = { id: '1' };
+      res.locals = { user: { id: '1' } };
+
+      await TransactionController.sendTransactionTicketEmail(req, res);
+
+      expect(TransactionService.sendTransactionTicket).toHaveBeenCalledWith(
+        '1',
+        '1'
+      );
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        message: 'Transaction ticket email sent successfully'
+      });
     });
   });
 });

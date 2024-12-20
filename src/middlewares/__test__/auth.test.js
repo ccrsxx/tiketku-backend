@@ -2,7 +2,6 @@ import { jest } from '@jest/globals';
 import { getFunctionThrownError } from '../../utils/jest.js';
 import { HttpError } from '../../utils/error.js';
 import { setupExpressMock } from '../../utils/jest.js';
-import { appEnv } from '../../utils/env.js';
 
 /** @import {GeneratedPrismaMock} from '../../utils/jest.js' */
 
@@ -40,6 +39,12 @@ jest.unstable_mockModule(
     })
 );
 
+jest.unstable_mockModule('../../utils/env.js', () => ({
+  appEnv: {
+    WEBHOOK_SECRET: 'valid_webhook_token'
+  }
+}));
+
 const { AuthMiddleware } = /** @type {AuthMiddlewareMock} */ (
   /** @type {unknown} */ (await import('../auth.js'))
 );
@@ -66,7 +71,7 @@ describe('Auth middleware', () => {
       expect(res.locals).toHaveProperty('user', user);
     });
 
-    it('should throw an 401 http error if authorization is empty', async () => {
+    it('should throw a 401 http error if authorization is empty', async () => {
       const { req, res, next } = setupExpressMock({
         req: {
           get: jest.fn().mockReturnValue(undefined)
@@ -82,7 +87,7 @@ describe('Auth middleware', () => {
       expect(error).toHaveProperty('message', 'Invalid token');
     });
 
-    it('should throw an 401 http error if authorization is invalid', async () => {
+    it('should throw a 401 http error if authorization is invalid', async () => {
       const { req, res, next } = setupExpressMock({
         req: {
           get: jest.fn().mockReturnValue('Invalid token')
@@ -100,40 +105,24 @@ describe('Auth middleware', () => {
   });
 
   describe('isWebhookAuthorized', () => {
-    beforeEach(() => {
-      jest.clearAllMocks();
-    });
-
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
-
     it('should call next if webhook token is valid', async () => {
       const { req, res, next } = setupExpressMock({
         req: {
-          get: jest.fn().mockReturnValue('Bearer secret123')
+          get: jest.fn().mockReturnValue('Bearer valid_webhook_token')
         }
       });
-
-      appEnv.WEBHOOK_SECRET = 'secret123';
-
-      AuthService.getAuthorizationBearerToken.mockReturnValue('secret123');
 
       await AuthMiddleware.isWebhookAuthorized(req, res, next);
 
-      expect(next).toHaveBeenCalledTimes(1);
+      expect(next).toHaveBeenCalled();
     });
 
-    it('should throw an 401 http error if webhook token is invalid', async () => {
+    it('should throw a 401 error if webhook token is invalid', async () => {
       const { req, res, next } = setupExpressMock({
         req: {
-          get: jest.fn().mockReturnValue('Bearer invalid')
+          get: jest.fn().mockReturnValue('Bearer invalid_token')
         }
       });
-
-      appEnv.WEBHOOK_SECRET = 'secret123';
-
-      AuthService.getAuthorizationBearerToken.mockReturnValue('invalid');
 
       const promise = AuthMiddleware.isWebhookAuthorized(req, res, next);
 
