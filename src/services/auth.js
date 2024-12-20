@@ -6,6 +6,7 @@ import { HttpError } from '../utils/error.js';
 import { generateRandomToken } from '../utils/helper.js';
 import { sendResetPasswordEmail } from '../utils/emails/mail.js';
 
+/** @import {Request} from 'express' */
 /** @import {ValidLoginPayload,ValidResetPasswordPayload} from '../middlewares/validation/auth.js' */
 
 /** @param {ValidLoginPayload} payload */
@@ -210,6 +211,23 @@ async function verifyPasswordResetToken(token) {
   }
 }
 
+/** @param {Request} req */
+function getAuthorizationBearerToken(req) {
+  const authorization = req.get('authorization');
+
+  if (!authorization) {
+    throw new HttpError(401, { message: 'Invalid token' });
+  }
+
+  const [type, token] = authorization.split(' ');
+
+  if (type.toLocaleLowerCase() !== 'bearer') {
+    throw new HttpError(401, { message: 'Invalid token' });
+  }
+
+  return token;
+}
+
 export const AuthService = {
   login,
   hashPassword,
@@ -218,5 +236,6 @@ export const AuthService = {
   verifyToken,
   sendPasswordResetEmail,
   resetPassword,
-  verifyPasswordResetToken
+  verifyPasswordResetToken,
+  getAuthorizationBearerToken
 };

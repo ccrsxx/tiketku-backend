@@ -2,6 +2,7 @@ import { jest } from '@jest/globals';
 import { getFunctionThrownError } from '../../utils/jest.js';
 import { HttpError } from '../../utils/error.js';
 import { setupExpressMock } from '../../utils/jest.js';
+import { appEnv } from '../../utils/env.js';
 
 /** @import {GeneratedPrismaMock} from '../../utils/jest.js' */
 
@@ -23,12 +24,18 @@ import { setupExpressMock } from '../../utils/jest.js';
  * }} AuthServiceMock
  */
 
+const oldAuthService = await import('../../services/auth.js');
+
 jest.unstable_mockModule(
   '../../services/auth.js',
   () =>
     /** @type {AuthServiceMock} */ ({
       AuthService: {
-        verifyToken: jest.fn()
+        ...oldAuthService.AuthService,
+        verifyToken: jest.fn(),
+        getAuthorizationBearerToken: jest.fn(
+          oldAuthService.AuthService.getAuthorizationBearerToken
+        )
       }
     })
 );
@@ -42,51 +49,99 @@ const { AuthService } = /** @type {AuthServiceMock} */ (
 );
 
 describe('Auth middleware', () => {
-  it('should call next if token is valid', async () => {
-    const { req, res, next } = setupExpressMock({
-      req: {
-        get: jest.fn().mockReturnValue('Bearer token')
-      }
+  describe('isAuthorized', () => {
+    it('should call next if token is valid', async () => {
+      const { req, res, next } = setupExpressMock({
+        req: {
+          get: jest.fn().mockReturnValue('Bearer token')
+        }
+      });
+
+      const user = { id: '1', email: 'test@gmail.com' };
+
+      AuthService.verifyToken.mockImplementationOnce(() => user);
+
+      await AuthMiddleware.isAuthorized(req, res, next);
+
+      expect(res.locals).toHaveProperty('user', user);
     });
 
-    const user = { id: '1', email: 'test@gmail.com' };
+    it('should throw an 401 http error if authorization is empty', async () => {
+      const { req, res, next } = setupExpressMock({
+        req: {
+          get: jest.fn().mockReturnValue(undefined)
+        }
+      });
 
-    AuthService.verifyToken.mockImplementationOnce(() => user);
+      const promise = AuthMiddleware.isAuthorized(req, res, next);
 
-    await AuthMiddleware.isAuthorized(req, res, next);
+      const error = await getFunctionThrownError(() => promise);
 
-    expect(res.locals).toHaveProperty('user', user);
+      expect(error).toBeInstanceOf(HttpError);
+      expect(error).toHaveProperty('statusCode', 401);
+      expect(error).toHaveProperty('message', 'Invalid token');
+    });
+
+    it('should throw an 401 http error if authorization is invalid', async () => {
+      const { req, res, next } = setupExpressMock({
+        req: {
+          get: jest.fn().mockReturnValue('Invalid token')
+        }
+      });
+
+      const promise = AuthMiddleware.isAuthorized(req, res, next);
+
+      const error = await getFunctionThrownError(() => promise);
+
+      expect(error).toBeInstanceOf(HttpError);
+      expect(error).toHaveProperty('statusCode', 401);
+      expect(error).toHaveProperty('message', 'Invalid token');
+    });
   });
 
-  it('should throw an 401 http error if authorization is empty', async () => {
-    const { req, res, next } = setupExpressMock({
-      req: {
-        get: jest.fn().mockReturnValue(undefined)
-      }
+  describe('isWebhookAuthorized', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
     });
 
-    const promise = AuthMiddleware.isAuthorized(req, res, next);
-
-    const error = await getFunctionThrownError(() => promise);
-
-    expect(error).toBeInstanceOf(HttpError);
-    expect(error).toHaveProperty('statusCode', 401);
-    expect(error).toHaveProperty('message', 'Invalid token');
-  });
-
-  it('should throw an 401 http error if authorization is invalid', async () => {
-    const { req, res, next } = setupExpressMock({
-      req: {
-        get: jest.fn().mockReturnValue('Invalid token')
-      }
+    afterEach(() => {
+      jest.clearAllMocks();
     });
 
-    const promise = AuthMiddleware.isAuthorized(req, res, next);
+    it('should call next if webhook token is valid', async () => {
+      const { req, res, next } = setupExpressMock({
+        req: {
+          get: jest.fn().mockReturnValue('Bearer secret123')
+        }
+      });
 
-    const error = await getFunctionThrownError(() => promise);
+      appEnv.WEBHOOK_SECRET = 'secret123';
 
-    expect(error).toBeInstanceOf(HttpError);
-    expect(error).toHaveProperty('statusCode', 401);
-    expect(error).toHaveProperty('message', 'Invalid token');
+      AuthService.getAuthorizationBearerToken.mockReturnValue('secret123');
+
+      await AuthMiddleware.isWebhookAuthorized(req, res, next);
+
+      expect(next).toHaveBeenCalledTimes(1);
+    });
+
+    it('should throw an 401 http error if webhook token is invalid', async () => {
+      const { req, res, next } = setupExpressMock({
+        req: {
+          get: jest.fn().mockReturnValue('Bearer invalid')
+        }
+      });
+
+      appEnv.WEBHOOK_SECRET = 'secret123';
+
+      AuthService.getAuthorizationBearerToken.mockReturnValue('invalid');
+
+      const promise = AuthMiddleware.isWebhookAuthorized(req, res, next);
+
+      const error = await getFunctionThrownError(() => promise);
+
+      expect(error).toBeInstanceOf(HttpError);
+      expect(error).toHaveProperty('statusCode', 401);
+      expect(error).toHaveProperty('message', 'Invalid token');
+    });
   });
 });

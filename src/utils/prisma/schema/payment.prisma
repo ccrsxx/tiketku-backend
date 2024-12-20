@@ -1,11 +1,12 @@
 model Payment {
-    id              String         @id @default(uuid(7)) @db.Uuid
-    amount          Int
-    status          PaymentStatus
-    method          PaymentMethod?
-    expiredAt       DateTime       @map("expired_at") @db.Timestamptz
-    snapToken       String         @map("snap_token")
-    snapRedirectUrl String         @map("snap_redirect_url")
+    id                     String         @id @default(uuid(7)) @db.Uuid
+    amount                 Int
+    status                 PaymentStatus
+    method                 PaymentMethod?
+    expiredAt              DateTime       @map("expired_at") @db.Timestamptz
+    snapToken              String         @map("snap_token")
+    snapRedirectUrl        String         @map("snap_redirect_url")
+    expiredAtWithoutMethod DateTime       @map("expired_at_without_method") @db.Timestamptz
 
     transaction Transaction?
 

@@ -4,6 +4,7 @@ import { prisma } from '../utils/db.js';
 async function getNotifications(userId) {
   const notifications = await prisma.notification.findMany({
     where: { userId },
+    omit: { createdAt: false },
     orderBy: { createdAt: 'desc' }
   });
 
