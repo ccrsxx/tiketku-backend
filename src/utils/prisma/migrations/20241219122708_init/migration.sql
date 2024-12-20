@@ -180,6 +180,7 @@ CREATE TABLE "payment" (
     "status" "PaymentStatus" NOT NULL,
     "method" "PaymentMethod",
     "expired_at" TIMESTAMPTZ NOT NULL,
+    "expired_at_without_method" TIMESTAMPTZ NOT NULL,
     "snap_token" TEXT NOT NULL,
     "snap_redirect_url" TEXT NOT NULL,
     "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
