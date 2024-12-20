@@ -39,3 +39,31 @@ export function getFirstAndLastName(fullName) {
 
   return { firstName, lastName };
 }
+
+/**
+ * @typedef {Object} TicketNotificationPayload
+ * @property {string} code
+ * @property {string} prefix
+ * @property {string} departureAirportCode
+ * @property {string} destinationAirportCode
+ * @property {boolean} [returnFlight]
+ */
+
+/** @param {TicketNotificationPayload} props */
+export function getParsedDescriptionTicketNotification({
+  code,
+  prefix,
+  departureAirportCode,
+  destinationAirportCode,
+  returnFlight
+}) {
+  let parsedDescription = `${prefix} untuk tiket dengan kode ${code}. Dengan keberangkatan dari ${departureAirportCode} menuju ${destinationAirportCode}`;
+
+  if (returnFlight) {
+    parsedDescription += ' (PP).';
+  } else {
+    parsedDescription += '.';
+  }
+
+  return parsedDescription;
+}

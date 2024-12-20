@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "title": "Plane Ticket",
+    "title": "Tiketku",
     "description": "Collection of Plane Ticket API endpoints.",
     "version": "1.0.0",
     "contact": {}
@@ -6012,7 +6012,7 @@
     },
     "/transactions/me": {
       "get": {
-        "tags": ["Transaction", "User1"],
+        "tags": ["Transaction"],
         "summary": "Get my transactions",
         "description": "Get my transactions",
         "operationId": "getMyTransactions",
@@ -7519,7 +7519,7 @@
     },
     "/transactions/{id}": {
       "get": {
-        "tags": ["Transaction", "User1"],
+        "tags": ["Transaction"],
         "summary": "Get transaction by id",
         "description": "Get transaction by id",
         "operationId": "getTransactionById",
@@ -7959,7 +7959,7 @@
     },
     "/transactions": {
       "post": {
-        "tags": ["Transaction", "User1"],
+        "tags": ["Transaction"],
         "summary": "Create transaction",
         "description": "Create transaction",
         "operationId": "createTransaction",
@@ -8390,7 +8390,7 @@
     },
     "/transactions/{id}/cancel": {
       "post": {
-        "tags": ["Transaction", "User1"],
+        "tags": ["Transaction"],
         "summary": "Cancel transaction by id",
         "description": "Cancel transaction by id",
         "operationId": "cancelTransactionById",
@@ -8649,7 +8649,7 @@
     },
     "/transactions/{id}/print": {
       "post": {
-        "tags": ["Transaction", "User1"],
+        "tags": ["Transaction"],
         "summary": "Request transaction e-ticket",
         "description": "Request transaction e-ticket",
         "operationId": "requestTransactionETicket",
@@ -8826,9 +8826,9 @@
         }
       ]
     },
-    "/transactions/notification": {
+    "/webhooks/midtrans": {
       "post": {
-        "tags": ["Transaction", "Internal"],
+        "tags": ["Webhook"],
         "summary": "Manage midtrans notification",
         "description": "Manage midtrans notification",
         "operationId": "manageMidtransNotification",
@@ -9009,6 +9009,174 @@
             }
           }
         }
+      }
+    },
+    "/webhooks/invalidate-pending-transactions": {
+      "post": {
+        "tags": ["Webhook"],
+        "summary": "Invalidate pending transactions",
+        "description": "Invalidate pending transactions",
+        "operationId": "invalidatePendingTransactions",
+        "responses": {
+          "200": {
+            "description": "200 - Pending payments invalidated",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "42"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 19 Dec 2024 11:19:03 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"2a-uxqmu6flYybjgvIFJlO30PK4Nds\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Pending payments invalidated"
+                    }
+                  }
+                },
+                "examples": {
+                  "200 - Pending payments invalidated": {
+                    "value": {
+                      "message": "Pending payments invalidated"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "401 - Invalid token",
+            "headers": {
+              "Access-Control-Allow-Credentials": {
+                "schema": {
+                  "type": "string",
+                  "example": "true"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "string",
+                  "example": "37"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 19 Dec 2024 10:58:48 GMT"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"25-FIV/ZCaZ465tIhBUa/pSs9dwkFc\""
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Origin"
+                }
+              },
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "object",
+                      "properties": {
+                        "message": {
+                          "type": "string",
+                          "example": "Invalid token"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "401 - Invalid token": {
+                    "value": {
+                      "error": {
+                        "message": "Invalid token"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/upload/image": {
@@ -9362,17 +9530,21 @@
                       "items": {
                         "type": "object",
                         "properties": {
+                          "createdAt": {
+                            "type": "string",
+                            "example": "2024-12-18T10:12:31.868Z"
+                          },
                           "description": {
                             "type": "string",
-                            "example": "Check out the latest feature in your app."
+                            "example": "Rem"
                           },
                           "id": {
                             "type": "string",
-                            "example": "a1b2c3d4-e5f6-7890-abcd-1234567890ef"
+                            "example": "0193d941-3dfb-7453-adc3-c1249d5838d8"
                           },
                           "name": {
                             "type": "string",
-                            "example": "New Feature Available"
+                            "example": "Emilia"
                           },
                           "userId": {
                             "type": "string",
@@ -9386,23 +9558,10 @@
                       },
                       "example": [
                         {
-                          "description": "Check out the latest feature in your app.",
-                          "id": "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
-                          "name": "New Feature Available",
-                          "userId": "3ef88357-fa12-4da1-9db1-9ddd1b089308",
-                          "viewed": false
-                        },
-                        {
-                          "description": "Your password has been successfully updated.",
-                          "id": "b2c3d4e5-f678-90ab-cdef-234567890123",
-                          "name": "Password Changed",
-                          "userId": "3ef88357-fa12-4da1-9db1-9ddd1b089308",
-                          "viewed": false
-                        },
-                        {
-                          "description": "Your subscription will expire in 3 days. Renew now.",
-                          "id": "c3d4e5f6-7890-abcd-ef01-345678901234",
-                          "name": "Subscription Expiring",
+                          "createdAt": "2024-12-18T10:12:31.868Z",
+                          "description": "Rem",
+                          "id": "0193d941-3dfb-7453-adc3-c1249d5838d8",
+                          "name": "Emilia",
                           "userId": "3ef88357-fa12-4da1-9db1-9ddd1b089308",
                           "viewed": false
                         }
@@ -9415,23 +9574,10 @@
                     "value": {
                       "data": [
                         {
-                          "description": "Check out the latest feature in your app.",
-                          "id": "a1b2c3d4-e5f6-7890-abcd-1234567890ef",
-                          "name": "New Feature Available",
-                          "userId": "3ef88357-fa12-4da1-9db1-9ddd1b089308",
-                          "viewed": false
-                        },
-                        {
-                          "description": "Your password has been successfully updated.",
-                          "id": "b2c3d4e5-f678-90ab-cdef-234567890123",
-                          "name": "Password Changed",
-                          "userId": "3ef88357-fa12-4da1-9db1-9ddd1b089308",
-                          "viewed": false
-                        },
-                        {
-                          "description": "Your subscription will expire in 3 days. Renew now.",
-                          "id": "c3d4e5f6-7890-abcd-ef01-345678901234",
-                          "name": "Subscription Expiring",
+                          "createdAt": "2024-12-18T10:12:31.868Z",
+                          "description": "Rem",
+                          "id": "0193d941-3dfb-7453-adc3-c1249d5838d8",
+                          "name": "Emilia",
                           "userId": "3ef88357-fa12-4da1-9db1-9ddd1b089308",
                           "viewed": false
                         }
@@ -10631,10 +10777,7 @@
       "name": "Transaction"
     },
     {
-      "name": "User1"
-    },
-    {
-      "name": "Internal"
+      "name": "Webhook"
     },
     {
       "name": "Upload"

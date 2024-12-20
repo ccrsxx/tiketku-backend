@@ -4,7 +4,7 @@ import { appEnv } from '../utils/env.js';
 import { prisma } from '../utils/db.js';
 import { HttpError } from '../utils/error.js';
 import { generateRandomToken } from '../utils/helper.js';
-import { sendResetPasswordEmail } from '../utils/emails/mail.js';
+import { sendResetPasswordEmail } from '../utils/emails/core/password-reset.js';
 
 /** @import {Request} from 'express' */
 /** @import {ValidLoginPayload,ValidResetPasswordPayload} from '../middlewares/validation/auth.js' */
@@ -189,6 +189,14 @@ async function resetPassword({ token, password }) {
       },
       data: {
         password: hashedPassword
+      }
+    });
+
+    await tx.notification.create({
+      data: {
+        userId: resetPasswordData.userId,
+        name: 'Notifikasi',
+        description: 'Password berhasil diganti!'
       }
     });
   });
