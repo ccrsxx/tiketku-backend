@@ -5,7 +5,8 @@ import { sendTransactionTicketEmail } from '../utils/emails/mail.js';
 import {
   toTitleCase,
   generateRandomToken,
-  getFirstAndLastName
+  getFirstAndLastName,
+  getParsedDescriptionTicketNotification
 } from '../utils/helper.js';
 import {
   MAX_OFFSET_LIMIT,
@@ -59,10 +60,6 @@ async function createTransaction(
       flightSeatsToBeBooked.push(returnFlightSeatId);
     }
   }
-
-  const next15MinutesDate = new Date();
-
-  next15MinutesDate.setMinutes(next15MinutesDate.getMinutes() + 15);
 
   const createdTransaction = await prisma.$transaction(async (tx) => {
     const transactionCreation = await tx.transaction.create({
@@ -119,7 +116,24 @@ async function createTransaction(
             status: 'PENDING',
             snapToken: '',
             snapRedirectUrl: '',
-            expiredAt: next15MinutesDate
+            expiredAt: new Date(),
+            expiredAtWithoutMethod: new Date()
+          }
+        }
+      },
+      include: {
+        departureFlight: {
+          include: {
+            departureAirport: {
+              select: {
+                code: true
+              }
+            },
+            destinationAirport: {
+              select: {
+                code: true
+              }
+            }
           }
         }
       },
@@ -146,12 +160,21 @@ async function createTransaction(
       }
     });
 
+    const next5MinutesDate = new Date();
+
+    next5MinutesDate.setMinutes(next5MinutesDate.getMinutes() + 5);
+
+    const next15MinutesDate = new Date();
+
+    next15MinutesDate.setMinutes(next15MinutesDate.getMinutes() + 15);
+
     await tx.payment.update({
       where: {
         id: transactionCreation.paymentId
       },
       data: {
         expiredAt: next15MinutesDate,
+        expiredAtWithoutMethod: next5MinutesDate,
         snapToken: transactionResponse.token,
         snapRedirectUrl: transactionResponse.redirect_url
       }
@@ -165,6 +188,30 @@ async function createTransaction(
       },
       data: {
         status: 'HELD'
+      }
+    });
+
+    const {
+      code,
+      departureFlight: {
+        departureAirport: { code: departureAirportCode },
+        destinationAirport: { code: destinationAirportCode }
+      }
+    } = transactionCreation;
+
+    const description = getParsedDescriptionTicketNotification({
+      code,
+      prefix: 'Booking berhasil',
+      departureAirportCode,
+      destinationAirportCode,
+      returnFlight: Boolean(returnFlightId)
+    });
+
+    await tx.notification.create({
+      data: {
+        userId: user.id,
+        name: 'Notifikasi',
+        description: description
       }
     });
 
