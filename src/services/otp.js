@@ -75,7 +75,7 @@ async function verifyUserVerificationOtp({ otp, email }) {
       data: {
         userId,
         name: 'Notifikasi',
-        description: 'Selamat datang di Plane Ticket!'
+        description: 'Selamat datang di TiketKu!'
       }
     });
   });
