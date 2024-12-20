@@ -2,6 +2,7 @@ import { midtrans } from '../../utils/midtrans.js';
 import { logger } from '../../loaders/pino.js';
 import { prisma } from '../../utils/db.js';
 import { HttpError } from '../../utils/error.js';
+import { getParsedDescriptionTicketNotification } from '../../utils/helper.js';
 
 /** @import {NotificationPayload} from 'midtrans-client' */
 
@@ -147,13 +148,20 @@ export async function manageMidtransNotification(payload) {
       }
     });
 
+    const description = getParsedDescriptionTicketNotification({
+      code: transaction.code,
+      prefix: 'Pembayaran berhasil',
+      departureAirportCode: transaction.departureFlight.departureAirport.code,
+      destinationAirportCode:
+        transaction.departureFlight.destinationAirport.code,
+      returnFlight: Boolean(transaction.returnFlight)
+    });
+
     const addNotificationAction = prisma.notification.create({
       data: {
         userId: transaction.userId,
         name: 'Notifikasi',
-        description:
-          `Pembayaran berhasil untuk tiket dengan kode ${transaction.code}. Dengan keberangkatan dari ${transaction.departureFlight.departureAirport.code} menuju ${transaction.departureFlight.destinationAirport.code}` +
-          (transaction.returnFlight ? ' (PP).' : '.')
+        description: description
       }
     });
 
@@ -192,13 +200,20 @@ export async function manageMidtransNotification(payload) {
       }
     });
 
+    const description = getParsedDescriptionTicketNotification({
+      code: transaction.code,
+      prefix: 'Pembayaran gagal',
+      departureAirportCode: transaction.departureFlight.departureAirport.code,
+      destinationAirportCode:
+        transaction.departureFlight.destinationAirport.code,
+      returnFlight: Boolean(transaction.returnFlight)
+    });
+
     const addNotificationAction = prisma.notification.create({
       data: {
         userId: transaction.userId,
         name: 'Notifikasi',
-        description:
-          `Pembayaran gagal untuk tiket dengan kode ${transaction.code}. Dengan keberangkatan dari ${transaction.departureFlight.departureAirport.code} menuju ${transaction.departureFlight.destinationAirport.code}` +
-          (transaction.returnFlight ? ' (PP).' : '.')
+        description: description
       }
     });
 

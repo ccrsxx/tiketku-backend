@@ -5,7 +5,8 @@ import { sendTransactionTicketEmail } from '../utils/emails/mail.js';
 import {
   toTitleCase,
   generateRandomToken,
-  getFirstAndLastName
+  getFirstAndLastName,
+  getParsedDescriptionTicketNotification
 } from '../utils/helper.js';
 import {
   MAX_OFFSET_LIMIT,
@@ -134,8 +135,7 @@ async function createTransaction(
               }
             }
           }
-        },
-        returnFlight: {}
+        }
       },
       omit: {
         paymentId: false
@@ -191,13 +191,27 @@ async function createTransaction(
       }
     });
 
+    const {
+      code,
+      departureFlight: {
+        departureAirport: { code: departureAirportCode },
+        destinationAirport: { code: destinationAirportCode }
+      }
+    } = transactionCreation;
+
+    const description = getParsedDescriptionTicketNotification({
+      code,
+      prefix: 'Booking berhasil',
+      departureAirportCode,
+      destinationAirportCode,
+      returnFlight: Boolean(returnFlightId)
+    });
+
     await tx.notification.create({
       data: {
         userId: user.id,
         name: 'Notifikasi',
-        description:
-          `Booking berhasil untuk tiket dengan kode ${transactionCreation.code}. Dengan keberangkatan dari ${transactionCreation.departureFlight.departureAirport.code} menuju ${transactionCreation.departureFlight.destinationAirport.code}` +
-          (transactionCreation.returnFlight ? ' (PP).' : '.')
+        description: description
       }
     });
 
