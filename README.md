@@ -1,4 +1,4 @@
-# Plane Ticket &middot; [![codecov](https://codecov.io/gh/ccrsxx/plane-ticket-be/graph/badge.svg?token=v47qEryz4z)](https://codecov.io/gh/ccrsxx/plane-ticket-be)
+# Tiketku Backend &middot; [![codecov](https://codecov.io/gh/ccrsxx/plane-ticket-be/graph/badge.svg?token=v47qEryz4z)](https://codecov.io/gh/ccrsxx/plane-ticket-be)
 
 ## Rest API Documentation
 
@@ -11,13 +11,13 @@ Here are the steps to run the project locally.
 1. Clone the repository
 
    ```bash
-   git clone https://github.com/ccrsxx/plane-ticket-be.git
+   git clone https://github.com/ccrsxx/tiketku-backend.git
    ```
 
 1. Change directory to the project
 
    ```bash
-   cd plane-ticket-be
+   cd tiketku-backend
    ```
 
 1. Install dependencies
