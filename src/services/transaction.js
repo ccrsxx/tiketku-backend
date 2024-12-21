@@ -1,7 +1,7 @@
 import { prisma } from '../utils/db.js';
 import { midtrans } from '../utils/midtrans.js';
 import { HttpError } from '../utils/error.js';
-import { sendTransactionTicketEmail } from '../utils/emails/mail.js';
+import { sendTransactionTicketEmail } from '../utils/emails/core/ticket.js';
 import {
   toTitleCase,
   generateRandomToken,

@@ -100,6 +100,66 @@ describe('UserService', () => {
       expect(error).toHaveProperty('statusCode', 409);
       expect(error).toHaveProperty('message', 'Email already exists');
     });
+
+    it('should update an unverified user if exists', async () => {
+      const payload = {
+        email: 'test@example.com',
+        phoneNumber: '1234567890',
+        password: 'password123',
+        name: 'Test User'
+      };
+
+      const hashedPassword = 'hashedPassword';
+      AuthService.hashPassword.mockResolvedValue(hashedPassword);
+
+      prisma.user.findFirst.mockResolvedValueOnce(null).mockResolvedValueOnce({
+        id: 'existing-unverified-user-id',
+        email: payload.email,
+        phoneNumber: payload.phoneNumber,
+        verified: false
+      });
+
+      const updatedUser = {
+        id: 'existing-unverified-user-id',
+        ...payload,
+        password: hashedPassword,
+        verified: false,
+        image: null,
+        admin: false
+      };
+
+      prisma.user.update.mockResolvedValue(updatedUser);
+
+      await UserService.createUser(payload);
+
+      expect(prisma.user.findFirst).toHaveBeenCalledWith({
+        where: {
+          OR: [{ email: payload.email }, { phoneNumber: payload.phoneNumber }],
+          verified: false
+        }
+      });
+      expect(prisma.user.findFirst).toHaveBeenNthCalledWith(2, {
+        where: {
+          OR: [{ email: payload.email }, { phoneNumber: payload.phoneNumber }],
+          verified: false
+        }
+      });
+      expect(AuthService.hashPassword).toHaveBeenCalledWith(payload.password);
+      expect(prisma.user.update).toHaveBeenCalledWith({
+        where: { id: 'existing-unverified-user-id' },
+        data: {
+          ...payload,
+          password: hashedPassword,
+          image: null,
+          admin: false
+        }
+      });
+      expect(OtpService.sendUserVerificationOtp).toHaveBeenCalledWith(
+        payload.name,
+        payload.email,
+        updatedUser.id
+      );
+    });
   });
 
   describe('updateUser', () => {

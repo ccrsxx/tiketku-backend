@@ -31,7 +31,10 @@ jest.unstable_mockModule(
     /** @type {AuthServiceMock} */ ({
       AuthService: {
         ...oldAuthService.AuthService,
-        verifyToken: jest.fn()
+        verifyToken: jest.fn(),
+        getAuthorizationBearerToken: jest.fn(
+          oldAuthService.AuthService.getAuthorizationBearerToken
+        )
       }
     })
 );

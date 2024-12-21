@@ -1,5 +1,5 @@
 import { prisma } from '../utils/db.js';
-import { sendOtpEmail } from '../utils/emails/mail.js';
+import { sendOtpEmail } from '../utils/emails/core/otp.js';
 import { HttpError } from '../utils/error.js';
 import { generateRandomOTP } from '../utils/helper.js';
 
