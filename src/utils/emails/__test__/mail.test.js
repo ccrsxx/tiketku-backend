@@ -8,7 +8,10 @@ jest.unstable_mockModule(
   () =>
     /** @type {CreateEmailTemplateMock} */
     ({
-      createEmailTemplate: jest.fn()
+      createEmailTemplate: jest.fn(
+        async () => (context) =>
+          `<h1>Template email untuk ${context.template}</h1>`
+      )
     })
 );
 
