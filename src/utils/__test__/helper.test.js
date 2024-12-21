@@ -2,7 +2,8 @@ import {
   generateRandomToken,
   generateRandomOTP,
   toTitleCase,
-  getFirstAndLastName
+  getFirstAndLastName,
+  getParsedDescriptionTicketNotification
 } from '../helper';
 import { jest, describe, expect } from '@jest/globals';
 
@@ -14,6 +15,8 @@ import { jest, describe, expect } from '@jest/globals';
  * @typedef {import('../helper').toTitleCase} ToTitleCaseMock
  *
  * @typedef {import('../helper').getFirstAndLastName} GetFirstAndLastNameMock
+ *
+ * @typedef {import('../helper').getParsedDescriptionTicketNotification} GetParsedDescriptionTicketNotificationMock
  */
 
 jest.unstable_mockModule(
@@ -23,12 +26,14 @@ jest.unstable_mockModule(
      * @type {GenerateRandomTokenMock &
      *   GenerateRandomOtpMock &
      *   ToTitleCaseMock &
-     *   GetFirstAndLastNameMock}
+     *   GetFirstAndLastNameMock &
+     *   GetParsedDescriptionTicketNotificationMock}
      */ ({
       generateRandomToken: jest.fn(),
       generateRandomOTP: jest.fn(),
       toTitleCase: jest.fn(),
-      getFirstAndLastName: jest.fn()
+      getFirstAndLastName: jest.fn(),
+      getParsedDescriptionTicketNotification: jest.fn()
     })
 );
 
@@ -95,6 +100,36 @@ describe('Helper functions', () => {
         firstName: 'John',
         lastName: 'Doe'
       });
+    });
+  });
+
+  describe('getParsedDescriptionTicketNotification', () => {
+    it('should return description for a one-way ticket', () => {
+      const description = getParsedDescriptionTicketNotification({
+        code: 'A12345',
+        prefix: 'Pemberitahuan',
+        departureAirportCode: 'CGK',
+        destinationAirportCode: 'DPS',
+        returnFlight: false
+      });
+
+      expect(description).toBe(
+        'Pemberitahuan untuk tiket dengan kode A12345. Dengan keberangkatan dari CGK menuju DPS.'
+      );
+    });
+
+    it('should return description for a round-trip ticket', () => {
+      const description = getParsedDescriptionTicketNotification({
+        code: 'A12345',
+        prefix: 'Pemberitahuan',
+        departureAirportCode: 'CGK',
+        destinationAirportCode: 'DPS',
+        returnFlight: true
+      });
+
+      expect(description).toBe(
+        'Pemberitahuan untuk tiket dengan kode A12345. Dengan keberangkatan dari CGK menuju DPS (PP).'
+      );
     });
   });
 });
