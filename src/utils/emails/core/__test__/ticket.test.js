@@ -1,12 +1,12 @@
 import { jest } from '@jest/globals';
 
-jest.unstable_mockModule('../../env.js', () => ({
+jest.unstable_mockModule('../../../env.js', () => ({
   appEnv: {
     EMAIL_ADDRESS: 'tiketku@mail.com'
   }
 }));
 
-jest.unstable_mockModule('../../format.js', () => ({
+jest.unstable_mockModule('../../../format.js', () => ({
   formatDate: jest.fn((timestamp) => `formattedDate-${timestamp}`),
   formatTime: jest.fn((timestamp) => `formattedTime-${timestamp}`),
   getRelativeTimeBetweenDates: jest.fn(
@@ -14,7 +14,7 @@ jest.unstable_mockModule('../../format.js', () => ({
   )
 }));
 
-jest.unstable_mockModule('../core/mail.js', () => ({
+jest.unstable_mockModule('../mail.js', () => ({
   client: {
     sendMail: jest.fn().mockResolvedValue(true)
   },
@@ -23,10 +23,10 @@ jest.unstable_mockModule('../core/mail.js', () => ({
   )
 }));
 
-const { sendTransactionTicketEmail } = await import('../core/ticket.js');
-const { client, createEmailTemplate } = await import('../core/mail.js');
+const { sendTransactionTicketEmail } = await import('../ticket.js');
+const { client, createEmailTemplate } = await import('../mail.js');
 const { formatDate, formatTime, getRelativeTimeBetweenDates } = await import(
-  '../../format.js'
+  '../../../format.js'
 );
 
 describe('sendTransactionTicketEmail', () => {
