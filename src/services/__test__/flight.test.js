@@ -217,6 +217,53 @@ describe('FlightService', () => {
       });
     });
 
+    it('should get flights list without filters', async () => {
+      const mockFlights = [
+        {
+          id: '1',
+          airline: {},
+          airplane: {},
+          departureAirport: {},
+          destinationAirport: {}
+        }
+      ];
+
+      prisma.flight.count.mockResolvedValueOnce(1);
+      prisma.flight.findMany.mockResolvedValueOnce(mockFlights);
+
+      const result = await FlightService.getFlights();
+
+      expect(result).toEqual({
+        flights: mockFlights,
+        meta: {
+          limit: 10,
+          page: 1,
+          pageCount: 1,
+          recordCount: 1
+        }
+      });
+    });
+
+    it('should return empty flights array when page is beyond limit', async () => {
+      prisma.flight.count.mockResolvedValueOnce(5);
+
+      const result = await FlightService.getFlights({
+        page: '2'
+      });
+
+      expect(result).toEqual({
+        flights: [],
+        meta: {
+          page: 2,
+          limit: MAX_CURSOR_LIMIT,
+          pageCount: 1,
+          recordCount: 5
+        }
+      });
+
+      expect(prisma.flight.findMany).not.toHaveBeenCalled();
+    });
+
     it('should filter flights by departureDate', async () => {
       const mockFlights = [
         { id: '1', departureTimestamp: new Date('2023-12-25') }
