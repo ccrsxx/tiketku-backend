@@ -349,9 +349,11 @@ async function getMyTransactions(userId, query) {
   const transactionWhereFilter = {
     userId,
     code: bookingCode,
-    createdAt: {
-      ...(startDate && { gte: new Date(startDate) }),
-      ...(endDate && { lte: new Date(endDate) })
+    departureFlight: {
+      departureTimestamp: {
+        ...(startDate && { gte: new Date(startDate) }),
+        ...(endDate && { lte: new Date(endDate) })
+      }
     }
   };
 

@@ -79,5 +79,11 @@ jobs:
       - name: Download deps
         run: npm ci
 
+      - name: Generate prisma client
+        run: npm run db:generate
+        env:
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+
       - name: Test
         run: npm run test

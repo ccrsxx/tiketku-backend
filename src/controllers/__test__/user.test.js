@@ -26,7 +26,8 @@ jest.unstable_mockModule(
       UserService: {
         getUser: jest.fn(),
         getUsers: jest.fn(),
-        createUser: jest.fn()
+        createUser: jest.fn(),
+        updateUser: jest.fn()
       }
     })
 );
@@ -68,6 +69,39 @@ describe('User controller', () => {
       expect(UserService.createUser).toHaveBeenCalledWith({ name: 'User' });
       expect(res.status).toHaveBeenCalledWith(201);
       expect(res.json).toHaveBeenCalledWith({ data: user });
+    });
+  });
+
+  describe('updateCurrentUser', () => {
+    it('should update the current user successfully', async () => {
+      UserService.updateUser.mockImplementation(() => Promise.resolve());
+
+      const { req, res } = setupExpressMock({
+        req: {
+          body: {
+            name: 'Updated User',
+            email: 'updated@example.com'
+          }
+        },
+        res: {
+          locals: {
+            user: {
+              id: '12345'
+            }
+          }
+        }
+      });
+
+      await UserController.updateCurrentUser(req, res);
+
+      expect(UserService.updateUser).toHaveBeenCalledWith('12345', {
+        name: 'Updated User',
+        email: 'updated@example.com'
+      });
+      expect(res.status).toHaveBeenCalledWith(200);
+      expect(res.json).toHaveBeenCalledWith({
+        message: 'User updated successfully'
+      });
     });
   });
 });
