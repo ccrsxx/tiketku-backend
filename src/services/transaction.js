@@ -378,6 +378,9 @@ async function getMyTransactions(userId, query) {
     where: transactionWhereFilter,
     take: paginationMeta.limit,
     skip: paginationMeta.offset,
+    omit: {
+      createdAt: false
+    },
     include: {
       payment: true,
       bookings: {
