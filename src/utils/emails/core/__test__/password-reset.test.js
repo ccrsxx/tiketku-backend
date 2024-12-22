@@ -1,12 +1,12 @@
 import { jest } from '@jest/globals';
 
-jest.unstable_mockModule('../../env.js', () => ({
+jest.unstable_mockModule('../../../env.js', () => ({
   appEnv: {
     EMAIL_ADDRESS: 'tiketku@mail.com'
   }
 }));
 
-jest.unstable_mockModule('../core/mail', () => ({
+jest.unstable_mockModule('../mail.js', () => ({
   client: {
     sendMail: jest.fn().mockResolvedValue(true)
   },
@@ -16,11 +16,11 @@ jest.unstable_mockModule('../core/mail', () => ({
 }));
 
 const { sendResetPasswordEmail } = /** @type {ResetPasswordMock} */ (
-  /** @type {unknown} */ (await import('../core/password-reset.js'))
+  /** @type {unknown} */ (await import('../password-reset.js'))
 );
 
 const { client, createEmailTemplate } = /** @type {SendEmailMock} */ (
-  /** @type {unknown} */ (await import('../core/mail.js'))
+  /** @type {unknown} */ (await import('../mail.js'))
 );
 
 describe('Password reset functions', () => {
