@@ -381,6 +381,9 @@ async function getMyTransactions(userId, query) {
     omit: {
       createdAt: false
     },
+    orderBy: {
+      createdAt: 'desc'
+    },
     include: {
       payment: true,
       bookings: {
