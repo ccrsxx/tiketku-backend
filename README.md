@@ -1,4 +1,4 @@
-# Tiketku Backend &middot; [![codecov](https://codecov.io/gh/ccrsxx/plane-ticket-be/graph/badge.svg?token=v47qEryz4z)](https://codecov.io/gh/ccrsxx/plane-ticket-be)
+# Tiketku Backend &middot; [![codecov](https://codecov.io/gh/ccrsxx/tiketku-backend/graph/badge.svg?token=v47qEryz4z)](https://codecov.io/gh/ccrsxx/tiketku-backend)
 
 ## Rest API Documentation
 
