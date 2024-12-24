@@ -43,11 +43,11 @@ COPY entrypoint.sh .
 # Copy the prisma schema and migrations
 COPY src/utils/prisma src/utils/prisma
 
-# Copy the build output to the production image
-COPY --from=build /app/build .
-
 # Copy the generated prisma client
 COPY --from=build /app/node_modules/.prisma node_modules/.prisma
+
+# Copy the build output to the production image
+COPY --from=build /app/build .
 
 # Run the web service on container startup
 ENTRYPOINT ["./entrypoint.sh"]
