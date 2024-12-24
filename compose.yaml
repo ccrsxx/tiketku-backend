@@ -7,7 +7,7 @@ services:
       secrets:
         - direct_url
         - database_url
-    container_name: plane-ticket
+    container_name: tiketku-backend
     environment:
       - DEPLOY_DATABASE=${DEPLOY_DATABASE:-false}
 
@@ -15,7 +15,7 @@ services:
     extends:
       file: compose.common.yaml
       service: db
-    container_name: plane-ticket-db
+    container_name: tiketku-db
     volumes:
       - db-data:/var/lib/postgresql/data
 

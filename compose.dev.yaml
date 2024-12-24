@@ -5,10 +5,10 @@ services:
       service: app
     volumes:
       - ./src:/app/src
-    container_name: plane-ticket-dev
+    container_name: tiketku-backend-dev
 
   db:
     extends:
       file: compose.common.yaml
       service: db
-    container_name: plane-ticket-db-dev
+    container_name: tiketku-db-dev
