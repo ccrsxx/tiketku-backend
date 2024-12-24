@@ -4,7 +4,9 @@ services:
       file: compose.common.yaml
       service: app
     build:
-      dockerfile: Dockerfile
+      secrets:
+        - direct_url
+        - database_url
     container_name: plane-ticket
     environment:
       - DEPLOY_DATABASE=${DEPLOY_DATABASE:-false}
@@ -16,6 +18,12 @@ services:
     container_name: plane-ticket-db
     volumes:
       - db-data:/var/lib/postgresql/data
+
+secrets:
+  direct_url:
+    environment: DIRECT_URL
+  database_url:
+    environment: DATABASE_URL
 
 volumes:
   db-data:

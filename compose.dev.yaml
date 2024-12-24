@@ -3,8 +3,6 @@ services:
     extends:
       file: compose.common.yaml
       service: app
-    build:
-      dockerfile: Dockerfile.dev
     volumes:
       - ./src:/app/src
     container_name: plane-ticket-dev
