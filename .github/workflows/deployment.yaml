@@ -33,8 +33,9 @@ jobs:
       contents: read
 
     env:
-      DOCKER_IMAGE_TAG: '${{ VARS.REGION }}-docker.pkg.dev/${{ VARS.PROJECT_ID }}/${{ VARS.ARTIFACT_REPO }}/${{ VARS.SERVICE }}:${{ github.sha }}'
       ARTIFACT_REGISTRY: '${{ VARS.REGION }}-docker.pkg.dev'
+      LATEST_DOCKER_IMAGE_TAG: '${{ VARS.REGION }}-docker.pkg.dev/${{ VARS.PROJECT_ID }}/${{ VARS.ARTIFACT_REPO }}/${{ VARS.SERVICE }}:latest'
+      CURRENT_DOCKER_IMAGE_TAG: '${{ VARS.REGION }}-docker.pkg.dev/${{ VARS.PROJECT_ID }}/${{ VARS.ARTIFACT_REPO }}/${{ VARS.SERVICE }}:${{ github.sha }}'
 
     steps:
       - name: Checkout repo
@@ -64,8 +65,10 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ${{ env.DOCKER_IMAGE_TAG }}
-          cache-from: type=registry,ref=${{ env.DOCKER_IMAGE_TAG }}
+          tags: |
+            ${{ env.LATEST_DOCKER_IMAGE_TAG }}
+            ${{ env.CURRENT_DOCKER_IMAGE_TAG }}
+          cache-from: type=registry,ref=${{ env.LATEST_DOCKER_IMAGE_TAG }}
           cache-to: type=inline
           secrets: |
             direct_url=${{ secrets.DIRECT_URL }}
@@ -74,7 +77,7 @@ jobs:
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
         with:
-          image: '${{ env.DOCKER_IMAGE_TAG }}'
+          image: '${{ env.CURRENT_DOCKER_IMAGE_TAG }}'
           region: '${{ vars.REGION }}'
           service: '${{ vars.SERVICE }}'
           env_vars: |
