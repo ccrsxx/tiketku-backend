@@ -122,3 +122,19 @@ export function getHoursAndMinutesFromUtcTimezone(utcTimezone) {
 
   return { hours, minutes };
 }
+
+/**
+ * @param {Date} date
+ * @param {ValidUtcTimezone} utcTimezone
+ * @returns {Date}
+ */
+export function getDateRelativeToUtcTimezone(date, utcTimezone) {
+  const { hours, minutes } = getHoursAndMinutesFromUtcTimezone(utcTimezone);
+
+  const parsedDate = new Date(date);
+
+  if (hours) parsedDate.setHours(parsedDate.getHours() + hours);
+  if (minutes) parsedDate.setMinutes(parsedDate.getMinutes() + minutes);
+
+  return parsedDate;
+}
