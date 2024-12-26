@@ -60,7 +60,8 @@ FROM
     JOIN airport AS departure_a ON dcf.departure_airport_id = departure_a.id
     JOIN airport AS destination_a ON dcf.destination_airport_id = destination_a.id
 WHERE
-    (dcf.price, dcf.id) > ($3, $2::UUID)
+    dcf.departure_timestamp >= CURRENT_TIMESTAMP
+    AND (dcf.price, dcf.id) > ($3, $2::UUID)
     AND (
         (
             $4::"Continent" IS NULL

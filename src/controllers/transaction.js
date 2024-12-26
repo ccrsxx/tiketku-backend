@@ -67,7 +67,8 @@ async function getMyTransactions(req, res) {
 async function sendTransactionTicketEmail(req, res) {
   await TransactionService.sendTransactionTicket(
     res.locals.user.id,
-    req.params.id
+    req.params.id,
+    req.body.utcTimezone
   );
 
   res

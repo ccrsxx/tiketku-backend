@@ -17,6 +17,7 @@ import { validPageCountSchema } from '../utils/validation.js';
 
 /** @import {Prisma,Flight} from '@prisma/client' */
 /** @import {OmittedModel} from '../utils/db.js' */
+/** @import {ValidUtcTimezone} from '../utils/validation.js' */
 /** @import {ValidTransactionPayload,ValidPassengerPayload} from '../middlewares/validation/transaction.js' */
 
 /**
@@ -537,8 +538,9 @@ async function cancelTransaction(userId, transactionId) {
 /**
  * @param {string} userId
  * @param {string} transactionId
+ * @param {ValidUtcTimezone | undefined} utcTimezone
  */
-async function sendTransactionTicket(userId, transactionId) {
+async function sendTransactionTicket(userId, transactionId, utcTimezone) {
   const transaction = await prisma.transaction.findUnique({
     where: {
       id: transactionId,
@@ -580,7 +582,7 @@ async function sendTransactionTicket(userId, transactionId) {
     });
   }
 
-  await sendTransactionTicketEmail(transaction);
+  await sendTransactionTicketEmail(transaction, utcTimezone);
 }
 
 export const TransactionService = {

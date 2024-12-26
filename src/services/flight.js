@@ -9,12 +9,15 @@ import {
 import { Continent, FlightClassType } from '@prisma/client';
 import {
   validCursorSchema,
-  validPageCountSchema
+  validPageCountSchema,
+  validUtcTimezoneSchema
 } from '../utils/validation.js';
+import { getFlightDateDepartureFilterByTimezone } from '../utils/helper.js';
 import * as typedSql from '@prisma/client/sql';
 
 /** @import {Prisma} from '@prisma/client' */
 /** @import {OmittedModel} from '../utils/db.js' */
+/** @import {FlightDayDeparture} from '../utils/helper.js' */
 
 const validFlightDetailQueryParams = z.object({
   returnFlightId: z
@@ -129,6 +132,10 @@ const validFlightQueryParams = z.object({
     .string()
     .transform((value) => z.string().uuid().safeParse(value).data)
     .optional(),
+  utcTimezone: z
+    .string()
+    .transform((value) => validUtcTimezoneSchema.safeParse(value).data)
+    .optional(),
   page: z
     .string()
     .transform((value) => validPageCountSchema.safeParse(value).data)
@@ -143,22 +150,20 @@ async function getFlights(query) {
     type,
     page,
     sortBy,
+    utcTimezone,
     departureDate,
     departureAirportId,
     destinationAirportId
   } = validFlightQueryParams.safeParse(query).data ?? {};
 
-  /** @type {Date | null} */
-  let departureParsedDate = null;
-
-  /** @type {Date | null} */
-  let nextDayAfterDepartureDate = null;
+  /** @type {FlightDayDeparture | null} */
+  let parsedFlightDate = null;
 
   if (departureDate) {
-    departureParsedDate = new Date(departureDate);
-
-    nextDayAfterDepartureDate = new Date(departureParsedDate);
-    nextDayAfterDepartureDate.setDate(nextDayAfterDepartureDate.getDate() + 1);
+    parsedFlightDate = getFlightDateDepartureFilterByTimezone(
+      new Date(departureDate),
+      utcTimezone ?? 'UTC+0'
+    );
   }
 
   /** @type {Prisma.FlightWhereInput} */
@@ -166,12 +171,18 @@ async function getFlights(query) {
     type,
     departureAirportId,
     destinationAirportId,
-    ...(departureParsedDate && {
-      departureTimestamp: {
-        gte: departureParsedDate,
-        lte: /** @type {Date} */ (nextDayAfterDepartureDate)
-      }
-    })
+    ...(parsedFlightDate
+      ? {
+          departureTimestamp: {
+            gte: parsedFlightDate.startDate,
+            lte: parsedFlightDate.endDate
+          }
+        }
+      : {
+          departureTimestamp: {
+            gte: new Date()
+          }
+        })
   };
 
   const flightsCount = await prisma.flight.count({

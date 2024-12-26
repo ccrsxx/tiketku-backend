@@ -1,3 +1,7 @@
+import { getHoursAndMinutesFromUtcTimezone } from './helper.js';
+
+/** @import {ValidUtcTimezone} from './validation.js' */
+
 const DATE_TIME_FORMATTER = new Intl.DateTimeFormat('en-GB', {
   dateStyle: 'full'
 });
@@ -10,14 +14,38 @@ const RELATIVE_TIME_FORMATTER = new Intl.RelativeTimeFormat('en-GB', {
   style: 'short'
 });
 
-/** @param {Date} date */
-export function formatDate(date) {
-  return DATE_TIME_FORMATTER.format(date);
+/**
+ * @param {Date} date
+ * @param {ValidUtcTimezone} [utcTimezone]
+ */
+export function formatDate(date, utcTimezone) {
+  let parsedDate = date;
+
+  if (utcTimezone) {
+    const { hours, minutes } = getHoursAndMinutesFromUtcTimezone(utcTimezone);
+
+    if (hours) parsedDate.setHours(parsedDate.getHours() + hours);
+    if (minutes) parsedDate.setMinutes(parsedDate.getMinutes() + minutes);
+  }
+
+  return DATE_TIME_FORMATTER.format(parsedDate);
 }
 
-/** @param {Date} date */
-export function formatTime(date) {
-  return TIME_FORMATTER.format(date);
+/**
+ * @param {Date} date
+ * @param {ValidUtcTimezone} [utcTimezone]
+ */
+export function formatTime(date, utcTimezone) {
+  let parsedDate = date;
+
+  if (utcTimezone) {
+    const { hours, minutes } = getHoursAndMinutesFromUtcTimezone(utcTimezone);
+
+    if (hours) parsedDate.setHours(parsedDate.getHours() + hours);
+    if (minutes) parsedDate.setMinutes(parsedDate.getMinutes() + minutes);
+  }
+
+  return TIME_FORMATTER.format(parsedDate);
 }
 
 /**

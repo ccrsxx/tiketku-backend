@@ -5,8 +5,10 @@ import {
   formatTime,
   getRelativeTimeBetweenDates
 } from '../../format.js';
+import { validUtcTimezoneSchema } from '../../validation.js';
 
 /** @import {OmittedModel} from '../../db.js' */
+/** @import {ValidUtcTimezone} from '../../validation.js' */
 
 /**
  * @typedef {(OmittedModel<'booking'> & {
@@ -39,15 +41,13 @@ import {
 
 /**
  * @param {TicketTransaction} props
+ * @param {ValidUtcTimezone | undefined} utcTimezone
  * @returns {Promise<void>}
  */
-export async function sendTransactionTicketEmail({
-  user: { name, email },
-  code,
-  bookings,
-  returnFlight,
-  departureFlight
-}) {
+export async function sendTransactionTicketEmail(
+  { user: { name, email }, code, bookings, returnFlight, departureFlight },
+  utcTimezone
+) {
   /**
    * @typedef {Object} ParsedFlightData
    * @property {string} formattedArrivalTime
@@ -70,6 +70,9 @@ export async function sendTransactionTicketEmail({
   /** @type {HandlebarsTemplateDelegate<TransactionTicketContext>} */
   const emailTemplate = await createEmailTemplate('ticket');
 
+  const parsedUtcTimezone =
+    validUtcTimezoneSchema.safeParse(utcTimezone).data ?? 'UTC+0';
+
   /** @type {FlightDetailsWithParsedData} */
   const parsedDepartureFlight = {
     ...departureFlight,
@@ -77,9 +80,18 @@ export async function sendTransactionTicketEmail({
       departureFlight.departureTimestamp,
       departureFlight.arrivalTimestamp
     ),
-    formattedArrivalTime: formatTime(departureFlight.arrivalTimestamp),
-    formattedDepartureDate: formatDate(departureFlight.departureTimestamp),
-    formattedDepartureTime: formatTime(departureFlight.departureTimestamp)
+    formattedArrivalTime: formatTime(
+      departureFlight.arrivalTimestamp,
+      parsedUtcTimezone
+    ),
+    formattedDepartureDate: formatDate(
+      departureFlight.departureTimestamp,
+      parsedUtcTimezone
+    ),
+    formattedDepartureTime: formatTime(
+      departureFlight.departureTimestamp,
+      parsedUtcTimezone
+    )
   };
 
   /** @type {FlightDetailsWithParsedData | null} */
@@ -92,9 +104,18 @@ export async function sendTransactionTicketEmail({
         returnFlight.departureTimestamp,
         returnFlight.arrivalTimestamp
       ),
-      formattedArrivalTime: formatTime(returnFlight.arrivalTimestamp),
-      formattedDepartureDate: formatDate(returnFlight.departureTimestamp),
-      formattedDepartureTime: formatTime(returnFlight.departureTimestamp)
+      formattedArrivalTime: formatTime(
+        returnFlight.arrivalTimestamp,
+        parsedUtcTimezone
+      ),
+      formattedDepartureDate: formatDate(
+        returnFlight.departureTimestamp,
+        parsedUtcTimezone
+      ),
+      formattedDepartureTime: formatTime(
+        returnFlight.departureTimestamp,
+        parsedUtcTimezone
+      )
     };
   }
 

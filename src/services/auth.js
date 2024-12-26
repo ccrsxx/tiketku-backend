@@ -70,7 +70,7 @@ async function isPasswordMatch(password, hashedPassword) {
 /** @param {string} id */
 async function generateToken(id) {
   const token = jwt.sign({ id }, appEnv.JWT_SECRET, {
-    expiresIn: '1d'
+    expiresIn: '7d'
   });
 
   return token;

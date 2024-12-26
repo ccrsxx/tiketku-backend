@@ -130,6 +130,7 @@ describe('Transaction controller', () => {
 
       TransactionService.sendTransactionTicket.mockResolvedValue(undefined);
 
+      req.body = { utcTimezone: 'UTC+0' };
       req.params = { id: '1' };
       res.locals = { user: { id: '1' } };
 
@@ -137,7 +138,8 @@ describe('Transaction controller', () => {
 
       expect(TransactionService.sendTransactionTicket).toHaveBeenCalledWith(
         '1',
-        '1'
+        '1',
+        'UTC+0'
       );
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
