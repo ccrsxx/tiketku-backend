@@ -1,3 +1,4 @@
+import { logger } from '../../../../loaders/pino.js';
 import { prisma } from '../../../db.js';
 
 /** @import {Prisma} from '@prisma/client' */
@@ -19,6 +20,11 @@ export async function seedFlightSeat() {
       }
     }
   });
+
+  if (!flights.length) {
+    logger.info('Skipping flight seats seed because it is already seeded.');
+    return;
+  }
 
   const promises = [];
 
@@ -46,5 +52,19 @@ export async function seedFlightSeat() {
     promises.push(promise);
   }
 
-  await Promise.all(promises);
+  const CHUNK_SIZE = 1_000;
+
+  const totalChunks = Math.ceil(promises.length / CHUNK_SIZE);
+
+  logger.info(
+    `Seeding ${promises.length} flight seats in ${totalChunks} with 2000 chunks.`
+  );
+
+  for (let i = 0; i < promises.length; i += CHUNK_SIZE) {
+    logger.info(`Seeding chunk ${i / CHUNK_SIZE + 1}/${totalChunks}.`);
+
+    await Promise.all(promises.slice(i, i + CHUNK_SIZE));
+  }
+
+  logger.info('Flight seats seed completed.');
 }

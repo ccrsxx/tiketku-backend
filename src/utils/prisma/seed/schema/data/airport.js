@@ -23,16 +23,6 @@ export const airports = [
     continent: 'ASIA'
   },
   {
-    id: '011cb51b-1027-429c-9819-faa163b2ded2',
-    name: 'Sultan Hasanuddin International',
-    city: 'Makassar',
-    code: 'UPG',
-    type: 'DOMESTIC',
-    image:
-      'https://storage.googleapis.com/plane-ticket-be.firebasestorage.app/public/b3226f9d-0a9e-4cba-be23-6a99320b3289.jpg',
-    continent: 'ASIA'
-  },
-  {
     id: '7e1d9c8c-01b3-400c-a550-99b7ac84fcfd',
     name: 'Fatmawati Soekarno',
     city: 'Bengkulu',
@@ -73,16 +63,6 @@ export const airports = [
     continent: 'ASIA'
   },
   {
-    id: 'f5eeb781-e9cd-4550-877e-be29975a6872',
-    name: 'Melbourne Airport',
-    city: 'Melbourne',
-    code: 'MEL',
-    type: 'INTERNATIONAL',
-    image:
-      'https://storage.googleapis.com/plane-ticket-be.firebasestorage.app/public/138e0d94-bc8d-466e-adb5-30ab3bcd6f58.jpeg',
-    continent: 'AUSTRALIA'
-  },
-  {
     id: 'fb5cee12-7479-4a4b-8e2d-9f0b129f06e1',
     name: 'Sydney Airport',
     city: 'Sydney ',
@@ -103,16 +83,6 @@ export const airports = [
     continent: 'EUROPE'
   },
   {
-    id: '3c38b848-63f9-423f-8043-07272a68ee6c',
-    name: 'Keflavík International Airport',
-    city: 'Islandia',
-    code: 'KEF',
-    type: 'INTERNATIONAL',
-    image:
-      'https://storage.googleapis.com/plane-ticket-be.firebasestorage.app/public/8cbbd031-dbb3-4232-8a6f-d7ac2d8733b5.jpeg',
-    continent: 'EUROPE'
-  },
-  {
     id: '067b352e-478e-4bb0-a47a-d06f6b35a6bf',
     name: 'Los Angeles International Airport',
     city: 'Los Angeles',
@@ -123,16 +93,6 @@ export const airports = [
     continent: 'AMERICA'
   },
   {
-    id: '016ed705-3c3e-463d-abe9-47dfb395f07f',
-    name: 'John F. Kennedy International Airport',
-    city: 'New York',
-    code: 'JFK',
-    type: 'INTERNATIONAL',
-    image:
-      'https://storage.googleapis.com/plane-ticket-be.firebasestorage.app/public/5d5eb117-5f5f-4264-bd4b-aa83bc329c07.jpeg',
-    continent: 'AMERICA'
-  },
-  {
     id: '1bc1ab24-6941-4ce5-8725-918d488c6539',
     name: 'Cairo International Airport',
     city: 'Cairo',
@@ -140,16 +100,6 @@ export const airports = [
     type: 'INTERNATIONAL',
     image:
       'https://storage.googleapis.com/plane-ticket-be.firebasestorage.app/public/220e4e60-400c-44c3-b64a-07ec7143965a.jpg',
-    continent: 'AFRICA'
-  },
-  {
-    id: 'a12eef05-970a-467e-aeb8-c88c34e79446',
-    name: 'O. R. Tambo International Airport',
-    city: 'Johannesburg',
-    code: 'JNB',
-    type: 'INTERNATIONAL',
-    image:
-      'https://storage.googleapis.com/plane-ticket-be.firebasestorage.app/public/be03360c-4aca-4068-bf8e-6d032abd6fa6.jpg',
     continent: 'AFRICA'
   }
 ];

@@ -74,17 +74,27 @@ export async function seedFlight() {
   /** @type {Prisma.FlightCreateManyInput[]} */
   const normalFlights = [];
 
-  const MAX_DAILY_FLIGHTS = 3;
+  const MAX_DAILY_FLIGHTS = 8;
 
   for (const flightDate of futureFlightDates) {
-    for (const _ of Array.from({ length: MAX_DAILY_FLIGHTS })) {
-      const randomNormalFlight = createFlight(flightDate, {
-        airlines,
-        airports,
-        airplanes
-      });
+    for (const departureAirport of airports) {
+      for (const destinationAirport of airports) {
+        if (departureAirport.id === destinationAirport.id) continue;
 
-      normalFlights.push(randomNormalFlight);
+        for (const _ of Array.from({ length: MAX_DAILY_FLIGHTS })) {
+          const randomNormalFlight = createFlight(
+            flightDate,
+            departureAirport.id,
+            destinationAirport.id,
+            {
+              airlines,
+              airplanes
+            }
+          );
+
+          normalFlights.push(randomNormalFlight);
+        }
+      }
     }
   }
 
@@ -101,14 +111,15 @@ export async function seedFlight() {
     );
 
     for (const flightDate of roundTripFlightDates) {
-      const roundTripFlight = createFlight(flightDate, {
-        airlines,
-        airports,
-        airplanes
-      });
-
-      roundTripFlight.departureAirportId = destinationAirportId;
-      roundTripFlight.destinationAirportId = departureAirportId;
+      const roundTripFlight = createFlight(
+        flightDate,
+        destinationAirportId,
+        departureAirportId,
+        {
+          airlines,
+          airplanes
+        }
+      );
 
       roundTripFlights.push(roundTripFlight);
     }
@@ -127,12 +138,11 @@ export async function seedFlight() {
     }),
     prisma.flight.createMany({
       data: normalFlights
+    }),
+    prisma.flight.createMany({
+      data: roundTripFlights
     })
   ]);
-
-  await prisma.flight.createMany({
-    data: roundTripFlights
-  });
 }
 
 /**
@@ -152,28 +162,23 @@ function roundToNearestFiveMinutes(date) {
 /**
  * @typedef {Object} NeededModels
  * @property {OmittedModel<'airline'>[]} airlines
- * @property {OmittedModel<'airport'>[]} airports
  * @property {OmittedModel<'airplane'>[]} airplanes
  */
 
 /**
  * @param {Date} flightDate
+ * @param {string} departureAirportId
+ * @param {string} destinationAirportId
  * @param {NeededModels} models
  * @returns {Prisma.FlightCreateManyInput}
  */
-function createFlight(flightDate, models) {
-  const { airlines, airports, airplanes } = models;
-
-  // Randomly select unique departure airports
-  const departureAirport = faker.helpers.arrayElement(airports);
-
-  /** @type {OmittedModel<'airport'>} */
-  let destinationAirport;
-
-  // Ensure destination airport is different from departure airport
-  do {
-    destinationAirport = faker.helpers.arrayElement(airports);
-  } while (destinationAirport.id === departureAirport.id);
+function createFlight(
+  flightDate,
+  departureAirportId,
+  destinationAirportId,
+  models
+) {
+  const { airlines, airplanes } = models;
 
   const flightClassType = Object.values(FlightClassType);
 
@@ -236,8 +241,8 @@ function createFlight(flightDate, models) {
     arrivalTimestamp: arrivalTimestamp,
     departureTimestamp: departureTimestamp,
     durationMinutes: durationMinutes,
-    departureAirportId: departureAirport.id,
-    destinationAirportId: destinationAirport.id
+    departureAirportId: departureAirportId,
+    destinationAirportId: destinationAirportId
   };
 }
 
