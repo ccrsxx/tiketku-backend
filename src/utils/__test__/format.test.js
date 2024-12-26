@@ -4,14 +4,14 @@ import { formatDate, formatTime, getRelativeTimeBetweenDates } from '../format';
 
 describe('formatDate', () => {
   it('should format date in full en-GB style', () => {
-    const date = new Date('2023-12-25T10:30:00');
+    const date = new Date('2023-12-25T10:30:00.000Z');
     expect(formatDate(date)).toBe('Monday 25 December 2023');
   });
 });
 
 describe('formatTime', () => {
   it('should format time in short en-GB style', () => {
-    const date = new Date('2023-12-25T10:30:00');
+    const date = new Date('2023-12-25T10:30:00.000Z');
     expect(formatTime(date)).toBe('10:30');
   });
 });

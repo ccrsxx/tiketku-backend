@@ -3,11 +3,13 @@ import { getHoursAndMinutesFromUtcTimezone } from './helper.js';
 /** @import {ValidUtcTimezone} from './validation.js' */
 
 const DATE_TIME_FORMATTER = new Intl.DateTimeFormat('en-GB', {
-  dateStyle: 'full'
+  dateStyle: 'full',
+  timeZone: 'UTC'
 });
 
 const TIME_FORMATTER = new Intl.DateTimeFormat('en-GB', {
-  timeStyle: 'short'
+  timeStyle: 'short',
+  timeZone: 'UTC'
 });
 
 const RELATIVE_TIME_FORMATTER = new Intl.RelativeTimeFormat('en-GB', {
@@ -19,7 +21,7 @@ const RELATIVE_TIME_FORMATTER = new Intl.RelativeTimeFormat('en-GB', {
  * @param {ValidUtcTimezone} [utcTimezone]
  */
 export function formatDate(date, utcTimezone) {
-  let parsedDate = date;
+  let parsedDate = new Date(date);
 
   if (utcTimezone) {
     const { hours, minutes } = getHoursAndMinutesFromUtcTimezone(utcTimezone);
@@ -36,7 +38,7 @@ export function formatDate(date, utcTimezone) {
  * @param {ValidUtcTimezone} [utcTimezone]
  */
 export function formatTime(date, utcTimezone) {
-  let parsedDate = date;
+  let parsedDate = new Date(date);
 
   if (utcTimezone) {
     const { hours, minutes } = getHoursAndMinutesFromUtcTimezone(utcTimezone);

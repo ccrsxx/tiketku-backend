@@ -425,6 +425,9 @@ async function getTransaction(userId, transactionId) {
       id: transactionId,
       userId: userId
     },
+    omit: {
+      createdAt: false
+    },
     include: {
       payment: true,
       bookings: {
