@@ -2,7 +2,7 @@
   <mj-column>
     <mj-image
       width="120px"
-      src="https://storage.googleapis.com/plane-ticket-be.firebasestorage.app/public/98bb419a-7d81-454d-8fbc-2ea6d5cccc6f.png"
+      src="https://raw.githubusercontent.com/ccrsxx/tiketku-backend/refs/heads/main/src/utils/emails/assets/logo.png"
     />
     <mj-divider mj-class="accent-border-color" />
   </mj-column>
