@@ -3,7 +3,10 @@
 if [ "$DEPLOY_DATABASE" = "true" ]; then
     echo "Running database migration..."
 
-    npm run db:deploy
+    until npm run db:deploy; do
+        echo "Migration failed. Retrying in 5 seconds..."
+        sleep 5
+    done
 fi
 
 echo "Starting application in production mode..."

@@ -3,6 +3,11 @@ services:
     extends:
       file: compose.common.yaml
       service: app
+    build:
+      dockerfile: Dockerfile.dev
+      secrets:
+        - direct_url
+        - database_url
     volumes:
       - ./src:/app/src
     container_name: tiketku-backend-dev
@@ -12,3 +17,9 @@ services:
       file: compose.common.yaml
       service: db
     container_name: tiketku-db-dev
+
+secrets:
+  direct_url:
+    environment: DIRECT_URL
+  database_url:
+    environment: DATABASE_URL
