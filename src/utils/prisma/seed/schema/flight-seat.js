@@ -52,7 +52,7 @@ export async function seedFlightSeat() {
     promises.push(promise);
   }
 
-  const CHUNK_SIZE = 1_000;
+  const CHUNK_SIZE = 500;
 
   const totalChunks = Math.ceil(promises.length / CHUNK_SIZE);
 
