@@ -4,7 +4,7 @@
     "checkJs": true,
     "module": "NodeNext",
     "target": "ESNext",
-    "outDir": "build",
+    "outDir": "build/src",
     "resolveJsonModule": true
   },
   "include": ["midtrans.d.ts", "src/**/*.js"],
