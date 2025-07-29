@@ -7,5 +7,6 @@
     "outDir": "build",
     "resolveJsonModule": true
   },
-  "exclude": ["coverage", "build", "**/*.test.js"]
+  "include": ["midtrans.d.ts", "src/**/*.js"],
+  "exclude": ["**/*.test.js"]
 }
